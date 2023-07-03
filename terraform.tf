@@ -27,11 +27,9 @@ terraform {
   }
 
   backend "s3" {
-    bucket         	   = "gitlab-terraform1"
+    bucket         	   = "terra-eks12"
     key              	   = "state/terraform.tfstate"
     region         	   = "us-east-1"
-    #encrypt        	   = true
-    #dynamodb_table = "mycomponents_tf_lockid"
   }
 
   required_version = "~> 1.3"
