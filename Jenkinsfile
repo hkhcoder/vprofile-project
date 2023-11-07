@@ -4,7 +4,7 @@ pipeline {
         maven "MAVEN3"
         jdk "OracleJDK8"
     }
-    
+
     enviroment {
         SNAP_REPO= 'vprofile-snapshot'
         NEXUS_USER = 'admin'
@@ -17,7 +17,7 @@ pipeline {
         NEXUS_LOGIN = 'nexuslogin'
     }
 
-    stage {
+    stages {
         stage('Build'){
             steps {
                 sh 'mvn -s settings.xml -DskipTests install'
