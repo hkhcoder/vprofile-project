@@ -14,7 +14,7 @@ pipeline {
     stages {
         stage('Deploy to Prod ecs') {
           steps {
-        withAWS(credentials: 'awscreds', region: 'us-west-3') {
+        withAWS(credentials: 'awscreds', region: 'us-west-2') {
           sh 'aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment'
         }
       }
