@@ -62,6 +62,11 @@ pipeline {
              }
 
              steps {
+		script {
+                    // Find and print all configured SonarQube installations in Jenkins
+                    def sonarInst = tool 'sonarscanner'
+                    print "Installed SonarQube installations: ${sonarInst}"
+              }
                withSonarQubeEnv("sonarscanner") {
                   sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
                       -Dsonar.projectName=vprofile-v2 \
