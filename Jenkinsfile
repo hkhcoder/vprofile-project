@@ -57,25 +57,25 @@ pipeline {
 
         stage('CODE ANALYSIS with SONARQUBE') {
           
-		  environment {
-             scannerHome = tool 'sonarscanner'
-          }
+	     environment {
+                 scannerHome = tool 'sonarscanner'
+             }
 
-          steps {
-            withSonarQubeEnv('sonar-pro') {
-               sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
-                   -Dsonar.projectName=vprofile-v2 \
-                   -Dsonar.projectVersion=4.7 \
-                   -Dsonar.sources=src/ \
-                   -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/ \
-                   -Dsonar.junit.reportsPath=target/surefire-reports/ \
-                   -Dsonar.jacoco.reportsPath=target/jacoco.exec \
-                   -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
-            }
+             steps {
+               withSonarQubeEnv('sonar-pro') {
+                  sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
+                      -Dsonar.projectName=vprofile-v2 \
+                      -Dsonar.projectVersion=4.7 \
+                      -Dsonar.sources=src/ \
+                      -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/ \
+                      -Dsonar.junit.reportsPath=target/surefire-reports/ \
+                      -Dsonar.jacoco.reportsPath=target/jacoco.exec \
+                      -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
+               }
 
-            timeout(time: 10, unit: 'MINUTES') {
-               waitForQualityGate abortPipeline: true
-            }
+             timeout(time: 10, unit: 'MINUTES') {
+                waitForQualityGate abortPipeline: true
+             }
           }
         }
 
