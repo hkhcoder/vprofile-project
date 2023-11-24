@@ -14,7 +14,7 @@ pipeline {
 	NEXUS_REPO_ID    = "vprofile-release"
         NEXUS_CREDENTIAL_ID = "nexuslogin"
 	SONARSERVER = 'sonarserver'
-	SONARSCANNER = 'sonarscanner4'
+	SONARSCANNER = 'sonarscanner'
         ARTVERSION = "${env.BUILD_ID}"
     }
 	
@@ -58,7 +58,7 @@ pipeline {
         stage('CODE ANALYSIS with SONARQUBE') {
           
 		  environment {
-             scannerHome = tool 'sonarscanner4'
+             scannerHome = tool 'sonarscanner'
           }
 
           steps {
