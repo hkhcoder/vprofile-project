@@ -58,19 +58,19 @@ pipeline {
         stage('CODE ANALYSIS with SONARQUBE') {
           
 	     environment {
-                 scannerHome = tool 'sonarscanner'
+                 scannerHome = tool 'sonarscanner4'
              }
 
              steps {
 		script {
                     // Find and print all configured SonarQube installations in Jenkins
-                    def sonarInst = tool 'sonarscanner'
+                    def sonarInst = tool 'sonarscanner4'
                     print "Installed SonarQube installations: ${sonarInst}"
               }
                withSonarQubeEnv("sonarserver") {
                   sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
                       -Dsonar.projectName=vprofile-v2 \
-                      -Dsonar.projectVersion=4.7 \
+                      -Dsonar.projectVersion=1.0 \
                       -Dsonar.sources=src/ \
                       -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/ \
                       -Dsonar.junit.reportsPath=target/surefire-reports/ \
