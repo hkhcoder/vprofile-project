@@ -9,10 +9,11 @@ pipeline {
     environment {
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "172.31.3.51:8081"
+        NEXUS_IP = "172.31.3.51"
+	NEXUS_PORT = "8081"
         NEXUS_REPOSITORY = "vprofile-release"
 	NEXUS_REPO_ID    = "vprofile-release"
-        NEXUS_CREDENTIAL_ID = "nexuslogin"
+        NEXUS_LOGIN = "nexuslogin"
 	SONARSERVER = 'sonarserver'
 	SONARSCANNER = 'sonarscanner'
         ARTVERSION = "${env.BUILD_ID}"
@@ -83,7 +84,7 @@ pipeline {
                   nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
                   groupId: 'QA',
                   version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
-                  repository: "${RELEASE_REPO}",
+                  repository: "${NEXUS_REPOSITORY}",
                   credentialsId: "${NEXUS_LOGIN}",
                   artifacts: [
                     [artifactId: 'vproapp',
