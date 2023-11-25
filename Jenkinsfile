@@ -58,13 +58,13 @@ pipeline {
         stage('CODE ANALYSIS with SONARQUBE') {
           
 	     environment {
-                 scannerHome = tool 'sonarscanner4'
+                 scannerHome = tool 'sonarserver'
              }
 
              steps {
 		script {
                     // Find and print all configured SonarQube installations in Jenkins
-                    def sonarInst = tool 'sonarscanner4'
+                    def sonarInst = tool 'sonarserver'
                     print "Installed SonarQube installations: ${sonarInst}"
               }
                withSonarQubeEnv("sonarserver") {
