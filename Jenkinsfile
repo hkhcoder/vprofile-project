@@ -67,7 +67,7 @@ pipeline {
                     def sonarInst = tool 'sonarscanner'
                     print "Installed SonarQube installations: ${sonarInst}"
               }
-               withSonarQubeEnv("sonarscanner") {
+               withSonarQubeEnv("sonarserver") {
                   sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
                       -Dsonar.projectName=vprofile-v2 \
                       -Dsonar.projectVersion=4.7 \
