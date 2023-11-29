@@ -32,8 +32,12 @@
 </head>
 </head>
 
+<<<<<<< HEAD
+<body>
+=======
 <body background = "${contextPath}/resources/Images/login-background.png">
 
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
 <div class="mainbody container-fluid">
     <div class="row">
         <div class="navbar-wrapper">
@@ -45,7 +49,11 @@
                                 <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span
                                     class="icon-bar"></span><span class="icon-bar"></span>
                             </button>
+<<<<<<< HEAD
+                            <a class="navbar-brand" href="${contextPath}/index">VISUAL PATH</a>
+=======
                             <a class="navbar-brand" href="${contextPath}/index">HKH Infotech</a>
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
                             <i class="brand_network"><small><small>VProfile</small></small></i>
                         </div>
                         <div class="navbar-collapse collapse">
@@ -72,17 +80,30 @@
 <div class="container">
 	
     <form method="POST" action="${contextPath}/login" class="form-signin">
+<<<<<<< HEAD
+        <h2 class="form-heading" align="center"> LOGIN </h2>
+		<img  class="logo" src="${contextPath}/resources/Images/visualpathlogo3.png" />
+        <div class="form-group ${error != null ? 'has-error' : ''}">
+            <span>${message}</span>
+            <input name="username" type="text" class="form-control" placeholder="Username"
+                   autofocus="true"/>
+=======
         <h2 class="form-heading" align="center"> WELCOME! </h2>
 		<img  class="logo" src="${contextPath}/resources/Images/hkh-infotech-logo.png" />
         <div class="form-group ${error != null ? 'has-error' : ''}">
             <span>${message}</span>
             <input name="username" type="text" class="form-control" placeholder="Username"/>
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
             <input name="password" type="password" class="form-control" placeholder="Password"/>
             <span>${error}</span>
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
             <button class="btn btn-custom-LOGIN btn-lg  btn-block" type="submit">LOGIN</button>
+<<<<<<< HEAD
+            <h4 class="text-center"><a href="${contextPath}/registration">Create an account</a></h4>
+=======
             <h4 class="text-center"><a href="${contextPath}/registration">SIGN UP</a></h4>
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
         </div>
 
     </form>

@@ -10,7 +10,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
+<<<<<<< HEAD
+/** {@author waheedk} !*/
+=======
 /** {@author imrant} !*/
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
 @Service
 public class SecurityServiceImpl implements SecurityService {
     /** authenticationManager !*/

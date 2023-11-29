@@ -2,6 +2,13 @@ package com.visualpathit.account.model;
 
 
 import javax.persistence.*;
+<<<<<<< HEAD
+import java.util.Set;
+/**{@author waheedk} !*/
+@Entity
+@Table(name = "user")
+public class User {
+=======
 
 import java.io.Serializable;
 import java.util.Set;
@@ -9,6 +16,7 @@ import java.util.Set;
 @Entity
 @Table(name = "user")
 public class User implements Serializable {
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
 	/** the id field !*/
     private Long id;
     /** the user name field !*/
@@ -19,6 +27,8 @@ public class User implements Serializable {
     private String userEmail;
     /** the passwordConfirm field !*/
     private String passwordConfirm;
+<<<<<<< HEAD
+=======
     /** the profileImg field !*/
     private String profileImg;
     /** the profileImgPath field !*/
@@ -40,6 +50,7 @@ public class User implements Serializable {
     private String workingExperience;
     
     
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
     /** the roles field !*/
     private Set<Role> roles;
     /** {@inheritDoc}} !*/
@@ -50,7 +61,11 @@ public class User implements Serializable {
         return id;
     }
     /** {@inheritDoc}} !*/
+<<<<<<< HEAD
+    public final void setId(final Long id) {
+=======
     public  void setId(final Long id) {
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
         this.id = id;
     }
     /**{@inheritDoc}} !*/
@@ -58,7 +73,11 @@ public class User implements Serializable {
         return username;
     }
     /** {@inheritDoc}} !*/
+<<<<<<< HEAD
+    public final void setUsername(final String username) {
+=======
     public  void setUsername(final String username) {
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
         this.username = username;
     }
     /**
@@ -71,7 +90,11 @@ public class User implements Serializable {
     /**
      * {@inheritDoc}} 
      !*/
+<<<<<<< HEAD
+    public final void setPassword(final String password) {
+=======
     public  void setPassword(final String password) {
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
         this.password = password;
     }
     /**
@@ -82,7 +105,11 @@ public class User implements Serializable {
 		return userEmail;
 	}
     /** {@inheritDoc}} !*/
+<<<<<<< HEAD
+	public final void setUserEmail(final String userEmail) {
+=======
 	public  void setUserEmail(final String userEmail) {
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
 		this.userEmail = userEmail;
 	}
 
@@ -95,7 +122,11 @@ public class User implements Serializable {
         return passwordConfirm;
     }
 	 /** {@inheritDoc}} !*/
+<<<<<<< HEAD
+    public final void setPasswordConfirm(final String passwordConfirm) {
+=======
     public  void setPasswordConfirm(final String passwordConfirm) {
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
         this.passwordConfirm = passwordConfirm;
     }
     /** {@inheritDoc}} !*/
@@ -105,6 +136,11 @@ public class User implements Serializable {
         return roles;
     }
     /** {@inheritDoc}} !*/
+<<<<<<< HEAD
+    public final void setRoles(final Set<Role> roles) {
+        this.roles = roles;
+    }
+=======
     public void setRoles(final Set<Role> roles) {
         this.roles = roles;
     }
@@ -212,4 +248,5 @@ public class User implements Serializable {
 	}
 	
 	
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
 }

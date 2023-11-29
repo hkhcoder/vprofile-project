@@ -1,6 +1,12 @@
 package com.visualpathit.account.controller;
 
 import com.visualpathit.account.model.User;
+<<<<<<< HEAD
+import com.visualpathit.account.service.SecurityService;
+import com.visualpathit.account.service.UserService;
+import com.visualpathit.account.validator.UserValidator;
+
+=======
 import com.visualpathit.account.service.ProducerService;
 import com.visualpathit.account.service.SecurityService;
 import com.visualpathit.account.service.UserService;
@@ -10,15 +16,22 @@ import com.visualpathit.account.validator.UserValidator;
 import java.util.List;
 import java.util.UUID;
 
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+<<<<<<< HEAD
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+/**{@author waheedk}*/
+=======
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 /**{@author imrant}*/
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
 @Controller
 public class UserController {
     @Autowired
@@ -30,15 +43,24 @@ public class UserController {
     @Autowired
     private UserValidator userValidator;
     
+<<<<<<< HEAD
+=======
     @Autowired
     private ProducerService producerService;
     
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
     /** {@inheritDoc} */
     @RequestMapping(value = "/registration", method = RequestMethod.GET)
     public final String registration(final Model model) {
         model.addAttribute("userForm", new User());
+<<<<<<< HEAD
+
+        return "registration";
+    }
+=======
              	return "registration";
       }
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
     /** {@inheritDoc} */
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
     public final String registration(final @ModelAttribute("userForm") User userForm, 
@@ -58,8 +80,12 @@ public class UserController {
     /** {@inheritDoc} */
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public final String login(final Model model, final String error, final String logout) {
+<<<<<<< HEAD
+        if (error != null){
+=======
         System.out.println("Model data"+model.toString());
     	if (error != null){
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
             model.addAttribute("error", "Your username and password is invalid.");
         }
         if (logout != null){
@@ -77,6 +103,8 @@ public class UserController {
     public final String indexHome(final Model model) {
         return "index_home";
     }
+<<<<<<< HEAD
+=======
     @RequestMapping(value = "/users", method = RequestMethod.GET)
     public String getAllUsers(Model model)
     {	
@@ -171,4 +199,5 @@ public class UserController {
     
 
     
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
 }

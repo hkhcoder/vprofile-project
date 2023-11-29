@@ -13,7 +13,11 @@
         <spring-data-jpa.version>1.8.2.RELEASE</spring-data-jpa.version>
         <hibernate.version>4.3.11.Final</hibernate.version>
         <hibernate-validator.version>5.2.1.Final</hibernate-validator.version>
+<<<<<<< HEAD
+        <mysql-connector.version>5.1.36</mysql-connector.version>
+=======
         <mysql-connector.version>8.0.32</mysql-connector.version>
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
         <commons-dbcp.version>1.4</commons-dbcp.version>
         <jstl.version>1.2</jstl.version>
         <junit.version>4.10</junit.version>
@@ -28,13 +32,21 @@
             <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
         </dependency>
+<<<<<<< HEAD
+
+=======
 	    
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
+<<<<<<< HEAD
+
+=======
 	    
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
@@ -90,6 +102,25 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+<<<<<<< HEAD
+    		<groupId>org.mockito</groupId>
+    		<artifactId>mockito-core</artifactId>
+    		<version>1.9.5</version>
+    		<scope>test</scope>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-test</artifactId>
+		    <version>3.2.3.RELEASE</version>
+		    <scope>test</scope>
+		</dependency>
+		<dependency>
+		        <groupId>javax.servlet</groupId>
+			    <artifactId>javax.servlet-api</artifactId>
+			    <version>3.1.0</version>
+			    <scope>provided</scope>
+		</dependency>		
+=======
 	    <groupId>org.mockito</groupId>
     	    <artifactId>mockito-core</artifactId>
             <version>1.9.5</version>
@@ -107,12 +138,22 @@
 	     <version>3.1.0</version>
 	     <scope>provided</scope>
 	</dependency>		
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
         </dependency>
         <dependency>
+<<<<<<< HEAD
+    		<groupId>org.hamcrest</groupId>
+    		<artifactId>hamcrest-all</artifactId>
+    		<version>1.3</version>
+    		<scope>test</scope>
+		</dependency>
+    </dependencies>
+    <build>
+=======
     	    <groupId>org.hamcrest</groupId>
     	    <artifactId>hamcrest-all</artifactId>
     	    <version>1.3</version>
@@ -166,6 +207,7 @@
 		</dependency>
     </dependencies>
      <build>
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
         <plugins>
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
@@ -179,7 +221,11 @@
                 </configuration>
             </plugin>
 		<!-- CODE COVERAGE -->
+<<<<<<< HEAD
+		    <plugin>
+=======
 	            <plugin>
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
                      <groupId>org.apache.maven.plugins</groupId>
                      <artifactId>maven-war-plugin</artifactId>
                      <version>3.2.2</version>
@@ -188,6 +234,33 @@
  		        <groupId>org.jacoco</groupId>
  		        <artifactId>jacoco-maven-plugin</artifactId>
 			<version>0.8.4</version>
+<<<<<<< HEAD
+		        <executions>
+		            <execution>
+		                <id>jacoco-initialize</id>
+		                <phase>process-resources</phase>
+		                <goals>
+		                    <goal>prepare-agent</goal>
+		                </goals>
+		            </execution>
+		            <execution>
+		                <id>jacoco-site</id>
+		                <phase>post-integration-test</phase>
+		                <goals>
+		                    <goal>report</goal>
+		                </goals>
+		            </execution>
+		        </executions>
+		</plugin>
+        </plugins>
+    </build>
+	<repositories>
+    <repository>
+      <id>${NEXUS-GRP-REPO}</id>
+      <url>http://${NEXUSIP}:${NEXUSPORT}/repository/${NEXUS-GRP-REPO}/</url>
+    </repository>
+  </repositories>
+=======
  		        <executions>
  		            <execution>
  		                <id>jacoco-initialize</id>
@@ -208,4 +281,5 @@
 		
         </plugins>
     </build>
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
 </project>

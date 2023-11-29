@@ -7,7 +7,11 @@
     <link href="${contextPath}/resources/css/profile.css" rel="stylesheet">
   	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<link rel="stylesheet" href="https://bootswatch.com/cosmo/bootstrap.min.css">
+<<<<<<< HEAD
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+=======
 	<link rel="stylesheet" href="${contextPath}/resources/css/w3.css">
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
 </head>
 <body>
 <div class="mainbody container-fluid">
