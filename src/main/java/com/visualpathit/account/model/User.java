@@ -2,11 +2,21 @@ package com.visualpathit.account.model;
 
 
 import javax.persistence.*;
+<<<<<<< HEAD
 import java.util.Set;
 /**{@author waheedk} !*/
 @Entity
 @Table(name = "user")
 public class User {
+=======
+
+import java.io.Serializable;
+import java.util.Set;
+/**{@author imrant} !*/
+@Entity
+@Table(name = "user")
+public class User implements Serializable {
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
 	/** the id field !*/
     private Long id;
     /** the user name field !*/
@@ -17,6 +27,30 @@ public class User {
     private String userEmail;
     /** the passwordConfirm field !*/
     private String passwordConfirm;
+<<<<<<< HEAD
+=======
+    /** the profileImg field !*/
+    private String profileImg;
+    /** the profileImgPath field !*/
+    private String profileImgPath;
+    private String dateOfBirth;
+    private String fatherName;
+    private String motherName;
+    private String gender;
+    private String maritalStatus;
+    private String permanentAddress;
+    private String tempAddress;
+    private String primaryOccupation;
+    private String secondaryOccupation;
+    private String skills;
+    private String phoneNumber;
+    private String secondaryPhoneNumber;
+    private String nationality;
+    private String language;
+    private String workingExperience;
+    
+    
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
     /** the roles field !*/
     private Set<Role> roles;
     /** {@inheritDoc}} !*/
@@ -27,7 +61,11 @@ public class User {
         return id;
     }
     /** {@inheritDoc}} !*/
+<<<<<<< HEAD
     public final void setId(final Long id) {
+=======
+    public  void setId(final Long id) {
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
         this.id = id;
     }
     /**{@inheritDoc}} !*/
@@ -35,7 +73,11 @@ public class User {
         return username;
     }
     /** {@inheritDoc}} !*/
+<<<<<<< HEAD
     public final void setUsername(final String username) {
+=======
+    public  void setUsername(final String username) {
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
         this.username = username;
     }
     /**
@@ -48,7 +90,11 @@ public class User {
     /**
      * {@inheritDoc}} 
      !*/
+<<<<<<< HEAD
     public final void setPassword(final String password) {
+=======
+    public  void setPassword(final String password) {
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
         this.password = password;
     }
     /**
@@ -59,7 +105,11 @@ public class User {
 		return userEmail;
 	}
     /** {@inheritDoc}} !*/
+<<<<<<< HEAD
 	public final void setUserEmail(final String userEmail) {
+=======
+	public  void setUserEmail(final String userEmail) {
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
 		this.userEmail = userEmail;
 	}
 
@@ -72,7 +122,11 @@ public class User {
         return passwordConfirm;
     }
 	 /** {@inheritDoc}} !*/
+<<<<<<< HEAD
     public final void setPasswordConfirm(final String passwordConfirm) {
+=======
+    public  void setPasswordConfirm(final String passwordConfirm) {
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
         this.passwordConfirm = passwordConfirm;
     }
     /** {@inheritDoc}} !*/
@@ -82,7 +136,117 @@ public class User {
         return roles;
     }
     /** {@inheritDoc}} !*/
+<<<<<<< HEAD
     public final void setRoles(final Set<Role> roles) {
         this.roles = roles;
     }
+=======
+    public void setRoles(final Set<Role> roles) {
+        this.roles = roles;
+    }
+	public String getProfileImg() {
+		return profileImg;
+	}
+	public void setProfileImg(String profileImg) {
+		this.profileImg = profileImg;
+	}
+	public String getProfileImgPath() {
+		return profileImgPath;
+	}
+	public void setProfileImgPath(String profileImgPath) {
+		this.profileImgPath = profileImgPath;
+	}
+	public String getDateOfBirth() {
+		return dateOfBirth;
+	}
+	public void setDateOfBirth(String dateOfBirth) {
+		this.dateOfBirth = dateOfBirth;
+	}
+	public String getFatherName() {
+		return fatherName;
+	}
+	public void setFatherName(String fatherName) {
+		this.fatherName = fatherName;
+	}
+	public String getMotherName() {
+		return motherName;
+	}
+	public void setMotherName(String motherName) {
+		this.motherName = motherName;
+	}
+	public String getGender() {
+		return gender;
+	}
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+	public String getMaritalStatus() {
+		return maritalStatus;
+	}
+	public void setMaritalStatus(String maritalStatus) {
+		this.maritalStatus = maritalStatus;
+	}
+	public String getPermanentAddress() {
+		return permanentAddress;
+	}
+	public void setPermanentAddress(String permanentAddress) {
+		this.permanentAddress = permanentAddress;
+	}
+	public String getTempAddress() {
+		return tempAddress;
+	}
+	public void setTempAddress(String tempAddress) {
+		this.tempAddress = tempAddress;
+	}
+	public String getPrimaryOccupation() {
+		return primaryOccupation;
+	}
+	public void setPrimaryOccupation(String primaryOccupation) {
+		this.primaryOccupation = primaryOccupation;
+	}
+	public String getSecondaryOccupation() {
+		return secondaryOccupation;
+	}
+	public void setSecondaryOccupation(String secondaryOccupation) {
+		this.secondaryOccupation = secondaryOccupation;
+	}
+	public String getSkills() {
+		return skills;
+	}
+	public void setSkills(String skills) {
+		this.skills = skills;
+	}
+	public String getPhoneNumber() {
+		return phoneNumber;
+	}
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
+	}
+	public String getSecondaryPhoneNumber() {
+		return secondaryPhoneNumber;
+	}
+	public void setSecondaryPhoneNumber(String secondaryPhoneNumber) {
+		this.secondaryPhoneNumber = secondaryPhoneNumber;
+	}
+	public String getNationality() {
+		return nationality;
+	}
+	public void setNationality(String nationality) {
+		this.nationality = nationality;
+	}
+	public String getLanguage() {
+		return language;
+	}
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+	public String getWorkingExperience() {
+		return workingExperience;
+	}
+	public void setWorkingExperience(String workingExperience) {
+		this.workingExperience = workingExperience;
+	}
+	
+	
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
 }

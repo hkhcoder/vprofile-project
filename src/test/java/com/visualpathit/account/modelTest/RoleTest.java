@@ -12,7 +12,11 @@ import org.junit.Test;
 import com.visualpathit.account.model.Role;
 import com.visualpathit.account.model.User;
 
+<<<<<<< HEAD
 /** {@author waheedk} !*/
+=======
+/** {@author imrant} !*/
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
 public class RoleTest {
 
 	public static final Long EXPECTED_ID = 1L;	

@@ -13,7 +13,11 @@
         <spring-data-jpa.version>1.8.2.RELEASE</spring-data-jpa.version>
         <hibernate.version>4.3.11.Final</hibernate.version>
         <hibernate-validator.version>5.2.1.Final</hibernate-validator.version>
+<<<<<<< HEAD
         <mysql-connector.version>5.1.36</mysql-connector.version>
+=======
+        <mysql-connector.version>8.0.32</mysql-connector.version>
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
         <commons-dbcp.version>1.4</commons-dbcp.version>
         <jstl.version>1.2</jstl.version>
         <junit.version>4.10</junit.version>
@@ -28,13 +32,21 @@
             <artifactId>spring-web</artifactId>
             <version>${spring.version}</version>
         </dependency>
+<<<<<<< HEAD
 
+=======
+	    
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
+<<<<<<< HEAD
 
+=======
+	    
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
         <dependency>
             <groupId>org.springframework.security</groupId>
             <artifactId>spring-security-web</artifactId>
@@ -90,6 +102,7 @@
             <scope>test</scope>
         </dependency>
         <dependency>
+<<<<<<< HEAD
     		<groupId>org.mockito</groupId>
     		<artifactId>mockito-core</artifactId>
     		<version>1.9.5</version>
@@ -107,12 +120,32 @@
 			    <version>3.1.0</version>
 			    <scope>provided</scope>
 		</dependency>		
+=======
+	    <groupId>org.mockito</groupId>
+    	    <artifactId>mockito-core</artifactId>
+            <version>1.9.5</version>
+            <scope>test</scope>
+	</dependency>
+	<dependency>
+	     <groupId>org.springframework</groupId>
+	     <artifactId>spring-test</artifactId>
+	     <version>3.2.3.RELEASE</version>
+	     <scope>test</scope>
+	</dependency>
+	<dependency>
+	     <groupId>javax.servlet</groupId>
+	     <artifactId>javax.servlet-api</artifactId>
+	     <version>3.1.0</version>
+	     <scope>provided</scope>
+	</dependency>		
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
         </dependency>
         <dependency>
+<<<<<<< HEAD
     		<groupId>org.hamcrest</groupId>
     		<artifactId>hamcrest-all</artifactId>
     		<version>1.3</version>
@@ -120,6 +153,61 @@
 		</dependency>
     </dependencies>
     <build>
+=======
+    	    <groupId>org.hamcrest</groupId>
+    	    <artifactId>hamcrest-all</artifactId>
+    	    <version>1.3</version>
+    	    <scope>test</scope>
+		</dependency>
+	        <dependency>
+		    <groupId>commons-fileupload</groupId>
+		    <artifactId>commons-fileupload</artifactId>
+		    <version>1.3.1</version>
+		</dependency>
+		 <!-- Memcached Dependency -->
+		<dependency>
+		    <groupId>net.spy</groupId>
+		    <artifactId>spymemcached</artifactId>
+		    <version>2.12.3</version>
+		</dependency>				
+		<dependency>
+		    <groupId>commons-io</groupId>
+		    <artifactId>commons-io</artifactId>
+		    <version>2.4</version>
+	    </dependency>
+	    <!-- RabbitMQ Dependency -->
+	    <dependency>
+	            <groupId>org.springframework.amqp</groupId>
+	            <artifactId>spring-rabbit</artifactId>
+	            <version>1.7.1.RELEASE</version>
+	    </dependency>
+	
+	    <dependency>
+	            <groupId>com.rabbitmq</groupId>
+	            <artifactId>amqp-client</artifactId>
+	            <version>4.0.2</version>
+	   </dependency>
+	   <!-- Elasticsearch Dependency-->
+		<dependency>
+		    <groupId>org.elasticsearch</groupId>
+		    <artifactId>elasticsearch</artifactId>
+		    <version>5.6.4</version>
+		</dependency>
+		<!-- Transport Client-->
+		<dependency>
+		    <groupId>org.elasticsearch.client</groupId>
+		    <artifactId>transport</artifactId>
+		    <version>5.6.4</version>
+		</dependency>
+		<!--gson -->
+		<dependency>
+		    <groupId>com.google.code.gson</groupId>
+		    <artifactId>gson</artifactId>
+		    <version>2.8.2</version>
+		</dependency>
+    </dependencies>
+     <build>
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
         <plugins>
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
@@ -133,7 +221,11 @@
                 </configuration>
             </plugin>
 		<!-- CODE COVERAGE -->
+<<<<<<< HEAD
 		    <plugin>
+=======
+	            <plugin>
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
                      <groupId>org.apache.maven.plugins</groupId>
                      <artifactId>maven-war-plugin</artifactId>
                      <version>3.2.2</version>
@@ -142,6 +234,7 @@
  		        <groupId>org.jacoco</groupId>
  		        <artifactId>jacoco-maven-plugin</artifactId>
 			<version>0.8.4</version>
+<<<<<<< HEAD
 		        <executions>
 		            <execution>
 		                <id>jacoco-initialize</id>
@@ -167,4 +260,26 @@
       <url>http://${NEXUSIP}:${NEXUSPORT}/repository/${NEXUS-GRP-REPO}/</url>
     </repository>
   </repositories>
+=======
+ 		        <executions>
+ 		            <execution>
+ 		                <id>jacoco-initialize</id>
+ 		                <phase>process-resources</phase>
+ 		                <goals>
+ 		                    <goal>prepare-agent</goal>
+ 		                </goals>
+ 		            </execution>
+ 		            <execution>
+ 		                <id>jacoco-site</id>
+ 		                <phase>post-integration-test</phase>
+ 		                <goals>
+ 		                    <goal>report</goal>
+ 		                </goals>
+ 		            </execution>
+ 		        </executions>
+ 		</plugin>
+		
+        </plugins>
+    </build>
+>>>>>>> 5ee292ba1cad632882cff41c5b1e9ca2f78f89bb
 </project>
