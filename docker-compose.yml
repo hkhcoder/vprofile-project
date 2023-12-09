@@ -1,9 +1,9 @@
-version: '3.8'
+version: '3.9'
 services:
   vprodb:
     build: 
       context: ./Docker-files/db
-    image: vprocontainers/vprofiledb
+    image: aboelkhair93/vprofiledb
     container_name: vprodb
     ports:
       - "3306:3306"
@@ -28,7 +28,7 @@ services:
   vproapp:
     build: 
       context: ./Docker-files/app
-    image: vprocontainers/vprofileapp
+    image: aboelkhair93/vprofileapp
     container_name: vproapp
     ports:
       - "8080:8080"
@@ -38,7 +38,7 @@ services:
   vproweb:
     build: 
       context: ./Docker-files/web
-    image: vprocontainers/vprofileweb
+    image: aboelkhair93/vprofileweb
     container_name: vproweb
     ports:
       - "80:80"
