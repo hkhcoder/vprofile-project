@@ -7,8 +7,26 @@ pipeline {
     stages {
         stage('Fetch Code')
           steps {
-            git branch: "main", url: 
+            git branch: "main", url: https://github.com/akinbabs54/vprofile-project
           }
+        stage('Build')
+          steps {
+            sh 'nvm install -DskipTests' 
+          }
+
+          post{
+            success {
+              echo 'Archiving artifacts now'
+              archiveArtifacts artifacts: '**/*.war'
+            }
+          }
+        
+        stage ('UNIT TESTS'){
+          steps {
+            sh 'mvn test'
+          }
+        }
+        
         
     }
 }
