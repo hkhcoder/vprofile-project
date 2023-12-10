@@ -5,7 +5,10 @@ pipeline {
         jdk "OracleJDK11"
     }
     stages {
-        stage{""
-        }
+        stage('Fetch Code')
+          steps {
+            git branch: "main", url: 
+          }
+        
     }
 }
