@@ -10,5 +10,8 @@ sudo sh -c 'echo "[{rabbit, [{loopback_users, []}]}]." > /etc/rabbitmq/rabbitmq.
 sudo rabbitmqctl add_user test test
 sudo rabbitmqctl set_user_tags test administrator
 sudo systemctl restart rabbitmq-server
+sudo yum install firewalld -y
+sudo systemctl start firewalld
+sudo systemctl enable firewalld
 firewall-cmd --add-port=5672/tcp
 firewall-cmd --runtime-to-permanent
