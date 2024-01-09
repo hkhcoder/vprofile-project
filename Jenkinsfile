@@ -26,7 +26,7 @@ pipeline {
     stages {
         stage('Build'){
             steps {
-                sh 'mvn -s settings.xml -DskipTests install'
+                sh 'maven1 -s settings.xml -DskipTests install'
             }
             post {
                 success {
@@ -70,7 +70,7 @@ pipeline {
             }
         }
 
-        stagee ("UploadArtifact") {
+        stage ("UploadArtifact") {
             steps{
                 nexusArtifactUploader(
                     nexusVersion: 'nexus3',
