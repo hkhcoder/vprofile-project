@@ -1,0 +1,34 @@
+pipeline {
+    agent any 
+    tools {
+        maven "MAVEN3"
+    }
+    stages {
+        stage('pull the repo') {
+            steps {
+                git branch: 'main', url: 'https://github.com/KingSARDAR/vprofile-project.git'
+            }
+        }
+        stage('install the war') {
+            steps {
+                sh 'mvn clean install'
+            }
+        }
+        stage('build the image') {
+            steps {
+                script {
+                    sh 'docker build -t sardar2705/sardar1 .'
+                }
+            }
+        }
+        stage('push the image') {
+            steps {
+                script {
+                    withDockerRegistry(credentialsId: 'dockerhub-pwd') {
+                    sh 'docker push sardar2705/sardar1'
+                    }
+                }
+            }
+        }
+    }
+}
