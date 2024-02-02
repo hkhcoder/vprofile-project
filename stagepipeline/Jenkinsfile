@@ -98,7 +98,7 @@ pipeline {
         stage ('Docker Build') {
             steps {
                 script {
-                    dockerImage = docker.build("${appRegistry}.${env.BUILD_ID}", "./Docker-files/app/multistage/")
+                    dockerImage = docker.build("${appRegistry}:${env.BUILD_ID}", "./Docker-files/app/multistage/")
                 }
             }
         }
