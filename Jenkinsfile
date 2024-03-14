@@ -62,5 +62,35 @@ pipeline {
               }
             }
         }
+
+        stage("Quality Gate") {
+            steps {
+                timeout(time: 1, unit: 'HOURS') {
+                    // Parameter indicates whether to set pipeline to UNSTABLE if Quality Gate fails
+                    // true = set pipeline to UNSTABLE, false = don't
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
+
+        stage("UploadArtifact"){
+            steps{
+                nexusArtifactUploader(
+                  nexusVersion: 'nexus3',
+                  protocol: 'http',
+                  nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+                  groupId: 'QA',
+                  version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
+                  repository: "${RELEASE_REPO}",
+                  credentialsId: "${NEXUS_LOGIN}",
+                  artifacts: [
+                    [artifactId: 'vproapp',
+                     classifier: '',
+                     file: 'target/vprofile-v2.war',
+                     type: 'war']
+                  ]
+                )
+            }
+        }
     }
 }
