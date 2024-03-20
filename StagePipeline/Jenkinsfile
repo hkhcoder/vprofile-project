@@ -8,6 +8,7 @@ pipeline {
         maven "MAVEN3"
         jdk "OracleJDK8"
     }
+
     
     environment {
         SNAP_REPO = 'vprofile-snapshot'
@@ -100,7 +101,7 @@ pipeline {
                 )
             }
         }
-        
+
 
         stage('Build App Image') {
             steps {
