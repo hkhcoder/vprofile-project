@@ -12,18 +12,18 @@ pipeline {
     environment {
         SNAP_REPO = 'vprofile-snapshot'
 		NEXUS_USER = 'admin'
-		NEXUS_PASS = 'school123'
+		NEXUS_PASS = 'admin123'
 		RELEASE_REPO = 'vprofile-release'
 		CENTRAL_REPO = 'vpro-maven-central'
-		NEXUSIP = '172.31.30.161'
+		NEXUSIP = '172.31.27.198'
 		NEXUSPORT = '8081'
 		NEXUS_GRP_REPO = 'vpro-maven-group'
         NEXUS_LOGIN = 'nexuslogin'
         SONARSERVER = 'sonarserver'
         SONARSCANNER = 'sonarscanner'
         registryCredential = 'ecr:us-west-2:awscreds'
-        appRegistry = '076233542959.dkr.ecr.us-west-2.amazonaws.com/vprofileappimg'
-        vprofileRegistry = "https://076233542959.dkr.ecr.us-west-2.amazonaws.com"
+        appRegistry = '076233542959.dkr.ecr.us-west-2.amazonaws.com/fredyprofileappimg'
+        vprofileRegistry = "https://076233542959.dkr.ecr.us-west-2.amazonaws.com/"
         cluster = "vprostaging1"
         service = "vproappsstagesvc"
     }
@@ -118,13 +118,6 @@ pipeline {
               }
             }
           }
-        }
-        stage('Deploy to ECS staging') {
-            steps {
-                withAWS(credentials: 'awscreds', region: 'us-west-2') {
-                    sh 'aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment'
-                } 
-            } 
         }
     }
 
