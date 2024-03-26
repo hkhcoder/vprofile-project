@@ -26,7 +26,7 @@ pipeline {
         appRegistry = '076233542959.dkr.ecr.us-west-2.amazonaws.com/fredyprofileappimg'
         vprofileRegistry = "https://076233542959.dkr.ecr.us-west-2.amazonaws.com/"
         cluster = "fredyprostaging"
-        service = "fredyprostaging"
+        service = "fredyappstage"
 
     }
 
