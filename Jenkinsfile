@@ -5,7 +5,7 @@ pipeline {
         jdk "OracleJDK8"
     }
 
-    environments {
+    environment {
         SNAP_REPO = 'vprofile-snapshot'
         NEXUS_USER = 'admin'
         NEXUS_PASS = 'admin1234'
