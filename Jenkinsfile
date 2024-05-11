@@ -38,7 +38,7 @@ pipeline {
 
         stage('Test') {
             steps {
-                sh 'mvn -s settings.xml test'
+                sh 'mavn -s settings.xml test'
             }
         }
 
@@ -102,7 +102,7 @@ pipeline {
             echo 'Slack Notification.'
             slackSend channel: '#vappcicd',
             color: COLOR_MAP[currentBuild.currentResult],
-            message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
+            message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n Job build took ${currentBuild.durationString} \n More info at: ${env.BUILD_URL}"
         }
     }
 }
