@@ -10,3 +10,4 @@ COPY --from=BUILD_IMAGE vprofile-project/target/vprofile-v2.war /usr/local/tomca
 
 EXPOSE 8080
 CMD [ "catalina.sh", "run" ]
+
