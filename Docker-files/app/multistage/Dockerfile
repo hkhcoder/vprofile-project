@@ -1,7 +1,7 @@
 FROM openjdk:8 AS BUILD_IMAGE
 RUN apt update && apt install maven -y
 RUN git clone https://github.com/davismatrix/vprofile-project.git
-RUN cd vprofile-project && git checkout cicd-jenkins && mvn install
+RUN cd vprofile-project && git checkout docker && mvn install
 
 FROM tomcat:9-jre11
 
