@@ -24,8 +24,8 @@ pipeline {
         registryCredential = 'ecr:ca-central-1:awscreds' 
         appRegistry = '310358171212.dkr.ecr.ca-central-1.amazonaws.com/vprofileappimg'
         vprofileRegistry = 'https://310358171212.dkr.ecr.ca-central-1.amazonaws.com'
-        cluster = "vproprod"
-        service = "vproappprodsvc"
+        cluster = "vprostaging"
+        service = "vproappstagesvc"
     }
 
     stages {
