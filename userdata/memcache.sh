@@ -1,5 +1,4 @@
 #!/bin/bash
-sudo dnf install epel-release -y
 sudo dnf install memcached -y
 sudo systemctl start memcached
 sudo systemctl enable memcached
