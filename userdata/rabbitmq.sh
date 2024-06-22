@@ -1,17 +1,16 @@
 #!/bin/bash
-curl -s https://packagecloud.io/install/repositories/rabbitmq/rabbitmq-server/script.rpm.sh | sudo bash
-curl -s https://packagecloud.io/install/repositories/rabbitmq/erlang/script.rpm.sh | sudo bash
-sudo yum makecache -y --disablerepo='*' --enablerepo='rabbitmq_rabbitmq-server'
-sudo yum -y install rabbitmq-server
-rpm -qi rabbitmq-server 
-systemctl start rabbitmq-server
+## primary RabbitMQ signing key
+rpm --import 'https://github.com/rabbitmq/signing-keys/releases/download/3.0/rabbitmq-release-signing-key.asc'
+## modern Erlang repository
+rpm --import 'https://github.com/rabbitmq/signing-keys/releases/download/3.0/cloudsmith.rabbitmq-erlang.E495BB49CC4BBE5B.key'
+## RabbitMQ server repository
+rpm --import 'https://github.com/rabbitmq/signing-keys/releases/download/3.0/cloudsmith.rabbitmq-server.9F4587F226208342.key'
+curl -o /etc/yum.repos.d/rabbitmq.repo https://raw.githubusercontent.com/hkhcoder/vprofile-project/aws-LiftAndShift/al2023rmq.repo
+dnf update -y
+## install these dependencies from standard OS repositories
+dnf install socat logrotate -y
+## install RabbitMQ and zero dependency Erlang
+dnf install -y erlang rabbitmq-server
 systemctl enable rabbitmq-server
-sudo sh -c 'echo "[{rabbit, [{loopback_users, []}]}]." > /etc/rabbitmq/rabbitmq.config'
-sudo rabbitmqctl add_user test test
-sudo rabbitmqctl set_user_tags test administrator
-sudo systemctl restart rabbitmq-server
-sudo yum install firewalld -y
-sudo systemctl start firewalld
-sudo systemctl enable firewalld
-firewall-cmd --add-port=5672/tcp
-firewall-cmd --runtime-to-permanent
+systemctl start rabbitmq-server
+systemctl status  rabbitmq-server
