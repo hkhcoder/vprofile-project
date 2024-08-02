@@ -30,5 +30,5 @@ phases:
        - mvn package
 artifacts:
   files:
-     - target/**/*.war
-  discard-paths: yes
+     - '**/*'
+  base-directory: 'target/vprofile-v2'
