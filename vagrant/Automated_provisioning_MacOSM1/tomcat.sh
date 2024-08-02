@@ -3,7 +3,7 @@ sudo mv /etc/yum.repos.d/fedora-updates-modular.repo /tmp/
 sudo yum clean all
 #sudo yum update
 TOMURL="https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.75/bin/apache-tomcat-9.0.75.tar.gz"
-yum install java-11-openjdk java-11-openjdk-devel -y
+yum install java-17-openjdk java-17-openjdk-devel -y
 yum install git maven wget -y
 cd /tmp/
 wget $TOMURL -O tomcatbin.tar.gz
@@ -24,20 +24,13 @@ After=network.target
 
 User=tomcat
 Group=tomcat
-
 WorkingDirectory=/usr/local/tomcat
-
-#Environment=JRE_HOME=/usr/lib/jvm/jre
-Environment=JAVA_HOME=/usr/lib/jvm/jre
-
+Environment=JAVA_HOME=/usr/lib/jvm/java-17-openjdk
 Environment=CATALINA_PID=/var/tomcat/%i/run/tomcat.pid
 Environment=CATALINA_HOME=/usr/local/tomcat
 Environment=CATALINE_BASE=/usr/local/tomcat
-
 ExecStart=/usr/local/tomcat/bin/catalina.sh run
 ExecStop=/usr/local/tomcat/bin/shutdown.sh
-
-
 RestartSec=10
 Restart=always
 

@@ -1843,7 +1843,7 @@ pre code {
 
 @media (min-width: 1200px) {
     .container {
-        width: 1170px
+        width: 100%;
     }
 }
 
@@ -1855,7 +1855,7 @@ pre code {
 }
 
 .row {
-    margin-right: -15px;
+    margin-right: 50px;
     margin-left: -15px
 }
 
@@ -4492,6 +4492,7 @@ select[multiple].input-group-sm > .form-control, select[multiple].input-group-sm
     min-height: 50px;
     margin-bottom: 20px;
     border: 1px solid transparent
+
 }
 
 @media (min-width: 768px) {
