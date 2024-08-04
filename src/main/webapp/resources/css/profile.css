@@ -1,5 +1,4 @@
 /*==================== GOOGLE FONTS ====================*/
-
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap");
 
 /* Global Styles */
@@ -121,6 +120,30 @@ body {
     text-align: center;
 }
 
+/* Contact Form Adjustments */
+#contact-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    padding: 1px;
+}
+
+form {
+    width: 100%;
+    max-width: 600px; /* Limit the maximum width of the form */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+}
+
+#contact-form p {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
 #contact input[type="text"],
 #contact input[type="email"],
 #contact input[type="tel"],
@@ -160,7 +183,7 @@ body {
 }
 
 #contact button[type="submit"]:hover {
-    background: #26c6da;
+    background: #1e88e5;
 }
 
 #contact input:focus,
@@ -192,19 +215,3 @@ blockquote {
     margin: 0 0 20px;
     position: relative;
 }
-
-/* Contact Form Adjustments */
-#contact-form {
-    width: 100%;
-    margin-left: 0; /* Adjusted margin-left */
-}
-
-#action {
-    width: 50%;
-}
-.row {
-    margin-right: 50px;
-    margin-left: 40px;
-}
-
-

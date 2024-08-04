@@ -97,7 +97,7 @@
                                 </ul>
                                 <div class="navbar-collapse navbar-right collapse">
                                     <ul class="nav navbar-nav">
-                                        <li><a href="${contextPath}/login">Login</a></li>
+                                        <li><a href="${contextPath}">Login</a></li>
                                         <li><a href="${contextPath}/registration">Sign up</a></li>
                                     </ul>
                                 </div>
