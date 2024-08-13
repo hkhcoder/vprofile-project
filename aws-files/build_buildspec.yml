@@ -5,7 +5,7 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      java: corretto11
+      java: corretto17
     commands:
       - cp ./settings.xml /root/.m2/settings.xml
       - export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain ArtifactDomain --domain-owner ID --region REGION --query authorizationToken --output text`
