@@ -1,7 +1,6 @@
 version: 0.2
 env: 
   parameter-store:
-    CODEARTIFACT_AUTH_TOKEN: CODEARTIFACT_AUTH_TOKEN
     dbhost: RDS-Endpoint
     dbuser: RDSUSER
     dbpass: RDSPASS
