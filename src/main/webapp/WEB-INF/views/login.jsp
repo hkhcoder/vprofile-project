@@ -75,10 +75,8 @@
                     <a class="navbar-brand" href="${contextPath}/index">HKH Infotech</a>
                 </div>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
-
                     <ul class="nav navbar-nav navbar-right">
-
-
+                        <!-- Add any additional menu items here -->
                     </ul>
                 </div>
             </div>
@@ -93,6 +91,13 @@
                 <span class="login100-form-title p-b-49">
                     Login
                 </span>
+
+                <!-- Display error message if any -->
+                <c:if test="${not empty error}">
+                    <div class="alert alert-danger">
+                        <c:out value="${error}"/>
+                    </div>
+                </c:if>
 
                 <div class="wrap-input100 validate-input m-b-23" data-validate="Username is required">
                     <span class="label-input100">Username</span>

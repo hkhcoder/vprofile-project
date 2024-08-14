@@ -131,13 +131,13 @@ public class UserController {
         return "welcome";
     }
 
-    @GetMapping("/user/rabbit")
-    public String rabbitmqSetUp() {
-        for (int i = 0; i < 20; i++) {
-            producerService.produceMessage(generateString());
-        }
-        return "rabbitmq";
-    }
+//    @GetMapping("/user/rabbit")
+//    public String rabbitmqSetUp() {
+//        for (int i = 0; i < 20; i++) {
+//            producerService.produceMessage(generateString());
+//        }
+//        return "rabbitmq";
+//    }
 
     private void updateUserDetails(User user, User userForm) {
         user.setUsername(userForm.getUsername());

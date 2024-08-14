@@ -1,5 +1,8 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="org.springframework.security.core.context.SecurityContextHolder" %>
+<%@ page import="org.springframework.security.core.Authentication" %>
+
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -37,7 +40,7 @@
                         <!-- Navbar Links -->
                         <div class="navbar-collapse collapse">
                             <ul class="nav navbar-nav">
-                                <li><a href="./ORqmj">Stream</a></li>
+
                                 <li><a href="#">My Activity</a></li>
                                <li>
 
@@ -73,35 +76,31 @@
                                                             ${pageContext.request.userPrincipal.name}@hkhinfotech.co.in
                                                         </p>
                                                         <div class="divider"></div>
-                                                        <a href="${contextPath}/user/${pageContext.request.userPrincipal.name}" class="btn btn-default btn-xs"><i class="fa fa-user-o" aria-hidden="true"></i> Update Profile </a>
+                                                        <a href="#" class="btn btn-default btn-xs"><i class="fa fa-user-o" aria-hidden="true"></i> Update Profile </a>
                                                         <a href="#" class="btn btn-default btn-xs"><i class="fa fa-address-card-o" aria-hidden="true"></i> Contacts</a>
                                                         <a href="#" class="btn btn-default btn-xs"><i class="fa fa-cogs" aria-hidden="true"></i> Settings</a>
                                                         <a href="#" class="btn btn-default btn-xs"><i class="fa fa-question-circle-o" aria-hidden="true"></i> Help!</a>
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="navbar-footer">
-                                                <div class="navbar-footer-content">
-                                                    <div class="row">
-                                                        <div class="col-md-6">
-                                                            <a href="#" class="btn btn-default btn-sm"><i class="fa fa-unlock-alt" aria-hidden="true"></i> C P</a>
-                                                        </div>
-                                                        <div class="col-md-6">
-                                                            <a onclick="window.location.href='${contextPath}';" class="btn btn-default btn-sm pull-right">
-                                                                <i class="fa fa-power-off" aria-hidden="true"></i> Sign Out
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Logout form -->
-                                            <div class="container">
-                                                <c:if test="${pageContext.request.userPrincipal.name != null}">
-                                                    <form id="logoutForm" method="POST" action="${contextPath}/logout">
-                                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                                    </form>
-                                                </c:if>
-                                            </div>
+                                           <div class="navbar-footer">
+                                               <div class="navbar-footer-content">
+                                                   <div class="row">
+
+
+                                                   </div>
+                                               </div>
+                                           </div>
+                                           <!-- Logout form -->
+                                          <!-- Logout Form -->
+                                          <form id="logoutForm" method="POST" action="${contextPath}">
+                                              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                              <button type="submit" class="btn btn-default btn-sm pull-right">
+                                                  <i class="fa fa-power-off" aria-hidden="true"></i> Sign Out
+                                              </button>
+                                          </form>
+
+
                                         </li>
                                     </ul>
                                 </li>
@@ -147,7 +146,7 @@
                     <span>
                         <h1 class="panel-title pull-left" style="font-size:30px;">${pageContext.request.userPrincipal.name} &nbsp; <small>${pageContext.request.userPrincipal.name}@hkhinfotech.co.in</small> <i class="fa fa-check text-success" aria-hidden="true" data-toggle="tooltip" data-placement="bottom" title=" sharing with you"></i></h1>
                         <div class="dropdown pull-right">
-						
+
                             <button class="btn btn-success dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 Friends
                                 <span class="caret"></span>
@@ -161,23 +160,30 @@
                             </ul>
                         </div>
                     </span>
-                       <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-                       <!-- Debugging: Output the userPrincipal.name -->
-                       <p>Username: <c:out value="${pageContext.request.userPrincipal.name}"/></p>
+                      <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-                       <br><br>
-                       <i class="fa fa-tags" aria-hidden="true"></i>
-                       <a href="#" class="tag">#DevOps</a>
-                       <a href="#" class="tag">#Continuous Integration</a>
-                       <a href="#" class="tag">#Continuous Delivery</a>
-                       <a href="#" class="tag">#Automation</a>
+                      <%
+                          Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+                          String username = auth != null ? auth.getName() : "to Hkhinfotech Social Media";
+                      %>
+                      <p>Welcome, <%= username %>!</p>
 
-                       <a href="${contextPath}/users" class="btn btn-success">All Users</a>
-                       <a href="${contextPath}/user/rabbit" class="btn btn-success">RabbitMq</a>
-                       <a href="${contextPath}/user/elasticsearch" class="btn btn-success">Elasticsearch</a>
+                      <br><br>
+                      <i class="fa fa-tags" aria-hidden="true"></i>
+                      <a href="#" class="tag">#DevOps</a>
+                      <a href="#" class="tag">#Continuous Integration</a>
+                      <a href="#" class="tag">#Continuous Delivery</a>
+                      <a href="#" class="tag">#Automation</a>
 
-                       <br><br><hr>
+                      <c>
+                          <a href="${contextPath}/users" class="btn btn-success">All Users</a>
+                          <a href="${contextPath}/user/rabbit" class="btn btn-success">RabbitMq</a>
+                          <a href="#" class="btn btn-success">Elasticsearch</a>
+                      </c>
+
+                      <br><br><hr>
+
 
 
                     <span class="pull-left">
@@ -292,7 +298,7 @@
                                      <p>What are DevOps skills?</p>
                                     <p>Our respondents identified the top three skill areas for DevOps staff:</p>
                                     <p>1) Coding or scripting 2)Process re-engineering 3)Communicating and collaborating with others Extensive knowledge of software build cycles 4)Experience deploying code 5)Experience in software architecture 6)Familiarity with application programming 7)Database management 8)System design.</p>
-									<p>These skills all point to a growing recognition that software is not written in the old way anymore. Where software used to be written from scratch in a highly complex and lengthy process, creating new products is now often a matter of choosing open source components and stitching them together with code. The complexity of todays software lies less in the authoring, and more in ensuring that the new software will work across a diverse set of operating systems and platforms right away. Likewise, testing and deployment are now done much more frequently. That is, they can be more frequent,if developers communicate early and regularly with the operations team, and if ops people bring their knowledge of the production environment to design of testing and staging environments.</p>                                
+									<p>These skills all point to a growing recognition that software is not written in the old way anymore. Where software used to be written from scratch in a highly complex and lengthy process, creating new products is now often a matter of choosing open source components and stitching them together with code. The complexity of todays software lies less in the authoring, and more in ensuring that the new software will work across a diverse set of operating systems and platforms right away. Likewise, testing and deployment are now done much more frequently. That is, they can be more frequent,if developers communicate early and regularly with the operations team, and if ops people bring their knowledge of the production environment to design of testing and staging environments.</p>
                                     <p>Demand for people with DevOps skills is growing rapidly because businesses get great results from DevOps. Organizations using DevOps practices are overwhelmingly high-functioning: They deploy code up to 30 times more frequently than their competitors.</p>
                                 </div>
                             </div>
