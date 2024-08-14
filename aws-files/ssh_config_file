@@ -1,4 +1,4 @@
-Host git-codecommit.*.amazonaws.com
-  User APKAXIXFJTQEW2ZCTWED
-  IdentityFile ~/.ssh/vpro-codecommit_rsa
-
+# bitucket.com
+Host bitbucket.org
+  PreferredAuthentications publickey
+  IdentityFile ~/.ssh/bitbucket
