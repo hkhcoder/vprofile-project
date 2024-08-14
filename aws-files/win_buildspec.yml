@@ -8,7 +8,7 @@ phases:
   build:
     commands:
       - Set-ExecutionPolicy Bypass -Scope Process -Force; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))
-      - choco install jdk8 -y
+      - choco install corretto17jdk -y
       - choco install maven -y
       - choco install googlechrome -y
       - choco install git -y
