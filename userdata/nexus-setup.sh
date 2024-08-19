@@ -1,5 +1,10 @@
 #!/bin/bash
-yum install java-1.8.0-openjdk.x86_64 wget -y   
+
+sudo rpm --import https://yum.corretto.aws/corretto.key
+sudo curl -L -o /etc/yum.repos.d/corretto.repo https://yum.corretto.aws/corretto.repo
+
+sudo yum install -y java-17-amazon-corretto-devel wget -y
+
 mkdir -p /opt/nexus/   
 mkdir -p /tmp/nexus/                           
 cd /tmp/nexus/
