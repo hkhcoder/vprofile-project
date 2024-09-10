@@ -1,6 +1,7 @@
 package com.visualpathit.account.model;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
+
 import java.util.Set;
 /**{@author imrant} !*/
 @Entity
@@ -14,7 +15,7 @@ public class Role {
     private Set<User> users;
     /** {@inheritDoc}} !*/
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     /**
      * {@link Role#id}
      !*/

@@ -1,6 +1,8 @@
-TOMURL="https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.75/bin/apache-tomcat-9.0.75.tar.gz"
-dnf -y install java-11-openjdk java-11-openjdk-devel
-dnf install git maven wget -y
+#!/bin/bash
+TOMURL="https://archive.apache.org/dist/tomcat/tomcat-10/v10.1.26/bin/apache-tomcat-10.1.26.tar.gz"
+dnf -y install java-17-openjdk java-17-openjdk-devel
+dnf install git wget -y
+dnf install git wget -y
 cd /tmp/
 wget $TOMURL -O tomcatbin.tar.gz
 EXTOUT=`tar xzvf tomcatbin.tar.gz`
@@ -46,7 +48,7 @@ systemctl daemon-reload
 systemctl start tomcat
 systemctl enable tomcat
 
-git clone -b main https://github.com/hkhcoder/vprofile-project.git
+git clone -b local-setup https://github.com/hkhcoder/vprofile-project.git
 cd vprofile-project
 mvn install
 systemctl stop tomcat
