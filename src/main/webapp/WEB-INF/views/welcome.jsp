@@ -9,13 +9,10 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <title>Welcome</title>
     <link rel="stylesheet" href="${contextPath}/resources/css/bootstrap.min.css">
     <link href="${contextPath}/resources/css/profile.css" rel="stylesheet">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
-
 
 </head>
 <body>
@@ -94,16 +91,13 @@
                                                    </div>
                                                </div>
                                            </div>
-
+                                           <!-- Logout form -->
                                           <!-- Logout Form -->
-                                          <form>
-
-                                              <button  class="btn btn-default btn-sm pull-right" >
-                                                  <i class="fa fa-power-off" aria-hidden="true"></i><a href="${contextPath}"> Sign Out</a>
+                                          <form id="logoutForm" method="POST" action="${contextPath}">
+                                              <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                                              <button type="submit" class="btn btn-default btn-sm pull-right">
+                                                  <i class="fa fa-power-off" aria-hidden="true"></i> Sign Out
                                               </button>
-
-
-
                                           </form>
 
 

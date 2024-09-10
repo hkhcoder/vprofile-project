@@ -8,12 +8,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    @ExceptionHandler(DatabaseException.class)
-    public String handleDatabaseException(DatabaseException ex, HttpServletRequest request) {
-        request.setAttribute("errorMessage", ex.getMessage());
-        return "forward:/WEB-INF/views/error/database-error.jsp";
-    }
-
     @ExceptionHandler(UserNotFoundException.class)
     public String handleUserNotFoundException(UserNotFoundException ex, HttpServletRequest request) {
         request.setAttribute("errorMessage", ex.getMessage());
@@ -23,7 +17,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(BadCredentialsException.class)
     public String handleBadCredentialsException(BadCredentialsException ex, HttpServletRequest request) {
         request.setAttribute("errorMessage", "Invalid username or password.");
-        return "forward:/WEB-INF/views/error/500.jsp"; // or a different page if preferred
+        return "forward:/WEB-INF/views/error/500.jsp"; // You can choose a different page for BadCredentialsException if preferred
     }
 
     @ExceptionHandler(Exception.class)

@@ -12,6 +12,8 @@
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
     </listener>
 
+
+
     <servlet>
         <servlet-name>appServlet</servlet-name>
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
@@ -21,20 +23,13 @@
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/views/error/500.jsp</location>
+    </error-page>
 
     <servlet-mapping>
         <servlet-name>appServlet</servlet-name>
         <url-pattern>/</url-pattern>
     </servlet-mapping>
-
-    <!-- Define custom error pages -->
-    <error-page>
-        <error-code>500</error-code>
-        <location>/WEB-INF/views/error/500.jsp</location>
-    </error-page>
-    <error-page>
-        <exception-type>com.visualpathit.account.DatabaseException</exception-type>
-        <location>/WEB-INF/views/error/database-error.jsp</location>
-    </error-page>
-
 </web-app>

@@ -22,23 +22,10 @@ public class RabbitMqController {
     public ModelAndView checkRabbitMqStatus() {
         ModelAndView modelAndView = new ModelAndView();
         ConnectionFactory factory = new ConnectionFactory();
-
-        String host = RabbitMqUtil.getRabbitMqHost();
-        String port = RabbitMqUtil.getRabbitMqPort();
-        String username = RabbitMqUtil.getRabbitMqUser();
-        String password = RabbitMqUtil.getRabbitMqPassword();
-
-        // Log the values to ensure they are being read correctly
-        System.out.println("Connecting to RabbitMQ with the following settings:");
-        System.out.println("Host: " + host);
-        System.out.println("Port: " + port);
-        System.out.println("Username: " + username);
-        System.out.println("Password: " + password);
-
-        factory.setHost(host);
-        factory.setPort(Integer.parseInt(port));
-        factory.setUsername(username);
-        factory.setPassword(password);
+        factory.setHost(RabbitMqUtil.getRabbitMqHost());
+        factory.setPort(Integer.parseInt(RabbitMqUtil.getRabbitMqPort()));
+        factory.setUsername(RabbitMqUtil.getRabbitMqUser());
+        factory.setPassword(RabbitMqUtil.getRabbitMqPassword());
 
         Connection connection = null;
         try {
@@ -62,4 +49,3 @@ public class RabbitMqController {
         return modelAndView;
     }
 }
-
