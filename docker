@@ -1,2 +1,5 @@
 docker
 jenkins
+sudo 
+whoami
+
