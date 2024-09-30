@@ -1,5 +1,7 @@
-docker
 jenkins
-sudo 
-whoami
+docker
+kubernetes
+ansible
+terraform 
+prothemus
 
