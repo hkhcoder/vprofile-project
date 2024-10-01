@@ -26,6 +26,8 @@ services:
 
   vproapp:
     image: gopiadi/tom
+    build:
+      context: ./Docker-files/app/multistage
     ports:
       - "8080:8080"
     volumes: 
