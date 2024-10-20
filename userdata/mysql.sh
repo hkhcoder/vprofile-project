@@ -1,8 +1,7 @@
 #!/bin/bash
 DATABASE_PASS='admin123'
-sudo yum update -y
-#sudo yum install epel-release -y
-sudo yum install git zip unzip -y
+sudo dnf update -y
+sudo dnf install git zip unzip -y
 sudo dnf install mariadb105-server -y
 # starting & enabling mariadb-server
 sudo systemctl start mariadb
