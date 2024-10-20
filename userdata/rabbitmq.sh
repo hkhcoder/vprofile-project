@@ -16,4 +16,6 @@ systemctl start rabbitmq-server
 sudo sh -c 'echo "[{rabbit, [{loopback_users, []}]}]." > /etc/rabbitmq/rabbitmq.config'
 sudo rabbitmqctl add_user test test
 sudo rabbitmqctl set_user_tags test administrator
+rabbitmqctl set_permissions -p / test ".*" ".*" ".*"
+
 sudo systemctl restart rabbitmq-server
