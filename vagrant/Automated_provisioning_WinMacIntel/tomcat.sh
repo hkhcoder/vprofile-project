@@ -4,6 +4,9 @@ dnf install git maven wget -y
 cd /tmp/
 wget $TOMURL -O tomcatbin.tar.gz
 EXTOUT=`tar xzvf tomcatbin.tar.gz`
+#########################################
+###########################
+#%&*^*^*^*^*^*^################
 TOMDIR=`echo $EXTOUT | cut -d '/' -f1`
 useradd --shell /sbin/nologin tomcat
 rsync -avzh /tmp/$TOMDIR/ /usr/local/tomcat/
