@@ -1,12 +1,10 @@
-TOMURL="https://archive.apache.org/dist/tomcat/tomcat-9/v9.0.75/bin/apache-tomcat-9.0.75.tar.gz"
-dnf -y install java-11-openjdk java-11-openjdk-devel
-dnf install git maven wget -y
+#!/bin/bash
+TOMURL="https://archive.apache.org/dist/tomcat/tomcat-10/v10.1.26/bin/apache-tomcat-10.1.26.tar.gz"
+dnf -y install java-17-openjdk java-17-openjdk-devel
+dnf install git wget -y
 cd /tmp/
 wget $TOMURL -O tomcatbin.tar.gz
 EXTOUT=`tar xzvf tomcatbin.tar.gz`
-#########################################
-###########################
-#%&*^*^*^*^*^*^################
 TOMDIR=`echo $EXTOUT | cut -d '/' -f1`
 useradd --shell /sbin/nologin tomcat
 rsync -avzh /tmp/$TOMDIR/ /usr/local/tomcat/
@@ -48,10 +46,15 @@ EOT
 systemctl daemon-reload
 systemctl start tomcat
 systemctl enable tomcat
+cd /tmp/
+wget https://archive.apache.org/dist/maven/maven-3/3.9.9/binaries/apache-maven-3.9.9-bin.zip
+unzip apache-maven-3.9.9-bin.zip
+cp -r apache-maven-3.9.9 /usr/local/maven3.9
+export MAVEN_OPTS="-Xmx512m"
 
-git clone -b main https://github.com/hkhcoder/vprofile-project.git
+git clone -b local https://github.com/hkhcoder/vprofile-project.git
 cd vprofile-project
-mvn install
+/usr/local/maven3.9/bin/mvn install
 systemctl stop tomcat
 sleep 20
 rm -rf /usr/local/tomcat/webapps/ROOT*
