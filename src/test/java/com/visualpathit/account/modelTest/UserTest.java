@@ -12,7 +12,7 @@ import org.junit.Test;
 import com.visualpathit.account.model.Role;
 import com.visualpathit.account.model.User;
 
-/** {@author imrant} !*/
+/** {@author waheedk} !*/
 public class UserTest {
 	
 	public static final Long EXPECTED_ID = 1L;

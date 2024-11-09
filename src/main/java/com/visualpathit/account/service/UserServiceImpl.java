@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashSet;
 import java.util.List;
 
-/** {@author imrant}!*/
+/** {@author waheedk}!*/
 @Service
 public class UserServiceImpl implements UserService {
     @Autowired

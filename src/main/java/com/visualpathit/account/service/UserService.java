@@ -4,7 +4,7 @@ import java.util.List;
 
 import com.visualpathit.account.model.User;
 
-/** {@author imrant}!*/
+/** {@author waheedk}!*/
 public interface UserService {
 	/** {@inheritDoc}} !*/
     void save(User user);

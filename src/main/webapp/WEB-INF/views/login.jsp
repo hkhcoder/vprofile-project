@@ -32,8 +32,7 @@
 </head>
 </head>
 
-<body background = "${contextPath}/resources/Images/login-background.png">
-
+<body>
 <div class="mainbody container-fluid">
     <div class="row">
         <div class="navbar-wrapper">
@@ -45,7 +44,7 @@
                                 <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span><span
                                     class="icon-bar"></span><span class="icon-bar"></span>
                             </button>
-                            <a class="navbar-brand" href="${contextPath}/index">HKH Infotech</a>
+                            <a class="navbar-brand" href="${contextPath}/index">VISUAL PATH</a>
                             <i class="brand_network"><small><small>VProfile</small></small></i>
                         </div>
                         <div class="navbar-collapse collapse">
@@ -72,8 +71,8 @@
 <div class="container">
 	
     <form method="POST" action="${contextPath}/login" class="form-signin">
-        <h2 class="form-heading" align="center"> WELCOME! </h2>
-		<img  class="logo" src="${contextPath}/resources/Images/hkh-infotech-logo.png" />
+        <h2 class="form-heading" align="center"> LOGIN </h2>
+		<img  class="logo" src="${contextPath}/resources/Images/visualpathlogo3.png" />
         <div class="form-group ${error != null ? 'has-error' : ''}">
             <span>${message}</span>
             <input name="username" type="text" class="form-control" placeholder="Username"/>
@@ -82,7 +81,7 @@
             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 
             <button class="btn btn-custom-LOGIN btn-lg  btn-block" type="submit">LOGIN</button>
-            <h4 class="text-center"><a href="${contextPath}/registration">SIGN UP</a></h4>
+            <h4 class="text-center"><a href="${contextPath}/registration">Create an account</a></h4>
         </div>
 
     </form>
