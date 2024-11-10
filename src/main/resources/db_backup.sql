@@ -67,7 +67,7 @@ CREATE TABLE `user` (
   `nationality` varchar(255) DEFAULT NULL,
   `language` varchar(255) DEFAULT NULL,
   `workingExperience` varchar(255) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
+  `password` varchar(255) ,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -89,7 +89,7 @@ INSERT INTO `user` VALUES (7,'admin_vp','admin@hkhinfo.com',NULL,NULL,NULL,NULL,
 (5,'Aejaaz Habeeb','aejaaz.habeeb@gmail.com',NULL,NULL,'16/02/2001','Imran','Ziya','male','unMarried','AbuDhabi,UAE','AbuDhabi,UAE','Developer','Developer','Azure Devops ','9566489863','9566489863','Indian','hindi','4 ','$2a$11$UgG9TkHcgl02LxlqxRHYhOf7Xv4CxFmFEgS0FpUdk42OeslI.6JAR'),
 (6,'Jackie','jackie.chan@gmail.com',NULL,NULL,'28/09/1992','Charles','Chan','male','Married','HongKong,China','HongKong,China','MartialArtist','MartialArtist','KungFu ','9246488863','9246488863','Chinese','Mandrian','1 ','$2a$11$UgG9TkHcgl02LxlqxRHYhOf7Xv4CxFmFEgS0FpUdk42OeslI.6RAR'),
 (13,'Srinath Goud','sgoud@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'$2a$11$6BSmYPrT8I8b9yHmx.uTRu/QxnQM2vhZYQa8mR33aReWA4WFihyGK');
-
+(18,'Safiq Rahman','safiqrahman16@gmail.com',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,'AbuDhabi,UAE','Developer','Developer','Azure Devops ',NULL,NULL,'Indian','Tamil','4 ','devops@123'),
 
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
