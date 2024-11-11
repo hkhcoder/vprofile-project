@@ -16,7 +16,8 @@ spec:
     spec:
       containers:
       - name: vproapp
-        image: vprofile/vprofileapp
+        image: vprocontainers/vprofileapp
+        imagePullPolicy: Always
         ports:
         - name: vproapp-port
           containerPort: 8080
