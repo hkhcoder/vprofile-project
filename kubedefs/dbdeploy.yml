@@ -17,9 +17,6 @@ spec:
       containers:
       - name: vprodb
         image: vprocontainers/vprofiledb
-          #args:
-          #- "--ignore-db-dir"
-          #- "lost+found"
         volumeMounts:
         - mountPath: /var/lib/mysql
           name: vpro-db-data
@@ -34,7 +31,7 @@ spec:
                key: db-pass
       volumes:
         - name: vpro-db-data
-          persistentVolumeClaim
+          persistentVolumeClaim:
             claimName: db-pv-claim 
 
       initContainers:
