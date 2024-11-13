@@ -8,7 +8,7 @@ pipeline {
 	stages {
 	    stage('Fetch code') {
             steps {
-               git branch: 'atom', url: 'https://github.com/cece69/vprofile-project2.git'
+               git branch: 'pipeline', url: 'https://github.com/cece69/vprofile-project2.git/'
             }
 
 	    }
