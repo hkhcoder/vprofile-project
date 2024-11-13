@@ -6,7 +6,7 @@ pipeline {
 	}
 
 	stages {
-	    stage('Fetch code') {
+	    stage('Fetch Code') {
             steps {
                git branch: 'pipeline', url: 'https://github.com/cece69/vprofile-project2.git/'
             }
@@ -14,21 +14,21 @@ pipeline {
 	    }
 
 
-       stage('UNIT TEST') {
+       stage('Unit Test') {
             steps{
-                sh 'mvn test'
+                sh 'mvn test -DskipTests'
             }
         }
 
 
 	    stage('Build'){
 	        steps{
-	           sh 'mvn install -DskipTests'
+	           sh 'mvn install'
 	        }
 
 	        post {
 	           success {
-	              echo 'Now Archiving it...'
+	              echo 'Now Archiving...'
 	              archiveArtifacts artifacts: '**/target/*.war'
 	           }
 	        }
