@@ -16,7 +16,7 @@ pipeline {
 
        stage('Unit Test') {
             steps{
-            #    sh 'mvn test -DskipTests'
+            	echo "starting test...."
             }
         }
 
