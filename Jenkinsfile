@@ -13,14 +13,6 @@ pipeline {
 
 	    }
 
-
-       stage('Unit Test') {
-            steps{
-            	echo "starting test via sh mvn test"
-            }
-        }
-
-
 	    stage('Build'){
 	        steps{
 	           sh 'mvn install'
@@ -33,7 +25,16 @@ pipeline {
 	           }
 	        }
 	    }
-
-	    
+		
+       stage('Unit Test') {
+            steps{
+            	echo "starting test via sh mvn test"
+            }
+        }
+		
+	stage('Checkstyle Analysis') {
+	     steps{
+		sh 'mvn checkstyle:checkstyle'
+	     }
 	}
 }
