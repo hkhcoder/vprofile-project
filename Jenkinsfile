@@ -17,13 +17,6 @@ pipeline {
 	        steps{
 	           echo "starting install via sh mvn install"
 	        }
-
-	        post {
-	           success {
-	              echo 'Now Archiving...'
-	              archiveArtifacts artifacts: '**/target/*.war'
-	           }
-	        }
 	    }
 		
        stage('Unit Test') {
