@@ -15,7 +15,7 @@ pipeline {
 
 	    stage('Build'){
 	        steps{
-	           sh 'mvn install'
+	           echo "starting install via sh mvn install"
 	        }
 
 	        post {
