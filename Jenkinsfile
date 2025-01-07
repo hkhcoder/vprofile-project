@@ -41,7 +41,7 @@ pipeline {
                 sh 'mvn test'
             }
         }
-        stage (Checkstyle Analasis){
+        stage ('Checkstyle Analasis'){
             steps {
                 sh 'mvn checkstyle:checkstyle'
             }
