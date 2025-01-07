@@ -1,37 +1,32 @@
-pipeline{
+pipeline {
     agent any
-    tools{
-        maven 'Maven3'
-        jdk 'OracleJDK8'
+
+    tools {
+        maven "MAVEN3"          // Ensure "MAVEN3" is configured in Jenkins Global Tool Configuration
+        jdk "OracleJDK8"        // Ensure "OracleJDK8" is configured in Jenkins Global Tool Configuration
     }
 
-    environment{
-        SANP_REPO = 'vprofile-snapshot'
-        NEXUS_USER = 'admin'
+    environment {
+        SNAP_REPO = 'vprofile-snapshot'       // Corrected typo: "SANP_REPO" -> "SNAP_REPO"
+        NEXUS_USER = 'admin' 
         NEXUS_PASS = 'Admin@431'
-        RELESASE_REPO = 'vprofile-release'
+        RELEASE_REPO = 'vprofile-release'     // Corrected typo: "RELESASE_REPO" -> "RELEASE_REPO"
         CENTRAL_REPO = 'vpro-maven-central'
-        NEXUS_IP = '172.31.25.180'
+        NEXUS_IP = '172.31.25.180' 
         NEXUS_PORT = '8081'
         NEXUS_GRP_REPO = 'vpro-maven-group'
-        NEXUS_LOGIN='nexuslogin'
+        NEXUS_LOGIN = 'nexuslogin'
     }
-    stages{
-        stage('Build'){
-            steps{
-                echo 'Building the project...'
+
+    stages {
+        stage('Build') {
+            steps {
+                script {
+                    // Displaying environment variables for debugging
+                    sh 'echo Building with Nexus IP: $NEXUS_IP and Port: $NEXUS_PORT'
+                }
                 sh 'mvn -s settings.xml -DskipTests install'
             }
         }
-        stage('Test'){
-            steps{
-                echo 'Testing the project...'
-            }
-        }
-        stage('Deploy'){
-            steps{
-                echo 'Deploying the project...'
-            }
-        }
-    } 
+    }
 }
