@@ -25,7 +25,7 @@ pipeline {
                     // Displaying environment variables for debugging
                     sh 'echo Building with Nexus IP: $NEXUS_IP and Port: $NEXUS_PORT'
                 }
-                sh 'mvn -s settings.xml -DskipTests install'
+                sh 'mvn -U -s settings.xml -DskipTests install'
             }
         }
     }
