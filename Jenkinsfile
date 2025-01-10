@@ -9,7 +9,7 @@ pipeline {
     environment {
         SNAP_REPO = 'vprofile-snapshot'       // Corrected typo: "SANP_REPO" -> "SNAP_REPO"
         NEXUS_USER = 'admin' 
-        NEXUS_PASS = 'admin@123'
+        NEXUS_PASS = 'admin123'
         RELEASE_REPO = 'vprofile-release'     // Corrected typo: "RELESASE_REPO" -> "RELEASE_REPO"
         CENTRAL_REPO = 'vpro-maven-central'
         NEXUSIP = '172.31.22.167' 
