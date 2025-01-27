@@ -13,3 +13,13 @@ providers
 .terraform.lock.hcl
 
 *.exe
+
+.terraform/
+
+terraform.tfstate
+
+terraform.tfstate.backup
+
+terraform.tfstate.lock
+
+*.tfplan
