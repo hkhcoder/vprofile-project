@@ -1,0 +1,15 @@
+.terraform
+*.hcl
+*.pub
+
+target
+
+modules
+
+providers
+
+*/tfstate
+
+.terraform.lock.hcl
+
+*.exe
