@@ -1,17 +1,17 @@
-resource "aws_db_subnet_group" "vprofile-rds-subnet-group"{
-    name = "vprofile-rds-subnet-group"
-    subnet_ids = [module.vpc.private_subnets[0],module.vpc.private_subnets[1],module.vpc.private_subnets[2]]
-    tags = {
-      Name = "Subnet group for RDS."
-    }
+resource "aws_db_subnet_group" "vprofile-rds-subnet-group" {
+  name       = "vprofile-rds-subnet-group"
+  subnet_ids = [module.vpc.private_subnets[0], module.vpc.private_subnets[1], module.vpc.private_subnets[2]]
+  tags = {
+    Name = "Subnet group for RDS."
+  }
 }
 
 resource "aws_elasticache_subnet_group" "vprofile-elastic-cache-subnet-group" {
-  name = "vprofile-elastic-cache-subnet-group"
-  subnet_ids = [module.vpc.private_subnets[0],module.vpc.private_subnets[1],module.vpc.private_subnets[2]]
-    tags = {
-      Name = "Subnet group for Elastic cache."
-    }
+  name       = "vprofile-elastic-cache-subnet-group"
+  subnet_ids = [module.vpc.private_subnets[0], module.vpc.private_subnets[1], module.vpc.private_subnets[2]]
+  tags = {
+    Name = "Subnet group for Elastic cache."
+  }
 }
 
 resource "aws_db_instance" "vprofile-rds" {
@@ -27,7 +27,7 @@ resource "aws_db_instance" "vprofile-rds" {
   multi_az               = "false"
   publicly_accessible    = "false"
   skip_final_snapshot    = true
-  db_subnet_group_name   = aws_db_subnet_group.vprofile-rds-subgrp.name
+  db_subnet_group_name   = aws_db_subnet_group.vprofile-rds-subnet-group.name
   vpc_security_group_ids = [aws_security_group.vprofile-backend-sg.id]
 }
 
@@ -40,7 +40,7 @@ resource "aws_elasticache_cluster" "vprofile-cache" {
   parameter_group_name = "default.memcached1.6"
   port                 = 11211
   security_group_ids   = [aws_security_group.vprofile-backend-sg.id]
-  subnet_group_name    = aws_elasticache_subnet_group.vprofile-ecache-subgrp.name
+  subnet_group_name    = aws_elasticache_subnet_group.vprofile-elastic-cache-subnet-group.name
 }
 
 resource "aws_mq_broker" "vprofile-rmq" {
