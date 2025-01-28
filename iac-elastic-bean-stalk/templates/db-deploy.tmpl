@@ -1,5 +1,6 @@
-sudo apt update
+#!/bin/bash
 
-sudo apt install git mysql-client-core-8.0 -y
+sudo apt-get update -y
+sudo apt-get install -y git mysql-client-core-8.0
 
 mysql -h ${rds-endpoint} -u ${dbuser} --password=${dbpass} accounts --ssl-mode=DISABLED < /tmp/accountsdb.sql
