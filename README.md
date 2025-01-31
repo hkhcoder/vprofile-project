@@ -1,5 +1,7 @@
+# Deploying java application on 5 different virtual machines hosted on tomcate server.
+
 # Prerequisites
-#
+
 - JDK 11 
 - Maven 3 
 - MySQL 8
@@ -15,6 +17,9 @@
 - Memcached
 - Rabbitmq
 - ElasticSearch
+
+# Refer to VprofileProjectSetupWindowsAndMacIntel.pdf in main branch and follow the steps to complete the project.
+
 # Database
 Here,we used Mysql DB 
 sql dump file:
