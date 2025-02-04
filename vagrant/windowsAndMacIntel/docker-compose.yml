@@ -43,4 +43,4 @@ services:
 
 volumes:
   vprodbdata: {}
-  vproappdata: {} 
+  vproappdata: {}
