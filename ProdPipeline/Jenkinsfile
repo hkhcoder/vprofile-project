@@ -1,0 +1,37 @@
+def COLOR_MAP = [
+    'SUCCESS': 'good',
+    'FAILURE': 'danger',
+]
+pipeline {
+    agent any
+    tools {
+        maven "MAVEN3"
+        jdk "OracleJDK8"
+    }
+
+    environment {
+        
+        cluster = "vproprod"
+        service = "vproappprodsvc"
+    }
+
+    stages {
+        
+        stage('Deploy to ECS PROD') {
+            steps {
+                withAWS(credentials: 'awscreds', region: 'ca-central-1') {
+                    sh 'aws ecs update-service --cluster ${cluster} --service ${service} --force-new-deployment'
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            echo 'Slack Notification.'
+            slackSend channel: '#vappcicd',
+            color: COLOR_MAP[currentBuild.currentResult],
+            message: "*${currentBuild.currentResult}:* Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n Job build took ${currentBuild.durationString} \n More info at: ${env.BUILD_URL}"
+        }
+    }
+}
