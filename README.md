@@ -5,6 +5,7 @@
 - MySQL 8
 - OURSQL
 - ......
+- COMMIT
 
 # Technologies 
 - Spring MVC
