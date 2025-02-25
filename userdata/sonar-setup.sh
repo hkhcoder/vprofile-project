@@ -36,11 +36,10 @@ systemctl restart  postgresql
 netstat -tulpena | grep postgres
 sudo mkdir -p /sonarqube/
 cd /sonarqube/
-#sudo curl -O https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-8.3.0.34182.zip
-sudo curl -O https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.9.7.96285.zip
+sudo curl -O https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.9.8.100196.zip
 sudo apt-get install zip -y
-sudo unzip -o sonarqube-9.9.7.96285.zip -d /opt/
-sudo mv /opt/sonarqube-9.9.7.96285/ /opt/sonarqube
+sudo unzip -o sonarqube-9.9.8.100196.zip -d /opt/
+sudo mv /opt/sonarqube-9.9.8.100196/ /opt/sonarqube
 sudo groupadd sonar
 sudo useradd -c "SonarQube - User" -d /opt/sonarqube/ -g sonar sonar
 sudo chown sonar:sonar /opt/sonarqube/ -R
@@ -102,7 +101,7 @@ server{
         proxy_pass  http://127.0.0.1:9000;
         proxy_next_upstream error timeout invalid_header http_500 http_502 http_503 http_504;
         proxy_redirect off;
-
+              
         proxy_set_header    Host            \$host;
         proxy_set_header    X-Real-IP       \$remote_addr;
         proxy_set_header    X-Forwarded-For \$proxy_add_x_forwarded_for;
