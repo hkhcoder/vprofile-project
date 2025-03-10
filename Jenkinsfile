@@ -37,6 +37,7 @@ pipeline {
                 }
             }
         }
+    }
 //         stage('UNIT TEST'){
 //             steps {
 //                 sh 'mvn -s  settings.xml test'
