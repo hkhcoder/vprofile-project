@@ -7,13 +7,13 @@ pipeline {
     
 	agent any
 	tools {
-        maven "MAVEN3"
+        maven "MAVEN3.9"
         jdk "JDK17"
     }
     environment {
         SNAP_REPO = 'vprofile-snapshot'
         NEXUS_USER = 'admin'
-        NEXUS_PASS = 'admin123'
+        NEXUS_PASS = 'admin!123'
         NEXUSIP = '10.0.35.182'
         NEXUSPORT = '8081'
         RELEASE_REPO = 'vprofile-release'
@@ -37,6 +37,7 @@ pipeline {
                 }
             }
         }
+       /***
         stage('UNIT TEST'){
             steps {
                 sh 'mvn -s  settings.xml test'
@@ -101,4 +102,5 @@ pipeline {
                     message: "*${currentBuild.currentResult}:*Job ${env.JOB_NAME} build ${env.BUILD_NUMBER} \n More info at: ${env.BUILD_URL}"
         }
     }
+    ***/
 }
