@@ -47,7 +47,6 @@ pipeline {
                 sh 'mvn -s  settings.xml checkstyle:checkstyle'
             }    
         }
-    }
         stage('CODE ANALYSIS with SONARQUBE') {
           
 		  environment {
@@ -67,6 +66,7 @@ pipeline {
             }
           }
         }
+    }
 //          stage("Quality Gate") {
 //             steps {
 //              timeout(time: 10, unit: 'MINUTES') {
