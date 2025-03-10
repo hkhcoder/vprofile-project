@@ -38,16 +38,16 @@ pipeline {
             }
         }
     }
-//         stage('UNIT TEST'){
-//             steps {
-//                 sh 'mvn -s  settings.xml test'
-//             }
-//         }
-//         stage ('CODE ANALYSIS WITH CHECKSTYLE'){
-//             steps {
-//                 sh 'mvn -s  settings.xml checkstyle:checkstyle'
-//             }    
-//         }
+        stage('UNIT TEST'){
+            steps {
+                sh 'mvn -s  settings.xml test'
+            }
+        }
+        stage ('CODE ANALYSIS WITH CHECKSTYLE'){
+            steps {
+                sh 'mvn -s  settings.xml checkstyle:checkstyle'
+            }    
+        }
 //         stage('CODE ANALYSIS with SONARQUBE') {
           
 // 		  environment {
