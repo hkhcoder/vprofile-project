@@ -37,7 +37,6 @@ pipeline {
                 }
             }
         }
-    }
         stage('UNIT TEST'){
             steps {
                 sh 'mvn -s  settings.xml test'
@@ -48,6 +47,7 @@ pipeline {
                 sh 'mvn -s  settings.xml checkstyle:checkstyle'
             }    
         }
+    }
 //         stage('CODE ANALYSIS with SONARQUBE') {
           
 // 		  environment {
