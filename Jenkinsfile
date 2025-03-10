@@ -48,25 +48,25 @@ pipeline {
             }    
         }
     }
-//         stage('CODE ANALYSIS with SONARQUBE') {
+        stage('CODE ANALYSIS with SONARQUBE') {
           
-// 		  environment {
-//              scannerHome = tool "${SONARSCANER}"
-//           }
+		  environment {
+             scannerHome = tool "${SONARSCANER}"
+          }
 
-//           steps {
-//             withSonarQubeEnv("${SONARSERVER}") {
-//                sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile-work \
-//                    -Dsonar.projectName=vprofile-work \
-//                    -Dsonar.projectVersion=1.0 \
-//                    -Dsonar.sources=src/ \
-//                    -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
-//                    -Dsonar.junit.reportsPath=target/surefire-reports/ \
-//                    -Dsonar.jacoco.reportsPath=target/jacoco.exec \
-//                    -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
-//             }
-//           }
-//         }
+          steps {
+            withSonarQubeEnv("${SONARSERVER}") {
+               sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile-work \
+                   -Dsonar.projectName=vprofile-work \
+                   -Dsonar.projectVersion=1.0 \
+                   -Dsonar.sources=src/ \
+                   -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
+                   -Dsonar.junit.reportsPath=target/surefire-reports/ \
+                   -Dsonar.jacoco.reportsPath=target/jacoco.exec \
+                   -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
+            }
+          }
+        }
 //          stage("Quality Gate") {
 //             steps {
 //              timeout(time: 10, unit: 'MINUTES') {
