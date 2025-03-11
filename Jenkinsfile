@@ -9,7 +9,7 @@ pipeline {
 	tools {
         maven "MAVEN3.9"
         jdk "JDK17"
-        node "NodeJS19"
+        nodejs "NodeJS19"
     }
     environment {
         SNAP_REPO = 'vprofile-snapshot'
