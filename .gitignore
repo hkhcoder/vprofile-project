@@ -1,0 +1,11 @@
+# Ignore target directory
+target/
+
+# Other files and directories to ignore
+*.log
+*.tmp
+*.swp
+*.war
+*.exe
+.DS_Store
+node_modules/

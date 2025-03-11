@@ -9,6 +9,7 @@ pipeline {
 	tools {
         maven "MAVEN3.9"
         jdk "JDK17"
+        node "NodeJS19"
     }
     environment {
         SNAP_REPO = 'vprofile-snapshot'
@@ -59,6 +60,7 @@ pipeline {
                    -Dsonar.projectName=vprofile-work \
                    -Dsonar.projectVersion=1.0 \
                    -Dsonar.sources=src/ \
+                   -Dsonar.java.libraries=target/vprofile-v2/WEB-INF/lib/*.jar \  // Update this line with the correct path to your JAR files
                    -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
                    -Dsonar.junit.reportsPath=target/surefire-reports/ \
                    -Dsonar.jacoco.reportsPath=target/jacoco.exec \
