@@ -21,7 +21,7 @@ pipeline {
         NEXUS_CEN_REPO = 'vpro-maven-central'
 	    NEXUS_GRP_REPO = 'vprofile-maven-group'
         NEXUS_LOGIN = 'nexuslogin'
-        NEXUS_PASS = credentials('nexuspass')
+        NEXUS_PSW = credentials('nexuspass')
         SONARSERVER = 'sonarserver'
         SONARSCANER = 'sonarscanner'
     }
@@ -107,7 +107,7 @@ pipeline {
                 disableHostKeyChecking: true,
                 extraVars: [
                     USER: 'admin',
-                    PASS: '${NEXUS_PASS}',
+                    PASS: '${NEXUS_PSW}',
                     nexusip: '10.0.35.182',
                     reponame: 'vprofile-release',
                     groupid: 'QA',
