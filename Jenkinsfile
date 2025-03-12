@@ -21,6 +21,7 @@ pipeline {
         NEXUS_CEN_REPO = 'vpro-maven-central'
 	    NEXUS_GRP_REPO = 'vprofile-maven-group'
         NEXUS_LOGIN = 'nexuslogin'
+        NEXUS_PASS = credentials('nexuspass')
         SONARSERVER = 'sonarserver'
         SONARSCANER = 'sonarscanner'
     }
@@ -95,6 +96,29 @@ pipeline {
           )
         }
      }
+     stage('Ansible Deploy to Staging') {
+        steps {
+            ansiblePlaybook([
+                playbook: 'ansible/site.yml',
+                inventory: 'ansible/stage.inventory.yml',
+                Installation: 'Ansible',
+                colorized: true,
+                credentialsId: 'applogin',
+                disableHostKeyChecking: true,
+                extraVars: [
+                    USER: 'admin',
+                    PASS: '${NEXUS_PASS}',
+                    nexusip: '10.0.35.182'
+                    reponame: 'vprofile-release',
+                    groupid: 'QA',
+                    time: "${env.BUILD_TIMESTAMP}"
+                    build: "${env.BUILD_ID}"
+                    artifactId: 'vproapp',
+                    vprofile_version: "vproapp-${env.BUILD_ID}-${env.BUILD_TIMESTAMP}.war",
+                ]
+                extras: "-e war_file=vprofile-v2.war -e app_name=vprofile-v2 -e app_port=8080 -e app_path=/opt/tomcat/webapps"
+            ])
+        }
    }
   post {
             always {
