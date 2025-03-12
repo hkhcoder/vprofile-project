@@ -111,12 +111,11 @@ pipeline {
                     nexusip: '10.0.35.182'
                     reponame: 'vprofile-release',
                     groupid: 'QA',
-                    time: "${env.BUILD_TIMESTAMP}"
+                    time: "${env.BUILD_TIMESTAMP}",
                     build: "${env.BUILD_ID}"
                     artifactId: 'vproapp',
                     vprofile_version: "vproapp-${env.BUILD_ID}-${env.BUILD_TIMESTAMP}.war",
                 ]
-                extras: "-e war_file=vprofile-v2.war -e app_name=vprofile-v2 -e app_port=8080 -e app_path=/opt/tomcat/webapps"
             ])
         }
    }
