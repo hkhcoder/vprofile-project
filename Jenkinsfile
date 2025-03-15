@@ -97,28 +97,32 @@ pipeline {
         }
      }
      stage('Ansible Deploy to Staging') {
-        steps {
-            ansiblePlaybook([
-                playbook: 'ansible/site.yml',
-                inventory: 'ansible/stageinventory.yml',
-                installation: 'ansible',
-                colorized: true,
-                credentialsId: 'applogin',
-                disableHostKeyChecking: true,
-                extraVars: [
-                    USER: 'admin',
-                    PASS: '${NEXUS_PSW}',
-                    nexusip: '10.0.35.182',
-                    reponame: 'vprofile-release',
-                    groupid: 'QA',
-                    time: sanitizedTime,
-                    build: sanitizedBuild,
-                    artifactId: 'vproapp',
-                    vprofile_version: "vproapp-${sanitizedBuild}-${sanitizedTime}.war"
-                ]
-            ])
+            steps {
+                script {
+                    def sanitizedTime = env.BUILD_TIMESTAMP.replace(' ', '_').replace(':', '-')
+                    def sanitizedBuild = env.BUILD_ID.replace(' ', '_').replace(':', '-')
+                    ansiblePlaybook([
+                        playbook: 'ansible/site.yml',
+                        inventory: 'ansible/stageinventory.yml',
+                        installation: 'ansible',
+                        colorized: true,
+                        credentialsId: 'applogin',
+                        disableHostKeyChecking: true,
+                        extraVars: [
+                            USER: 'admin',
+                            PASS: '${NEXUS_PSW}',
+                            nexusip: '10.0.35.182',
+                            reponame: 'vprofile-release',
+                            groupid: 'QA',
+                            time: sanitizedTime,
+                            build: sanitizedBuild,
+                            artifactId: 'vproapp',
+                            vprofile_version: "vproapp-${sanitizedBuild}-${sanitizedTime}.war"
+                        ]
+                    ])
+                }
+            }
         }
-     }
    }
   post {
             always {
