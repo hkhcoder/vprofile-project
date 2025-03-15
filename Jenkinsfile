@@ -114,7 +114,7 @@ pipeline {
                     time: sanitizedTime,
                     build: sanitizedBuild,
                     artifactId: 'vproapp',
-                    vprofile_version: "vproapp-${env.BUILD_ID}-${env.BUILD_TIMESTAMP}.war"
+                    vprofile_version: "vproapp-${sanitizedBuild}-${sanitizedTime}.war"
                 ]
             ])
         }
