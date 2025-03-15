@@ -22,6 +22,7 @@
       get_url:
         url: "{{tom_url}}"
         dest: /tmp/tomcat-8.tar.gz
+        timeout: 600
 
     - name: Add tomcat group
       group:
