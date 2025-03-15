@@ -79,27 +79,32 @@ pipeline {
       
          stage('NexusArtifactUploaderJob') {
             steps {
-             nexusArtifactUploader(
-             nexusVersion: 'nexus3',
-             protocol: 'http',
-             nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
-             groupId: 'QA',
-             version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
-             repository: "${RELEASE_REPO}",
-             credentialsId: "${NEXUS_LOGIN}",
-             artifacts: [
-                [artifactId: 'vproapp',
-                classifier: '',
-                file: 'target/vprofile-v2.war',
-                type: 'war']
-             ]
-          )
+                script {
+                    def sanitizedTime = env.BUILD_TIMESTAMP.replace(' ', '_').replace(':', '-')
+                    def sanitizedBuild = env.BUILD_ID.replace(' ', '_').replace(':', '-')
+                    nexusArtifactUploader(
+                        nexusVersion: 'nexus3',
+                        protocol: 'http',
+                        nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+                        groupId: 'QA',
+                        version: "${sanitizedBuild}-${sanitizedTime}",
+                        repository: "${RELEASE_REPO}",
+                        credentialsId: "${NEXUS_LOGIN}",
+                        artifacts: [
+                            [artifactId: 'vproapp',
+                            classifier: '',
+                            file: 'target/vprofile-v2.war',
+                            type: 'war']
+                        ]
+                    )
+                }
+            }
         }
-     }
      stage('Ansible Deploy to Staging') {
             steps {
                 script {
                     def sanitizedTime = env.BUILD_TIMESTAMP.replace(' ', '_').replace(':', '-')
+                    def sanitizedBuild = env.BUILD_ID.replace(' ', '_').replace(':', '-')
                     ansiblePlaybook([
                         playbook: 'ansible/site.yml',
                         inventory: 'ansible/stageinventory.yml',
@@ -114,9 +119,9 @@ pipeline {
                             reponame: 'vprofile-release',
                             groupid: 'QA',
                             time: sanitizedTime,
-                            build: '${env.BUILD_ID}',
+                            build: sanitizedBuild,
                             artifactId: 'vproapp',
-                            vprofile_version: "vproapp-${env.BUILD_ID}-${sanitizedTime}.war"
+                            vprofile_version: "vproapp-${sanitizedBuild}-${sanitizedTime}.war"
                         ]
                     ])
                 }
