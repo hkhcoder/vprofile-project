@@ -100,7 +100,7 @@ pipeline {
         steps {
             ansiblePlaybook([
                 playbook: 'ansible/site.yml',
-                inventory: 'ansible/stage.inventory',
+                inventory: 'ansible/stageinventory',
                 installation: 'ansible',
                 colorized: true,
                 credentialsId: 'applogin',
