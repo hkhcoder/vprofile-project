@@ -100,7 +100,6 @@ pipeline {
             steps {
                 script {
                     def sanitizedTime = env.BUILD_TIMESTAMP.replace(' ', '_').replace(':', '-')
-                    def sanitizedBuild = env.BUILD_ID.replace(' ', '_').replace(':', '-')
                     ansiblePlaybook([
                         playbook: 'ansible/site.yml',
                         inventory: 'ansible/stageinventory.yml',
@@ -115,9 +114,9 @@ pipeline {
                             reponame: 'vprofile-release',
                             groupid: 'QA',
                             time: sanitizedTime,
-                            build: sanitizedBuild,
+                            build: '${env.BUILD_ID}',
                             artifactId: 'vproapp',
-                            vprofile_version: "vproapp-${sanitizedBuild}-${sanitizedTime}.war"
+                            vprofile_version: "vproapp-${env.BUILD_ID}-${sanitizedTime}.war"
                         ]
                     ])
                 }
