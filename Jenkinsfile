@@ -79,55 +79,46 @@ pipeline {
       
          stage('NexusArtifactUploaderJob') {
             steps {
-                script {
-                    def sanitizedTime = env.BUILD_TIMESTAMP.replace(' ', '_').replace(':', '-')
-                    def sanitizedBuild = env.BUILD_ID.replace(' ', '_').replace(':', '-')
-                    nexusArtifactUploader(
-                        nexusVersion: 'nexus3',
-                        protocol: 'http',
-                        nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
-                        groupId: 'QA',
-                        version: "${sanitizedBuild}-${sanitizedTime}",
-                        repository: "${RELEASE_REPO}",
-                        credentialsId: "${NEXUS_LOGIN}",
-                        artifacts: [
-                            [artifactId: 'vproapp',
-                            classifier: '',
-                            file: 'target/vprofile-v2.war',
-                            type: 'war']
-                        ]
-                    )
-                }
+                nexusArtifactUploader(
+                    nexusVersion: 'nexus3',
+                    protocol: 'http',
+                    nexusUrl: "${NEXUSIP}:${NEXUSPORT}",
+                    groupId: 'QA',
+                    version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
+                    repository: "${RELEASE_REPO}",
+                    credentialsId: "${NEXUS_LOGIN}",
+                    artifacts: [
+                        [artifactId: 'vproapp',
+                        classifier: '',
+                        file: 'target/vprofile-v2.war',
+                        type: 'war']
+                    ]
+                )
             }
         }
      stage('Ansible Deploy to Staging') {
             steps {
-                script {
-                    def sanitizedTime = env.BUILD_TIMESTAMP.replace(' ', '_').replace(':', '-')
-                    def sanitizedBuild = env.BUILD_ID.replace(' ', '_').replace(':', '-')
-                    ansiblePlaybook([
-                        playbook: 'ansible/site.yml',
-                        inventory: 'ansible/stageinventory.yml',
-                        installation: 'ansible',
-                        colorized: true,
-                        credentialsId: 'applogin',
-                        disableHostKeyChecking: true,
-                        extraVars: [
-                            USER: 'admin',
-                            PASS: '${NEXUS_PSW}',
-                            nexusip: '10.0.35.182',
-                            reponame: 'vprofile-release',
-                            groupid: 'QA',
-                            time: sanitizedTime,
-                            build: sanitizedBuild,
-                            artifactId: 'vproapp',
-                            vprofile_version: "vproapp-${sanitizedBuild}-${sanitizedTime}.war"
-                        ]
-                    ])
-                }
+                ansiblePlaybook([
+                    playbook: 'ansible/site.yml',
+                    inventory: 'ansible/stage.inventory',
+                    installation: 'ansible',
+                    colorized: true,
+                    disableHostKeyChecking: true,
+                    extraVars: [
+                        USER: 'admin',
+                        PASS: '${NEXUS_PASS}',
+                        nexusip: '10.0.35.182',
+                        reponame: 'vprofile-release',
+                        groupid: 'QA',
+                        time: "${env.BUILD_TIMESTAMP}",
+                        build: "${env.BUILD_ID}",
+                        artifactId: 'vproapp',
+                        vprofile_version: "vproapp-${env.BUILD_ID}-${env.BUILD_TIMESTAMP}.war"
+                    ]
+                ])
             }
         }
-   }
+    }
   post {
             always {
                 echo 'Slack Notifications.'
