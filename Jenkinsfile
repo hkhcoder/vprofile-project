@@ -103,10 +103,11 @@ pipeline {
                     inventory: 'ansible/stageinventory.yml',
                     installation: 'ansible',
                     colorized: true,
+                    credentialsId: 'applogin',
                     disableHostKeyChecking: true,
                     extraVars: [
                         USER: 'admin',
-                        PASS: '${NEXUS_PASS}',
+                        PASS: '${NEXUS_PSW}',
                         nexusip: '10.0.35.182',
                         reponame: 'vprofile-release',
                         groupid: 'QA',
