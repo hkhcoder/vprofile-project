@@ -100,7 +100,7 @@ pipeline {
             steps {
                 ansiblePlaybook([
                     playbook: 'ansible/site.yml',
-                    inventory: 'ansible/stage.inventory.yml',
+                    inventory: 'ansible/stageinventory.yml',
                     installation: 'ansible',
                     colorized: true,
                     disableHostKeyChecking: true,
