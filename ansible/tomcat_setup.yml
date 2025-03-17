@@ -2,18 +2,18 @@
   hosts: appsrvgrp
   become: yes
   vars:
-    tom_url: https://archive.apache.org/dist/tomcat/tomcat-8/v8.5.37/bin/apache-tomcat-8.5.37.tar.gz
+    tom_url: https://archive.apache.org/dist/tomcat/tomcat-11/v11.0.0/bin/apache-tomcat-11.0.0-deployer.tar.gz
     ansible_ssh_timeout: 60
   tasks:
-    - name: Install JDK on Centos 6/7
-      yum:
-        name: java-1.8.0-openjdk.x86_64
-        state: present
-      when: ansible_distribution == 'CentOS'
+    # - name: Install JDK on Centos
+    #   yum:
+    #     name: java-1.17.0-openjdk.x86_64
+    #     state: present
+    #   when: ansible_distribution == 'CentOS'
 
-    - name: Install JDK on Ubuntu 14/15/16/18
+    - name: Install JDK on Ubuntu
       apt:
-        name: openjdk-8-jdk
+        name: openjdk-17-jdk
         state: present
         update_cache: yes
       when: ansible_distribution == 'Ubuntu' 
@@ -21,7 +21,7 @@
     - name: Download Tomcat Tar Ball/Binaries
       get_url:
         url: "{{tom_url}}"
-        dest: /tmp/tomcat-8.tar.gz
+        dest: /tmp/tomcat-11.tar.gz
         timeout: 600
 
     - name: Add tomcat group
@@ -34,16 +34,16 @@
         name: tomcat
         group: tomcat
         shell: /bin/nologin
-        home: /usr/local/tomcat8
-
+        home: /usr/local/tomcat11
+    - name: Create tomcat directory
     - file:
-        path: /tmp/tomcat8
+        path: /tmp/tomcat11
         state: directory
 
     - name: Extract tomcat
       unarchive:
-        src: /tmp/tomcat-8.tar.gz
-        dest: /tmp/tomcat8/
+        src: /tmp/tomcat-11.tar.gz
+        dest: /tmp/tomcat11/
         remote_src: yes
         list_files: yes
       register: unarchive_info
@@ -51,39 +51,39 @@
     - debug:
         msg: "{{unarchive_info.files[0].split('/')[0]}}"
 
-    - name: Synchronize /tmp/tomcat8/tomcat_cont /usr/local/tomcat8.
+    - name: Synchronize /tmp/tomcat11/tomcat_cont /usr/local/tomcat11.
       synchronize:
-        src: "/tmp/tomcat8/{{unarchive_info.files[0].split('/')[0]}}/"
-        dest: /usr/local/tomcat8/
+        src: "/tmp/tomcat11/{{unarchive_info.files[0].split('/')[0]}}/"
+        dest: /usr/local/tomcat11/
       delegate_to: "{{ inventory_hostname }}"
 
-    - name: Change ownership of /usr/local/tomcat8
+    - name: Change ownership of /usr/local/tomcat11
       file:
-        path: /usr/local/tomcat8
+        path: /usr/local/tomcat11
         owner: tomcat
         group: tomcat
         recurse: yes
 
-    - name: Setup tomcat SVC file on Centos 7
-      template:
-         src: templates/epel7-svcfile.j2
-         dest: /etc/systemd/system/tomcat.service
-         mode: "a+x"
-      when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7'      
+    # - name: Setup tomcat SVC file on Centos 7
+    #   template:
+    #      src: templates/epel7-svcfile.j2
+    #      dest: /etc/systemd/system/tomcat.service
+    #      mode: "a+x"
+    #   when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '7'      
 
-    - name: Setup tomcat SVC file on Centos 6
-      template:
-         src: templates/epel6-svcfile.j2
-         dest: /etc/init.d/tomcat
-         mode: "a+x"
-      when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '6'
+    # - name: Setup tomcat SVC file on Centos 6
+    #   template:
+    #      src: templates/epel6-svcfile.j2
+    #      dest: /etc/init.d/tomcat
+    #      mode: "a+x"
+    #   when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '6'
 
-    - name: Setup tomcat SVC file on ubuntu 14/15
-      template:
-         src: templates/ubuntu14_15-svcfile.j2
-         dest: /etc/init.d/tomcat
-         mode: "a+x"
-      when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version < '16'
+    # - name: Setup tomcat SVC file on ubuntu 14/15
+    #   template:
+    #      src: templates/ubuntu14_15-svcfile.j2
+    #      dest: /etc/init.d/tomcat
+    #      mode: "a+x"
+    #   when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version < '16'
 
     - name: Setup tomcat SVC file on ubuntu 16 and 18
       template:
@@ -92,20 +92,20 @@
          mode: "a+x"
       when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version >= '16'
 
-    - name: Reload tomcat svc config in ubuntu 14/15
-      command: update-rc.d tomcat defaults
-      when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version < '16'
+    # - name: Reload tomcat svc config in ubuntu 14/15
+    #   command: update-rc.d tomcat defaults
+    #   when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version < '16'
 
-    - name: Reload tomcat svc config in Centos 6
-      command: chkconfig --add tomcat
-      when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '6'
+    # - name: Reload tomcat svc config in Centos 6
+    #   command: chkconfig --add tomcat
+    #   when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '6'
 
     - name: just force systemd to reread configs (2.4 and above)
       systemd:
         daemon_reload: yes 
       when: ansible_distribution_major_version > '6' or ansible_distribution_major_version > '15'
 
-    - name: Start & Enable TOmcat 8
+    - name: Start & Enable TOmcat 11
       service:
         name: tomcat
         state: started

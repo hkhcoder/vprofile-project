@@ -14,7 +14,7 @@
        - deploy
 
     - stat:
-        path: /usr/local/tomcat8/webapps/ROOT
+        path: /usr/local/tomcat11/webapps/ROOT
       register: artifact_stat
       tags:
        - deploy
@@ -30,7 +30,7 @@
       block:
       - name: Archive ROOT dir with timestamp
         archive:
-          path: /usr/local/tomcat8/webapps/ROOT
+          path: /usr/local/tomcat11/webapps/ROOT
           dest: "/opt/ROOT_{{timestamp}}.tgz"
         when: artifact_stat.stat.exists
         register: archive_info
@@ -40,7 +40,7 @@
       - name: copy ROOT dir with old_ROOT name
         shell: cp -r ROOT old_ROOT
         args:
-          chdir: /usr/local/tomcat8/webapps/
+          chdir: /usr/local/tomcat11/webapps/
 
       - name: Delete current artifact
         file:
@@ -48,8 +48,8 @@
           state: absent
         when: archive_info.changed
         loop:
-         - /usr/local/tomcat8/webapps/ROOT
-         - /usr/local/tomcat8/webapps/ROOT.war
+         - /usr/local/tomcat11/webapps/ROOT
+         - /usr/local/tomcat11/webapps/ROOT.war
         tags:
          - deploy
 
@@ -58,7 +58,7 @@
          - name: Deploy vprofile artifact
            copy:
              src: "/tmp/vproapp-{{vprofile_version}}"
-             dest: /usr/local/tomcat8/webapps/ROOT.war
+             dest: /usr/local/tomcat11/webapps/ROOT.war
              remote_src: yes
            register: deploy_info
            tags:
@@ -66,7 +66,7 @@
         rescue:
           - shell: cp -r old_ROOT ROOT
             args:
-              chdir: /usr/local/tomcat8/webapps/
+              chdir: /usr/local/tomcat11/webapps/
 
       rescue:
        - name: Start tomcat svc
@@ -84,7 +84,7 @@
 
     - name: Wait until ROOT.war is extracted to ROOT directory
       wait_for:
-        path: /usr/local/tomcat8/webapps/ROOT
+        path: /usr/local/tomcat11/webapps/ROOT
       tags:
        - deploy
 
