@@ -2,7 +2,7 @@
   hosts: appsrvgrp
   become: yes
   vars:
-    tom_url: https://archive.apache.org/dist/tomcat/tomcat-11/v11.0.0/bin/apache-tomcat-11.0.0-deployer.tar.gz
+    tom_url: https://archive.apache.org/dist/tomcat/tomcat-10/v10.1.9/bin/apache-tomcat-10.1.9-deployer.tar.gz
     ansible_ssh_timeout: 60
   tasks:
     # - name: Install JDK on Centos
@@ -21,7 +21,7 @@
     - name: Download Tomcat Tar Ball/Binaries
       get_url:
         url: "{{tom_url}}"
-        dest: /tmp/tomcat-11.tar.gz
+        dest: /tmp/tomcat-10.tar.gz
         timeout: 600
 
     - name: Add tomcat group
@@ -29,21 +29,20 @@
         name: tomcat
         state: present
 
-    - name: Add tomcat user
+    - name: Add tomcat user and directory
       user:
         name: tomcat
         group: tomcat
         shell: /bin/nologin
-        home: /usr/local/tomcat11
-    - name: Create tomcat directory
-      file:
-        path: /tmp/tomcat11
+        home: /usr/local/tomcat10
+    - file:
+        path: /tmp/tomcat10
         state: directory
 
     - name: Extract tomcat
       unarchive:
-        src: /tmp/tomcat-11.tar.gz
-        dest: /tmp/tomcat11/
+        src: /tmp/tomcat-10.tar.gz
+        dest: /tmp/tomcat10/
         remote_src: yes
         list_files: yes
       register: unarchive_info
@@ -51,15 +50,15 @@
     - debug:
         msg: "{{unarchive_info.files[0].split('/')[0]}}"
 
-    - name: Synchronize /tmp/tomcat11/tomcat_cont /usr/local/tomcat11.
+    - name: Synchronize /tmp/tomcat10/tomcat_cont /usr/local/tomcat10.
       synchronize:
-        src: "/tmp/tomcat11/{{unarchive_info.files[0].split('/')[0]}}/"
-        dest: /usr/local/tomcat11/
+        src: "/tmp/tomcat10/{{unarchive_info.files[0].split('/')[0]}}/"
+        dest: /usr/local/tomcat10/
       delegate_to: "{{ inventory_hostname }}"
 
-    - name: Change ownership of /usr/local/tomcat11
+    - name: Change ownership of /usr/local/tomcat10
       file:
-        path: /usr/local/tomcat11
+        path: /usr/local/tomcat10
         owner: tomcat
         group: tomcat
         recurse: yes
@@ -105,7 +104,7 @@
         daemon_reload: yes 
       when: ansible_distribution_major_version > '6' or ansible_distribution_major_version > '15'
 
-    - name: Start & Enable TOmcat 11
+    - name: Start & Enable TOmcat 10
       service:
         name: tomcat
         state: started
