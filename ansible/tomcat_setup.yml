@@ -36,7 +36,7 @@
         shell: /bin/nologin
         home: /usr/local/tomcat11
     - name: Create tomcat directory
-    - file:
+      file:
         path: /tmp/tomcat11
         state: directory
 
