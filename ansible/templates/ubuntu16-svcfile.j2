@@ -5,13 +5,13 @@ After=network.target
 [Service]
 User=tomcat
 Group=tomcat
-WorkingDirectory=/usr/local/tomcat11
+WorkingDirectory=/usr/local/tomcat10
 Environment="JRE_HOME=/usr/lib/jvm/java-17-openjdk-amd64"
 Environment="JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64"
-Environment="CATALINA_HOME=/usr/local/tomcat11"
-Environment="CATALINA_BASE=/usr/local/tomcat11"
-ExecStart=/usr/local/tomcat11/bin/catalina.sh run
-ExecStop=/usr/local/tomcat11/bin/shutdown.sh
+Environment="CATALINA_HOME=/usr/local/tomcat10"
+Environment="CATALINA_BASE=/usr/local/tomcat10"
+ExecStart=/usr/local/tomcat10/bin/catalina.sh run
+ExecStop=/usr/local/tomcat10/bin/shutdown.sh
 SyslogIdentifier=tomcat-%i
 Restart=on-failure
 
