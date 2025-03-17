@@ -78,7 +78,7 @@
       service:
         name: tomcat
         state: started
-      when: deploy_info.changed
+      when: deploy_info is defined and deploy_info.changed
       tags:
        - deploy
 
