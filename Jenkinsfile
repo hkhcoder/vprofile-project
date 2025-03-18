@@ -103,7 +103,7 @@ pipeline {
                     inventory: 'ansible/stageinventory.yml',
                     installation: 'ansible',
                     colorized: true,
-                    credentialsId: 'applogin',
+                    credentialsId: 'sshlogin',
                     disableHostKeyChecking: true,
                     extraVars: [
                         USER: 'admin',
