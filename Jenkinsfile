@@ -34,7 +34,7 @@ pipeline {
                     inventory: 'ansible/prodinventory.yml',
                     installation: 'ansible',
                     colorized: true,
-                    credentialsId: 'sshprodlogin',
+                    credentialsId: 'prodlogin',
                     disableHostKeyChecking: true,
                     extraVars: [
                         USER: 'admin',
