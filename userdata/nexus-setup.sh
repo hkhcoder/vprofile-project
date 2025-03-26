@@ -8,7 +8,7 @@ sudo yum install -y java-17-amazon-corretto-devel wget -y
 mkdir -p /opt/nexus/   
 mkdir -p /tmp/nexus/                           
 cd /tmp/nexus/
-NEXUSURL="https://download.sonatype.com/nexus/3/latest-unix.tar.gz"
+NEXUSURL="https://download.sonatype.com/nexus/3/nexus-unix-x86-64-3.78.2-04.tar.gz"
 wget $NEXUSURL -O nexus.tar.gz
 sleep 10
 EXTOUT=`tar xzvf nexus.tar.gz`
