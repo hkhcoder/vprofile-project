@@ -20,6 +20,12 @@ pipeline {
     stages {
         stage('Build'){
             steps {
+                sh '''
+                sed -i "s|\\$\\{NEXUS-GRP-REPO\\}|$NEXUS_GRP_REPO|g" settings.xml
+                sed -i "s|\\$\\{CENTRAL-REPO\\}|central|g" settings.xml
+                sed -i "s|\\$\\{NEXUSIP\\}|$NEXUSIP|g" settings.xml
+                sed -i "s|\\$\\{NEXUSPORT\\}|$NEXUSPORT|g" settings.xml
+                '''
                 sh 'mvn -s settings.xml -DskipTests install'
             }
         }
