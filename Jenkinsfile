@@ -38,14 +38,14 @@ pipeline {
                  echo "Testing"
 
             }
-
+s
         }
         stage('Checkstyle Analysis'){
 
             steps {
 
                 sh 'mvn -s settings.xml checkstyle:checkstyle'
-                echo "done"
+                echo "done1"
 
             }
         }
