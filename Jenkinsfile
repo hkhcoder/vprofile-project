@@ -38,7 +38,7 @@ pipeline {
                  echo "Testing"
 
             }
-s
+
         }
         stage('Checkstyle Analysis'){
 
