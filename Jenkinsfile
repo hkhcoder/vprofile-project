@@ -45,6 +45,7 @@ pipeline {
             steps {
 
                 sh 'mvn -s settings.xml checkstyle:checkstyle'
+                echo "done"
 
             }
         }
