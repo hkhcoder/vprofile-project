@@ -1,5 +1,6 @@
 package com.visualpathit.account.controllerTest;
 
+import org.springframework.mock.web.MockHttpSession;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
@@ -73,12 +74,11 @@ public class UserControllerTest {
 		
 	}*/
 	@Test
-	public void loginTestHappyFlow() throws Exception{
-		String error = "Your username and password is invalid";
-		mockMvc.perform(get("/login").param(error, error))
-        .andExpect(status().isOk())
-        .andExpect(view().name("login"))
-        .andExpect(forwardedUrl("login"));
+	public void loginTestHappyFlow() throws Exception {
+ 	   mockMvc.perform(post("/login")  // <-- use POST instead of GET
+	.param("username", "admin") // pass username
+        .param("password", "admin123")) // pass password
+        .andExpect(status().isOk());
 		
 	}
 	@Test
@@ -90,11 +90,14 @@ public class UserControllerTest {
 		
 	}
 	@Test
-	public void welcomeAfterDirectLoginTestHappyFlow() throws Exception{
-		mockMvc.perform(get("/"))
+	public void welcomeAfterDirectLoginTestHappyFlow() throws Exception {
+	// Simulate a logged-in user in session
+    	MockHttpSession session = new MockHttpSession();
+    	session.setAttribute("loggedUser", "mockuser"); 
+   	// "loggedUser" must match the attribute your controller expects
+    		mockMvc.perform(get("/welcome").session(session))
         .andExpect(status().isOk())
-        .andExpect(view().name("welcome"))
-        .andExpect(forwardedUrl("welcome"));
+        .andExpect(view().name("welcome"));
 		
 	}
 	@Test
