@@ -125,8 +125,10 @@ pipeline {
           steps{
             script {
               docker.withRegistry( vprofileRegistry, registryCredential ) {
+                dockerImage.push("$JOB_NAME")
                 dockerImage.push("$BUILD_NUMBER")
                 dockerImage.push('latest')
+                
               }
             }
           }
