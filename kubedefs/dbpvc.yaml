@@ -5,7 +5,7 @@ metadata:
   labels:
     app: vprodb
 spec:
-  acessModes: ReadWriteOnce
+  accessModes: ReadWriteOnce
   resources:
     requests:
       storage: 3Gi
