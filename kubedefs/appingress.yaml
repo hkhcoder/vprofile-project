@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: minimal-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: termms.click
+    http:
+      paths:
+      - path: /
+        pathType: prefix
+        backend: 
+          service: vproapp
+          port:
+            number: 8080
+            
