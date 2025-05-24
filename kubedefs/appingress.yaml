@@ -7,7 +7,7 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
-  - host: termms.click
+  - host: api.termms.click
     http:
       paths:
       - path: /
