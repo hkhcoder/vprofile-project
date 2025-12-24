@@ -1,0 +1,18 @@
+{
+  "name": "bluegreen-demo-v2",
+  "version": "2.0.0",
+  "description": "Blue-Green Deployment Demo - Version 2.0 with New Features",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js"
+  },
+  "keywords": ["demo", "blue-green", "deployment", "v2"],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=18.x"
+  }
+}
