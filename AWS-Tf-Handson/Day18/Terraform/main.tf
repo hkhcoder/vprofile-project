@@ -155,7 +155,7 @@ resource "aws_iam_role_policy" "lambda_exec_policy" {
 # Lambda Layer for dependencies
 ####################################
 resource "aws_lambda_layer_version" "lambda_layer" {
-  filename          = "lambda_layer_payload.zip"
+  filename          = "pillow_layer.zip"
   layer_name        = "${local.lambda_function_name}-layer"
   compatible_runtimes = ["python3.9"]
   description = "Lambda layer for image processing dependencies"
