@@ -23,9 +23,6 @@ fi
 echo "📦 Building Lambda layer with Docker..."
 chmod +x "$SCRIPT_DIR/build_layer_docker.sh"
 bash "$SCRIPT_DIR/build_layer_docker.sh"
-#echo "📦 Building Lambda layer with Docker..."
-#chmod +x "$SCRIPT_DIR/build_layer_docker.sh"
-#bash "$SCRIPT_DIR/build_layer_docker.sh"
 
 # Initialize Terraform
 echo "🔧 Initializing Terraform..."
