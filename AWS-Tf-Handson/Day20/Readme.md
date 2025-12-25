@@ -1,17 +1,17 @@
 **Traffic Flow**
-    1. Internet → IGW - External traffic enters through Internet Gateway.
-    2. IGW → Public Subnets - Routed to public subnets.
+    1. Internet → IGW - External traffic enters through Internet Gateway. 2. IGW → Public Subnets - Routed to public subnets.
     3. Public Subnets → NAT Gateway - Outbound traffic from private subnets.
     4. NAT → Private Subnets - NAT translates private IPs to public.
     5. Private Subnets → EKS - Kubernetes nodes communicate internally.
     6. EKS → Internet - Pods reach internet via NAT Gateway.
 
 
+
 This is a classic AWS Secure Network Architecture. It is designed to keep your application (EKS) safe while still allowing it to talk to the outside world when necessary.
 
 Here is a breakdown of that traffic flow using a simple "Secure Office Building" analogy to make it concrete.
 
-## The Analogy: A Secure Office Building
+## ## The Analogy: A Secure Office Building
     VPC: The Building.
     Internet: The Street outside.
     IGW (Internet Gateway): The Main Front Door.
@@ -21,7 +21,7 @@ Here is a breakdown of that traffic flow using a simple "Secure Office Building"
     NAT Gateway: The Mailroom Clerk sitting in the Lobby.
 
 
-# Step-by-Step Flow Explanation
+## ## Step-by-Step Flow Explanation
 Here is how the traffic moves based on the lines you provided:
 
 1. **Internet → IGW**
