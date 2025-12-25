@@ -89,7 +89,11 @@ Here is how the traffic moves based on the lines you provided:
         The Clerk walks out the Front Door (IGW) to get the lunch.
     
     **Technical**:
-        **Pod (IP 10.0.2.50) sends a request to google.com.**
-        **Router sees the destination is external and sends it to NAT Gateway.**
-        **NAT Gateway replaces 10.0.2.50 with its own Public IP (e.g., 54.1.1.1).**
-        **NAT Gateway sends it to IGW -> Internet.**
+
+        Pod (IP 10.0.2.50) sends a request to google.com.
+        
+        Router sees the destination is external and sends it to NAT Gateway.
+        
+        NAT Gateway replaces 10.0.2.50 with its own Public IP (e.g., 54.1.1.1).
+        
+        NAT Gateway sends it to IGW -> Internet.
