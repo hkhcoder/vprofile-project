@@ -26,9 +26,9 @@ Here is a breakdown of that traffic flow using a simple "Secure Office Building"
 Here is how the traffic moves based on the lines you provided:
 
 1. ## Internet → IGW
-##### Concept: External traffic enters through the Internet Gateway.
-##### Analogy: A delivery person walks from the street to the building's front door.
-##### Technical: The IGW is the only entry/exit point for traffic between your VPC and the Internet.
+#### Concept: External traffic enters through the Internet Gateway.
+#### Analogy: A delivery person walks from the street to the building's front door.
+#### Technical: The IGW is the only entry/exit point for traffic between your VPC and the Internet.
 2. ## IGW → Public Subnets
     Concept: Traffic is routed to the public subnets.
     Analogy: The delivery person walks through the door into the Lobby.
