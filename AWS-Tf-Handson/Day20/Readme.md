@@ -28,8 +28,10 @@ Here is how the traffic moves based on the lines you provided:
 1. ## Internet → IGW
     **Concept**: 
     External traffic enters through the Internet Gateway.
+
     **Analogy**: 
     A delivery person walks from the street to the building's front door.
+    
     **Technical**: 
     The IGW is the only entry/exit point for traffic between your VPC and the Internet.
 
