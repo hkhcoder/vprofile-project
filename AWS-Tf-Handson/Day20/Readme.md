@@ -1,5 +1,6 @@
-**Traffic Flow**
-    1. Internet → IGW - External traffic enters through Internet Gateway. 2. IGW → Public Subnets - Routed to public subnets.
+## Traffic Flow
+    1. Internet → IGW - External traffic enters through Internet Gateway. 
+    2. IGW → Public Subnets - Routed to public subnets.
     3. Public Subnets → NAT Gateway - Outbound traffic from private subnets.
     4. NAT → Private Subnets - NAT translates private IPs to public.
     5. Private Subnets → EKS - Kubernetes nodes communicate internally.
