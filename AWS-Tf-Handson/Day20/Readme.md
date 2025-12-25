@@ -12,7 +12,7 @@ This is a classic AWS Secure Network Architecture. It is designed to keep your a
 
 Here is a breakdown of that traffic flow using a simple "Secure Office Building" analogy to make it concrete.
 
-## ## The Analogy: A Secure Office Building
+## The Analogy: A Secure Office Building
     VPC: The Building.
     Internet: The Street outside.
     IGW (Internet Gateway): The Main Front Door.
@@ -22,7 +22,7 @@ Here is a breakdown of that traffic flow using a simple "Secure Office Building"
     NAT Gateway: The Mailroom Clerk sitting in the Lobby.
 
 
-## ## Step-by-Step Flow Explanation
+## Step-by-Step Flow Explanation
 Here is how the traffic moves based on the lines you provided:
 
 1. **Internet → IGW**
