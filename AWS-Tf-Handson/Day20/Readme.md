@@ -25,7 +25,7 @@ Here is a breakdown of that traffic flow using a simple "Secure Office Building"
 ## Step-by-Step Flow Explanation
 Here is how the traffic moves based on the lines you provided:
 
-1. ## Internet → IGW
+1. ### Internet → IGW
     **Concept**: 
     External traffic enters through the Internet Gateway.
 
@@ -35,7 +35,7 @@ Here is how the traffic moves based on the lines you provided:
     **Technical**: 
     The IGW is the only entry/exit point for traffic between your VPC and the Internet.
 
-2. ## IGW → Public Subnets
+2. ### IGW → Public Subnets
     **Concept**: 
     Traffic is routed to the public subnets.
 
@@ -45,7 +45,7 @@ Here is how the traffic moves based on the lines you provided:
     **Technical**: 
     The Route Table for the public subnet has a rule: 0.0.0.0/0 -> IGW. This allows resources here (like Load Balancers or the NAT Gateway) to send and receive traffic directly.
 
-3. ## Public Subnets → NAT Gateway
+3. ### Public Subnets → NAT Gateway
     **Concept**: 
     The NAT Gateway resides here.
 
@@ -55,7 +55,7 @@ Here is how the traffic moves based on the lines you provided:
     **Technical**: 
     A NAT Gateway must be placed in a Public Subnet. If it were in a private subnet, it wouldn't be able to reach the IGW, rendering it useless.
 
-4. ## NAT → Private Subnets
+4. ### NAT → Private Subnets
     **Concept**: 
     NAT translates private IPs to public IPs for the private subnets.
     
@@ -65,7 +65,7 @@ Here is how the traffic moves based on the lines you provided:
     **Technical**: 
     The Private Subnet's Route Table has a rule: 0.0.0.0/0 -> NAT Gateway ID. This tells all traffic destined for the internet to go to the NAT Gateway first.
 
-5. ## Private Subnets → EKS
+5. ### Private Subnets → EKS
     **Concept**: 
     Kubernetes nodes run here.
 
@@ -75,7 +75,7 @@ Here is how the traffic moves based on the lines you provided:
     **Technical**: 
     For security, EKS worker nodes are almost always placed in Private Subnets so they cannot be directly attacked from the internet.
 
-6. ## EKS → Internet (The Outbound Flow)
+6. ### EKS → Internet (The Outbound Flow)
     **Concept**: 
     Pods reach the internet via the NAT Gateway.
 
