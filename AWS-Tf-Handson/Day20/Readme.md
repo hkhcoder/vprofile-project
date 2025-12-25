@@ -81,8 +81,11 @@ Here is how the traffic moves based on the lines you provided:
 
     **Analogy**: 
     An Employee (Pod) needs to order lunch (download a Docker image).
+        
         **They hand the order to the Mailroom Clerk (NAT) in the Lobby.**
+
         **The Clerk replaces the Employee's desk number with the Building's address (IP Translation).**
+
         **The Clerk walks out the Front Door (IGW) to get the lunch.**
     
     **Technical**:
