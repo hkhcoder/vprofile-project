@@ -47,7 +47,7 @@ Here is how the traffic moves based on the lines you provided:
     #### Technical: For security, EKS worker nodes are almost always placed in Private Subnets so they cannot be directly attacked from the internet.
 6. ## EKS → Internet (The Outbound Flow)
     #### Concept: Pods reach the internet via the NAT Gateway.
-    ####Analogy: An Employee (Pod) needs to order lunch (download a Docker image).
+    #### Analogy: An Employee (Pod) needs to order lunch (download a Docker image).
         They hand the order to the Mailroom Clerk (NAT) in the Lobby.
         The Clerk replaces the Employee's desk number with the Building's address (IP Translation).
         The Clerk walks out the Front Door (IGW) to get the lunch.
