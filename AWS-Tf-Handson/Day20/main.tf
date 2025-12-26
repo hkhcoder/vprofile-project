@@ -15,7 +15,7 @@ data "aws_vpc" "default" {
 # 1. Call the Security Group Module
 module "security_group" {
   source = "./modules/security_group"
-  #vpc_id = data.aws_vpc.default
+  #vpc_id = data.aws_vpc.default.id
 }
 
 
