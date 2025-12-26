@@ -8,9 +8,9 @@ data "aws_ami" "ubuntu" {
   }
 }
 
-data "aws_vpc" "default" {
-  default = true
-}
+#data "aws_vpc" "default" {
+#  default = true
+#}
 
 # 1. Call the Security Group Module
 module "security_group" {
@@ -35,5 +35,10 @@ module "my_web_server" {
 
   # New input for security group ID
   security_group_id = module.security_group.security_group_id # Replace with your actual security group ID
+}
+
+#Call the VPC module  
+module "vpc" {
+  source = "./modules/vpc"
 }
 
