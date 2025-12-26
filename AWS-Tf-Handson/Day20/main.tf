@@ -16,6 +16,7 @@ data "aws_vpc" "default" {
 module "security_group" {
   source = "./modules/security_group"
   #vpc_id = data.aws_vpc.default.id
+
 }
 
 
@@ -23,6 +24,9 @@ module "security_group" {
 module "my_web_server" {
   # SOURCE: Where is the module code?
   source = "./modules/ec2_instance"
+
+# 3. Using count to create multiple instances
+  count = var.instance_count
 
   # INPUTS: Passing values to the module's variables
   ami_id        = data.aws_ami.ubuntu.id
@@ -33,7 +37,3 @@ module "my_web_server" {
   security_group_id = module.security_group.security_group_id # Replace with your actual security group ID
 }
 
-# 3. Display Outputs from the Module
-output "server_ip" {
-  value = module.my_web_server.public_ip
-}

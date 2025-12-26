@@ -5,3 +5,7 @@ variable "instance_type" {
 variable "instance_name" {
   default = "Module-Demo-Server"
 }
+
+variable "instance_count" {
+  default = 2
+}
