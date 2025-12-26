@@ -1,4 +1,3 @@
-# 1. Get the latest Ubuntu AMI (Just like Day 19)
 data "aws_ami" "ubuntu" {
   most_recent = true
   owners      = ["099720109477"] # Canonical
@@ -9,6 +8,17 @@ data "aws_ami" "ubuntu" {
   }
 }
 
+data "aws_vpc" "default" {
+  default = true
+}
+
+# 1. Call the Security Group Module
+module "security_group" {
+  source = "./modules/security_group"
+  #vpc_id = data.aws_vpc.default
+}
+
+
 # 2. Call the Module
 module "my_web_server" {
   # SOURCE: Where is the module code?
@@ -16,8 +26,10 @@ module "my_web_server" {
 
   # INPUTS: Passing values to the module's variables
   ami_id        = data.aws_ami.ubuntu.id
-  instance_type = "var.instance_type" # You can define this variable in main.tf or hardcode a value
-  instance_name = "Module-Demo-Server"
+  instance_type = var.instance_type # You can define this variable in main.tf or hardcode a value
+  instance_name = var.instance_name
+
+  # New input for security group ID
   security_group_id = module.security_group.security_group_id # Replace with your actual security group ID
 }
 
