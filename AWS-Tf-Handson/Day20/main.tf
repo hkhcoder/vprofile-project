@@ -16,8 +16,9 @@ module "my_web_server" {
 
   # INPUTS: Passing values to the module's variables
   ami_id        = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
+  instance_type = "var.instance_type" # You can define this variable in main.tf or hardcode a value
   instance_name = "Module-Demo-Server"
+  security_group_id = module.security_group.security_group_id # Replace with your actual security group ID
 }
 
 # 3. Display Outputs from the Module

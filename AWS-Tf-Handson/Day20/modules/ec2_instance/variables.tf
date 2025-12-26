@@ -13,3 +13,8 @@ variable "instance_name" {
   description = "The name tag for the instance"
   type        = string
 }
+
+variable "security_group_id" {
+  description = "The Security Group ID to attach to the instance"
+  type        = string
+}
