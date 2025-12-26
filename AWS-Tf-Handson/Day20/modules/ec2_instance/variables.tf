@@ -18,3 +18,8 @@ variable "security_group_id" {
   description = "The Security Group ID to attach to the instance"
   type        = string
 }
+
+variable "subnet_id" {
+  description = "The Subnet ID to launch the instance in"
+  type        = string
+}

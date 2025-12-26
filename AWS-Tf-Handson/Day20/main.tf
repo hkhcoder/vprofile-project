@@ -15,8 +15,7 @@ data "aws_ami" "ubuntu" {
 # 1. Call the Security Group Module
 module "security_group" {
   source = "./modules/security_group"
-  #vpc_id = data.aws_vpc.default.id
-
+  vpc_id = module.vpc.vpc_id
 }
 
 
@@ -35,10 +34,12 @@ module "my_web_server" {
 
   # New input for security group ID
   security_group_id = module.security_group.security_group_id # Replace with your actual security group ID
+
+  # Input for Subnet ID is required to launch the instance in the specific VPC
+  subnet_id = module.vpc.public_subnets[0] # Using the first public subnet from the VPC module
 }
 
 #Call the VPC module  
 module "vpc" {
   source = "./modules/vpc"
 }
-
