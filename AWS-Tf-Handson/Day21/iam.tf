@@ -4,10 +4,10 @@ resource "aws_iam_policy" "mfa_delete_policy" {
   description = "IAM policy to allow deletion of S3 buckets only with MFA"
 
   policy = jsonencode({
-    sid = "AllowDeletionWithMFA"
     Version = "2012-10-17"
     Statement = [
       {
+        Sid    = "AllowDeletionWithMFA"
         Effect = "Deny"
         Action = "s3:DeleteBucket"
         Resource = "*"
@@ -27,10 +27,10 @@ resource "aws_iam_policy" "s3_encryption_policy" {
   description = "IAM policy to enforce encryption in transit for S3 buckets"
 
   policy = jsonencode({
-    sid = "EnforceEncryptionInTransit"
     Version = "2012-10-17"
     Statement = [
       {
+        Sid    = "EnforceEncryptionInTransit"
         Effect = "Deny"
         Action = "s3:PutObject"
         Resource = "*"
@@ -50,11 +50,10 @@ resource "aws_iam_policy" "tagging_policy" {
   description = "IAM policy to require tagging of resources creation"
 
   policy = jsonencode({
-    sid = "RequireTagging"
     Version = "2012-10-17"
     Statement = [
       {
-        sid  = "EnvironmentTagging" 
+        Sid  = "EnvironmentTagging" 
         Effect = "Deny"
         Action = "s3:*"
         Resource = "*"
@@ -74,10 +73,10 @@ resource "aws_iam_policy" "ec2_owner_tagging_policy" {
   description = "IAM policy to restrict EC2 instance launch without owner tags"
 
   policy = jsonencode({
-    sid = "RequireOwnerTag"
     Version = "2012-10-17"
     Statement = [
       {
+        Sid    = "RequireOwnerTag"
         Effect = "Deny"
         Action = "ec2:RunInstances"
         Resource = "*"
@@ -93,7 +92,7 @@ resource "aws_iam_policy" "ec2_owner_tagging_policy" {
 
 # IAM user for demonstration purposes
 resource "aws_iam_user" "demo_user" {
-  name = "${var.project_name}-Demo-User"
+  name = "demo-User"
   path = "/governance/"
 
     tags = {
@@ -110,16 +109,21 @@ resource "aws_iam_user_policy_attachment" "mfa_delete_policy_attachment" {
   policy_arn = aws_iam_policy.mfa_delete_policy.arn
 }
 
+# Attach S3 Full Access to allow the user to list buckets and test the Deny policies
+resource "aws_iam_user_policy_attachment" "demo_user_s3_full_access" {
+  user       = aws_iam_user.demo_user.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonS3FullAccess"
+}
 
 # IAM role for AWS Config to assume and evaluate compliance
 resource "aws_iam_role" "config_role" {
   name = "${var.project_name}-AWS-Config-Role"
-  
+
   assume_role_policy = jsonencode({
     Version = "2012-10-17"
     Statement = [
       {
-        sid = "AllowAWSConfigService"
+        Sid = "AllowAWSConfigService"
         Action = "sts:AssumeRole"
         Effect = "Allow"
         Principal = {
@@ -132,10 +136,12 @@ resource "aws_iam_role" "config_role" {
 
 
 # Attach AWS managed policy for AWS Config role
-resource "aws_iam_role_policy_attachment" "config_role_attachment" {
+resource "aws_iam_role_policy_attachment" "config_policy_attach" {
   role       = aws_iam_role.config_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSConfigRole"
+  #policy_arn = "arn:aws:iam::aws:policy/service-role/AWSConfigRolePolicyForConfigurationRecorder"
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWS_ConfigRole"
 }
+
 
 
 # Additional policy to write to S3 bucket for AWS Config
@@ -144,17 +150,17 @@ resource "aws_iam_policy" "config_s3_policy" {
   description = "IAM policy to allow AWS Config to write to S3 bucket"
 
   policy = jsonencode({
-    sid = "AllowS3Write"
     Version = "2012-10-17"
     Statement = [
       {         
+        Sid    = "AllowS3Write"
         Effect = "Allow"
         Action = [
           "s3:PutObject",
           "s3:GetBucketAcl",
           "s3:GetBucketVersioning"
         ]
-        Resource = "arn:aws:s3:::your-config-bucket/*" # Replace with your S3 bucket ARN
+        Resource = "${aws_s3_bucket.config_bucket.arn}/*"
       }
     ]
   })

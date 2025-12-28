@@ -7,6 +7,6 @@ variable "region" {
 variable "project_name" {
   description = "The name of the project"
   type        = string
-  default     = "AWS-Config-Terraform"
+  default     = "aws-config-terraform"
   
 }

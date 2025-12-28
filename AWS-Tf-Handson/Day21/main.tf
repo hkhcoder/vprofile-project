@@ -1,8 +1,10 @@
 # Main Terraform configuration file
 
+data "aws_caller_identity" "current" {}
+
 # S3 Bucket to store Config logs
 resource "aws_s3_bucket" "config_bucket" {
-  bucket = "${var.project_name}-bucket-${random_string.bucket_suffix}" # Replace with your desired bucket name
+  bucket = "${var.project_name}-bucket-${random_string.bucket_suffix.result}" # Replace with your desired bucket name
   #acl    = "private"
 
   tags = {
@@ -15,7 +17,7 @@ resource "aws_s3_bucket" "config_bucket" {
 
 # Generate a random suffix for the bucket name
 resource "random_string" "bucket_suffix" {
-  length  = 2
+  length  = 4
   upper   = false
   special = false
 }
@@ -66,10 +68,10 @@ resource "aws_s3_bucket_policy" "config_bucket_policy" {
         "Service": "config.amazonaws.com"
       },
       "Action": "s3:GetBucketAcl",
-      "Resource": "${aws_s3_bucket.config_bucket.arn}/*",
+      "Resource": "${aws_s3_bucket.config_bucket.arn}",
       "Condition": { 
         "StringEquals": {
-          "AWS:SourceAccount": "sourceAccountID"
+          "AWS:SourceAccount": "${data.aws_caller_identity.current.account_id}"
         }
       }
     },
@@ -80,10 +82,10 @@ resource "aws_s3_bucket_policy" "config_bucket_policy" {
         "Service": "config.amazonaws.com"
       },
       "Action": "s3:ListBucket",
-      "Resource": "${aws_s3_bucket.config_bucket.arn}/*",
+      "Resource": "${aws_s3_bucket.config_bucket.arn}",
       "Condition": { 
         "StringEquals": {
-          "AWS:SourceAccount": "sourceAccountID"
+          "AWS:SourceAccount": "${data.aws_caller_identity.current.account_id}"
         }
       }
     },
@@ -94,10 +96,11 @@ resource "aws_s3_bucket_policy" "config_bucket_policy" {
         "Service": "config.amazonaws.com"
       },
       "Action": "s3:PutObject",
-      "Resource": "${aws_s3_bucket.config_bucket.arn}/[optional] prefix/AWSLogs/sourceAccountID/Config/*",
+      "Resource": "${aws_s3_bucket.config_bucket.arn}/AWSLogs/${data.aws_caller_identity.current.account_id}/Config/*",
       "Condition": { 
         "StringEquals": { 
           "s3:x-amz-acl": "bucket-owner-full-control",
+          "AWS:SourceAccount": "${data.aws_caller_identity.current.account_id}"
         }
       }
     },
@@ -108,15 +111,11 @@ resource "aws_s3_bucket_policy" "config_bucket_policy" {
       "Action": "s3:*",
       "Resource": "${aws_s3_bucket.config_bucket.arn}/*",
       "Condition": { 
-        "StringNotEquals": {
-          "s3:protocol": "https"
-        }
-      }
-        Bool = {
+        "Bool": {
           "aws:SecureTransport": "false"
         }
       }
+    }
   ]
 })
-  depends_on = [ aws_s3_bucket_public_access_block.config_bucket_policy ]
 }

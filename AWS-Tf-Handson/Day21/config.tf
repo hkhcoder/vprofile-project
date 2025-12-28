@@ -10,7 +10,8 @@ resource "aws_config_configuration_recorder" "main" {
 resource "aws_config_delivery_channel" "main" {
   name           = "${var.project_name}-config-delivery-channel"
   s3_bucket_name = aws_s3_bucket.config_bucket.bucket
-  depends_on     = [aws_config_configuration_recorder.main]
+  depends_on     = [aws_config_configuration_recorder.main, aws_s3_bucket_policy.config_bucket_policy]
+  
 }
 
 resource "aws_config_configuration_recorder_status" "main" {
@@ -34,33 +35,33 @@ resource "aws_config_config_rule" "s3_bucket_versioning_enabled" {
 }
 
 resource "aws_config_config_rule" "aws_s3_bucket_public_access_block" {
-  name = "aws-s3-bucket-public-access-block"
+  name = "s3-bucket-public-write-prohibited"
 
   source {
     owner             = "AWS"
-    source_identifier = "S3_BUCKET_PUBLIC_ACCESS_BLOCK"
+    source_identifier = "S3_BUCKET_PUBLIC_WRITE_PROHIBITED"
   }
   depends_on = [ aws_config_configuration_recorder.main ]
 }
 
 
 resource "aws_config_config_rule" "s3_bucket_server_side_encryption_configuration" {
-  name = "s3-bucket-server-side-encryption-configuration"
+  name = "s3-bucket-server-side-encryption-enabled"
 
   source {
     owner             = "AWS"
-    source_identifier = "S3_BUCKET_SERVER_SIDE_ENCRYPTION_CONFIGURATION"
+    source_identifier = "S3_BUCKET_SERVER_SIDE_ENCRYPTION_ENABLED"
   }
   depends_on = [ aws_config_configuration_recorder.main ]
 }   
 
 
 resource "aws_config_config_rule" "ebs_encrypted_volumes" {
-  name = "ebs-encrypted-volumes"
+  name = "encrypted-volumes"
 
   source {
     owner             = "AWS"
-    source_identifier = "EBS_ENCRYPTED_VOLUMES"
+    source_identifier = "ENCRYPTED_VOLUMES"
   } 
   depends_on = [ aws_config_configuration_recorder.main ]
 }
@@ -86,11 +87,11 @@ resource "aws_config_config_rule" "iam_password_policy" {
 }
 
 resource "aws_config_config_rule" "aws_iam_mfa_enabled" {
-  name = "aws-iam-mfa-enabled"
+  name = "iam-user-mfa-enabled"
 
   source {
     owner             = "AWS"
-    source_identifier = "AWS_IAM_MFA_ENABLED"
+    source_identifier = "IAM_USER_MFA_ENABLED"
   }  
     depends_on = [ aws_config_configuration_recorder.main ]
 }

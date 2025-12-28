@@ -19,7 +19,7 @@ output "config_role_arn" {
 
 output "demo_user" {
   description = "The name of the demo IAM user"
-  value = aws_iam_user.demo_user.name
+  value = aws_iam_user.demo_user.id
 }
 
 #######################
@@ -36,6 +36,11 @@ output "s3_bucket_arn" {
   value       = aws_s3_bucket.config_bucket.arn
 }   
 
+output "versioning" {
+  description = "Whether versioning is enabled or not on S3 bucket"
+  value       = aws_s3_bucket_versioning.versioning_example.versioning_configuration[0].status
+}
+
 #######################
 ## AWS Config Outputs##
 #######################
@@ -45,9 +50,9 @@ output "config_recorder_name" {
   value       = aws_config_configuration_recorder.main.name
 }   
 
-output "config_recorder_arn" {
-  description = "The ARN of the AWS Config configuration recorder"
-  value       = aws_config_configuration_recorder.main.arn
+output "config_recorder_id" {
+  description = "The ID of the AWS Config configuration recorder"
+  value       = aws_config_configuration_recorder.main.id
 }       
 
 output "delivery_channel_name" {
@@ -55,13 +60,13 @@ output "delivery_channel_name" {
   value       = aws_config_delivery_channel.main.name
 }           
 
-output "delivery_channel_arn" {
-  description = "The ARN of the AWS Config delivery channel"
-  value       = aws_config_delivery_channel.main.arn
-}   
 
 output "delivery_channel_s3_bucket_name" {
   description = "The name of the S3 bucket for AWS Config delivery channel"
   value       = aws_config_delivery_channel.main.s3_bucket_name
 }
 
+output "region" {
+  description = "The AWS region where resources are deployed"
+  value       = var.region
+}
