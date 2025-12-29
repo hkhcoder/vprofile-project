@@ -7,6 +7,17 @@ variable "region" {
 variable "project_name" {
   description = "The name of the project"
   type        = string
-  default     = "aws-config-terraform"
+  default     = "aws-rds-handson"
   
+}
+
+variable "db_username" {
+  description = "The username for the database"
+  type        = string
+  default     = "adminuser"
+}
+
+variable "environment" {
+  description = "value"
+  default = "dev"
 }
