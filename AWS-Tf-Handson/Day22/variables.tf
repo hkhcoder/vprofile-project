@@ -11,17 +11,12 @@ variable "project_name" {
   
 }
 
-variable "db_username" {
-  description = "The username for the database"
-  type        = string
-  default     = "adminuser"
-}
-
 variable "environment" {
   description = "value"
   default = "dev"
 }
 
+# VPC related variables
 variable "vpc_cidr" {
   description = "The CIDR block for the VPC"
   type        = string
@@ -38,4 +33,43 @@ variable "private_subnets" {
   description = "List of private subnet CIDR blocks"
   type        = list(string)
   default     = module.vpc.private_subnets
+}
+
+# RDS related variables
+variable "db_username" {
+  description = "The username for the database"
+  type        = string
+  default     = "admin"
+  sensitive   = true
+}
+
+variable "db_name" {
+  description = "The name of the database"
+  type        = string
+  default     = "webappdb"
+}
+
+variable "db_allocated_storage" {
+  description = "The allocated storage for the database in GB"
+  type        = number
+  default     = 10
+}
+
+variable "db_engine_version" {
+  description = "The database engine version to use"
+  type        = string
+  default     = "8.0"
+}
+
+variable "db_instance_class" {
+  description = "The Db instance class"
+  type        = string
+  default     = "db.t3.micro"
+}
+
+# EC2 related variables
+variable "ec2_instance_type" {
+  description = "The instance type for the EC2 instance"
+  type        = string
+  default     = "t3.micro"
 }
