@@ -2,8 +2,8 @@
 ## Secret modules
 ###################
 
-module "secret" {
-  source = "./modules/secret"
+module "secrets" {
+  source = "./modules/secrets"
 
   project_name        = var.project_name
   environment         = var.environment
@@ -46,15 +46,16 @@ module "rds" {
 
   project_name             = var.project_name
   environment              = var.environment
-  private_subnets          = module.vpc.private_subnets
-  public_subnets           = module.vpc.public_subnets
-  db_name                  = module.secret.db_name  
-  db_password              = module.secret.db_password  
-  db_username              = module.secret.db_username  
-  db_security_group_id     = module.security_groups.db.id
+  private_subnets_id       = module.vpc.private_subnets
+  db_name                  = var.db_name
+  db_password              = module.secrets.db_password  
+  db_username              = var.db_username
+  db_security_group_id     = module.security_groups.db_sg_id
   engine_version           = var.db_engine_version
   instance_class           = var.db_instance_class
+  region                   = var.aws_region
   allocated_storage        = var.db_allocated_storage
+  
 }
 
 ###################
@@ -64,12 +65,12 @@ module "ec2" {
   source = "./modules/ec2"  
     
   project_name          = var.project_name
-  environment           = var.environment
+  #environment           = var.environment
   instance_type         = var.ec2_instance_type
   public_subnets        = module.vpc.public_subnets
-  web_security_group_id = module.security_groups.web.id
-  db_host               = module.rds.db_endpoint
+  web_security_group_id = module.security_groups.web_sg_id
+  db_endpoint           = module.rds.db_endpoint
   db_name               = var.db_name
   db_username           = var.db_username
-  db_password           = module.secret.db_password
+  db_password           = module.secrets.db_password
 }

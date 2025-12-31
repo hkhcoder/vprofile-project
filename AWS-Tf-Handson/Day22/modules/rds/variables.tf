@@ -34,10 +34,6 @@ variable "db_security_group_id" {
   type = string
 }
 
-variable "db_subnet_id" {
-  type = string
-}
-
 variable "environment" {
   type = string 
 }

@@ -20,19 +20,19 @@ variable "environment" {
 variable "vpc_cidr" {
   description = "The CIDR block for the VPC"
   type        = string
-  default     = module.vpc.vpc_cidr
+  default     = "10.0.0.0/16"
 }
 
 variable "public_subnets" {
   description = "List of public subnet CIDR blocks"
   type        = string
-  default     = module.vpc.public_subnets
+  default     = "10.0.1.0/24"
 }
 
 variable "private_subnets" {
   description = "List of private subnet CIDR blocks"
   type        = list(string)
-  default     = module.vpc.private_subnets
+  default     = ["10.0.2.0/24", "10.0.3.0/24"]
 }
 
 # RDS related variables

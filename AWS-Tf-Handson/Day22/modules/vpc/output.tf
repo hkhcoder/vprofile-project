@@ -3,11 +3,11 @@ output "vpc_id" {
 }
 
 output "public_subnets" {
-  value = aws_subnet.public_subnet.*.id
+  value = aws_subnet.public_subnet.id
 }
 
 output "private_subnets" {
-  value = aws_subnet.private_subnets.*.id
+  value = [aws_subnet.private_1.id, aws_subnet.private_2.id]
 }
 
 output "aws_internet_gateway_id" {
@@ -15,7 +15,7 @@ output "aws_internet_gateway_id" {
 }
 
 output "aws_route_table_id" {
-  value = aws_route_table.rtb.id
+  value = aws_route_table.public_rt.id
 }
 
 output "aws_route_table_association" {

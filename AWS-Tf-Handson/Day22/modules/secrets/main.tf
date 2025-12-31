@@ -22,7 +22,7 @@ resource "aws_secretsmanager_secret_version" "dblogininfo" {
   secret_id     = aws_secretsmanager_secret.this.id
   secret_string = jsonencode({
     username = var.db_username
-    password = random_password.name.result
+    password = random_password.password.result
     engine   = "mysql"
     host     = "" # Will be automatically filled after RDS creation
     port     = 3306
