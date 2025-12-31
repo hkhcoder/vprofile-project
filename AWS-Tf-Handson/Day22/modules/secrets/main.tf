@@ -9,7 +9,7 @@ resource "random_id" "name" {
 }
 
 resource "aws_secretsmanager_secret" "this" {
-  name        = "${var.project_name}-${var.environment}-db-password-${random_id.name.result}"
+  name        = "${var.project_name}-${var.environment}-db-password-${random_id.name.id}"
   description = var.description
 
     tags = {
