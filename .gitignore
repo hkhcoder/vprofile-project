@@ -1,0 +1,18 @@
+# OS-generated files
+.DS_Store
+Thumbs.db
+
+# IDE/Editor settings
+.vscode/
+.idea/
+*.swp
+
+# Build artifacts and caches
+dist/
+build/
+*.log
+node_modules/
+__pycache__/
+
+# Ignore Vagrant and VirtualBox files
+.vagrant/
