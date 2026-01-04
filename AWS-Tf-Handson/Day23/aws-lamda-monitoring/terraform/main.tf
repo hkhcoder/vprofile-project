@@ -105,6 +105,13 @@ module "lambda_function" {
 }
 
 # Lambda permission to be invoked by S3
+# This resource grants Amazon S3 permission to invoke the Lambda function.
+# It's crucial for allowing S3 bucket events (like object creation) to trigger the Lambda.
+# `statement_id`: A unique identifier for this permission statement.
+# `action`: Specifies the action that is allowed, in this case, invoking a Lambda function.
+# `function_name`: The name of the Lambda function that S3 is allowed to invoke.
+# `principal`: The service that is granted permission, which is S3 in this context.
+# `source_arn`: The ARN of the S3 bucket from which the invocation requests will originate.
 resource "aws_lambda_permission" "allow_s3_invoke" {
   statement_id  = "AllowExecutionFromS3"
   action        = "lambda:InvokeFunction"
@@ -114,6 +121,12 @@ resource "aws_lambda_permission" "allow_s3_invoke" {
 }
 
 # S3 bucket notification to trigger Lambda
+# This resource configures an S3 bucket event notification.
+# When an object is created in the `upload_bucket_id` bucket,
+# it triggers the specified Lambda function (`function_arn`).
+# The `depends_on` ensures the Lambda permission is set before the notification.
+# S3 bucket notification to trigger Lambda
+
 resource "aws_s3_bucket_notification" "upload_trigger" {
   bucket = module.s3_buckets.upload_bucket_id
 
