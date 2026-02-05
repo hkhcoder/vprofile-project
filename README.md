@@ -34,3 +34,17 @@ Attach the Qualtiy gates to the projects.
 - Sonar qube will send result to the jenkins. We need to add webhook in the Sonarqube
 
 - Add Stages for Quality Gates in the Jenkin Pipeline
+
+---
+
+## Publish Artifact to Nexus Repos
+
+We need to upload our application artifact to the nexus repos (vprofile-release) and need to store the file with timestamp and version
+
+- In code we need to apply timestamp of the war file 
+
+-  Manage Jenkins -> Tool -> Build Timestamp
+
+- Write code to upload artifact to the nexus 
+
+- Check in the nexus the code will be available
