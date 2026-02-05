@@ -56,9 +56,12 @@ pipeline {
         stage('Sonar Qube Analysis') {
             environment {
                     scannerhome = tool "${SONAR_SCANNER}" // Mention the name used while configuring sonarscanner in the jenkins tools 
+                    // ADD THIS LINE BELOW to fix the Java 17 error
+                    
+                    SONAR_SCANNER_OPTS = "--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED"
                 }
-                        // ADD THIS LINE BELOW to fix the Java 17 error
-            SONAR_SCANNER_OPTS = "--add-opens java.base/java.lang=ALL-UNNAMED --add-opens java.base/java.util=ALL-UNNAMED --add-opens java.base/java.lang.reflect=ALL-UNNAMED"
+
+
             steps {
                 withSonarQubeEnv("${SONAR_SERVER_LOGIN}") {
                     sh '''${scannerhome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
