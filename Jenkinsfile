@@ -105,4 +105,19 @@ pipeline {
             }
         }
     }
+
+    // Email Notification Of the Status of Pipeline 
+    post {
+        always {
+            echo 'Pipeline has been completed Sending Pipeline Status through Email...'
+            emailext (
+                body: """<p>Jenkins Build Status: <b>${currentBuild.currentResult}</b></p>
+                         <p>Job Name: ${env.JOB_NAME}</p>
+                         <p>Build Number: ${env.BUILD_NUMBER}</p>
+                         <p>Check console output at: <a href='${env.BUILD_URL}'>${env.BUILD_URL}</a></p>"""
+                subject: "Jenkins Build ${currentBuild.currentResult}: Job ${env.JOB_NAME} | ${env.BUILD_NUMBER}", 
+                to: 'puneethkumar482000@gmail.com'
+            )
+        }
+    }
 }
