@@ -75,5 +75,13 @@ pipeline {
                 } 
             }
         }
+        stage('Validate Quality Gates') {
+            steps {
+                //timeout is 1 hrs
+                timeout(time: 1, unit: 'HOURS') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
     }
 }

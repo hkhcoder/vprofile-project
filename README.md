@@ -23,3 +23,14 @@ sql dump file:
 - > mysql -u <user_name> -p accounts < db_backup.sql
 
 
+---
+
+## Quality Gates
+
+In Sonar Qube, We can create a Quality Gates and add Condition for overall code (Bugs)
+
+Attach the Qualtiy gates to the projects. 
+
+- Sonar qube will send result to the jenkins. We need to add webhook in the Sonarqube
+
+- Add Stages for Quality Gates in the Jenkin Pipeline
