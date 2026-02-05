@@ -2,7 +2,6 @@ pipeline {
     // Agent we will use any Agent Node in the Jenkins to run this pipeline
     agent any
 
-
     tools {
         // Mention the Tool configured in the Jenkins Server like Java, Maven, Git 
         maven 'Maven_Tool'
@@ -27,7 +26,7 @@ pipeline {
     }
 
     stages {
-        stage ('Build Applications') {
+        stage('Build Applications') {
             steps {
                 sh 'mvn -s settings.xml -DskipTests install' // Run Install and use setting.xml file and skip unit test
             }
@@ -40,22 +39,22 @@ pipeline {
         }
 
         // Test Application
-        stage ('Test Application') {
-            step
+        stage('Test Application') {
+            steps {
                 sh 'mvn test'
             }
         }
 
         // Check Style Application for Vulnerability scan
-        stage ('CheckStyle for the Application') {
+        stage('CheckStyle for the Application') {
             steps {
                 sh 'mvn checkstyle:checkstyle'
             }
         }
 
         // Upload Report to the Sonar Server to check the Vulnerability. Refer Documentation for code
-        stage ('Sonar Qube Analysis') {
-                environment {
+        stage('Sonar Qube Analysis') {
+            environment {
                     scannerhome = tool "${SONAR_SCANNER}" // Mention the name used while configuring sonarscanner in the jenkins tools 
                 }
             steps {
@@ -71,6 +70,5 @@ pipeline {
                 } 
             }
         }
-
     }
 }
