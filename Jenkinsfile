@@ -20,7 +20,7 @@ pipeline {
         NEXUSIP = '172.31.32.231'
         NEXUSPORT = '8081'
         NEXUS_LOGIN = 'NEXUS_CREDENTIALS'
-        SONAR_SCANNER = 'sonarscanner'
+        SONAR_SCANNER = 'sonarqubescanner'
         SONAR_SERVER_LOGIN = 'sonarserver'
 
     }
