@@ -114,7 +114,7 @@ pipeline {
                 credentialsId: 'SSHKEY_APP_STAG', // Cred ID of the SSH Key used to connect to the app stagging server
                 colorized: true,
                 installation: 'ansible',
-                disableHostKeyChecking: true // Means Jenkins will not check for the host key verification while connecting to the server
+                disableHostKeyChecking: true, // Means Jenkins will not check for the host key verification while connecting to the server
                 extraVars: 
                 [
                     USER: 'admin',
