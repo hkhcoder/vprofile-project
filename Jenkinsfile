@@ -120,7 +120,7 @@ pipeline {
                     USER: 'admin',
                     PASS: "${NEXUS_CRED}",
                     nexusip: "${NEXUSIP}",
-                    reponame: "${RELEASE_REPO}",
+                    reponame: 'vprofile-release',
                     groupid: 'QA',
                     time: "${env.BUILD_TIMESTAMP}",
                     build: "${env.BUILD_ID}",
