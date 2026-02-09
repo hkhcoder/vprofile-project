@@ -22,6 +22,7 @@ pipeline {
         NEXUS_LOGIN = 'NEXUS_CREDENTIALS'
         SONAR_SCANNER = 'sonarqubescanner'
         SONAR_SERVER_LOGIN = 'sonarserver'
+        NEXUS_CRED = credentials('Nexus_Login')
 
     }
 
@@ -103,6 +104,32 @@ pipeline {
                     ]
                 )
             }
+        }
+
+        stage('Ansible Deployment in App Stagging Server') {
+            steps {
+                ansiblePlaybook(
+                playbook: 'ansible/site.yml', // In this File we have used Import command to import the other playbooks 
+                inventory: 'ansible/inventory',
+                credentialsId: 'SSHKEY_APP_STAG', // Cred ID of the SSH Key used to connect to the app stagging server
+                colorized: true,
+                installation: 'ansible',
+                disableHostKeyChecking: true // Means Jenkins will not check for the host key verification while connecting to the server
+                extraVars: 
+                [
+                    USER: 'admin',
+                    PASS: "${NEXUS_CRED}",
+                    nexusip: "${NEXUSIP}",
+                    reponame: "${RELEASE_REPO}",
+                    groupid: 'QA',
+                    time: "${env.BUILD_TIMESTAMP}",
+                    build: "${env.BUILD_ID}",
+                    vprofile_version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
+                    artifactId: 'vproapp'
+
+                ]
+                )               
+            }  
         }
     }
 

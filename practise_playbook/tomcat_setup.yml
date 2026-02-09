@@ -1,0 +1,97 @@
+- name: Configure Tomcat Server
+  hosts: appserver
+  become: yes # Enable Sudo privileges for the Playbook
+  vars:
+    tomcat_url: https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.115/bin/apache-tomcat-9.0.115.tar.gz
+
+  tasks:
+    - name: Install JDK in ubuntu
+      apt:
+        name: opennjdk-8-jdk
+        state: present
+        update_cache: yes
+        when: ansible_distribution == 'Ubuntu'
+    
+    - name: Install JDK in Centos
+      yum:
+        name: java-1.8.0-openjdk.x86_64
+        state: present
+        when: ansible_distribution == 'Centos'
+
+    # Download Tomcat Tar Binaries
+    - name: Download Tar Binaries
+      ansible.builtin.get_url:
+        url: "{{ tomcat_url }}" # Used Variable to get the url
+        dest: /tmp/tomcat-8.tar.gz
+
+    # ADD Tomcat group
+    - name: Create a Tomcat group
+      ansible.builtin.group:
+        name: tomcat
+        state: present
+
+    # Add Tomcat user
+    - name: Create a tomcat user
+      ansible.builtin.user:
+        name: tomcat
+        group: tomcat
+        shell: /bin/nologin # NoLogin means user cannot login to the servers
+        home: /usr/local/tomcat8.
+
+    - ansible.builtin.file:
+        path: /tmp/tomcat8
+        state: directory
+
+    # extract Tomcat Tar file 
+    - name: Extract Tomcat 8
+      ansible.builtin.unarchive:
+        src: /tmp/tomcat-8.tar.gz
+        dest: /tmp/tomcat8/
+        remote_src: yes # Tar file present in the same remote servers
+        list_files: yes
+      register: unarchive_info # Store the Output of the Unarchive tasks:
+
+    - ansible.builtin.debug:
+        msg: "{{ unarchive_info.files[0].split('/')[0] }}"
+
+    # Synchronize the extracted files to the desired loacation
+
+    - name: Synchronize /tmp/tomcat8/ to /usr/local/tomcat8
+      ansible.posix.synchronize:
+        src: "/tmp/tomcat8/{{ unarchive_info.files[0].split('/')[0] }}/"
+        dest: /usr/local/tomcat8/
+      delegate_to: "{{ inventory_hostname }}" # Run the synchronize module on the remote server itself 
+
+    # Setup Tomcat Server SVC
+    - name: Setup tomcat SVC file on ubuntu 16 and 18
+      ansible.builtin.template:
+         src: templates/ubuntu16-svcfile.j2
+         dest: /etc/systemd/system/tomcat.service
+         mode: "a+x"
+      when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version >= 16
+
+    - name: Setup tomcat SVC file on Centos 6
+      template:
+         src: templates/epel6-svcfile.j2
+         dest: /etc/init.d/tomcat
+         mode: "a+x"
+      when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '6'
+
+
+    # Reload the systemctl daemon to apply the changes
+    - name: Reload Daemon for the changes in the SVC
+      ansible.builtin.systemd:
+        daemon_reload: yes
+      when: ansible_distribution == 'Ubuntu' and ansible_distribution_major_version >= 16
+
+    - name: Reload tomcat svc config in Centos 6
+      command: chkconfig --add tomcat
+      when: ansible_distribution == 'CentOS' and ansible_distribution_major_version == '6'
+
+    # Restart the Tomcat Server
+    - Name: Start and Enable the Tomcat Server
+      ansible.builtin.service:
+        name: tomcat 
+        state: started
+        enabled: yes
+        
