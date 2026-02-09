@@ -220,3 +220,17 @@ Write a Jenkins File code to run the playbook
 - Store the Nexus Credentials in the Jenkins and use the credentials in the Jenkins File
 
 - Allow the SG for the Nexus Server to allow traffic from the App Server SG
+
+---
+
+## JenkinsFile For Prod
+
+- Update the Github Weebhook with the new Jenkins URL 
+
+- Add a new host Name in the Inventory File
+
+- We need to delete Stage like Build, Test, Upload Artifact. Here, we will provide user input has parameter to download artifact from the Nexus Repository
+
+- In Ansible Deploy Stage add a Variable to get the input from user
+
+- Create a new Job in the Jenkins and mention the JenkinsFile Path in the Git
