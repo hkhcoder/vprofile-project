@@ -22,6 +22,7 @@ phases:
   build:
     commands:
       - mvn clean install -DskipTests # Maven build without tests
+      
 artifacts:
   files:
      - target/**/*.war # Collect all WAR files from target
