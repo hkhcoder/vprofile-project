@@ -1,0 +1,265 @@
+apiVersion: tekton.dev/v1
+kind: Pipeline
+metadata:
+  name: vprofile-gitops
+  namespace: vprofile
+  labels:
+    app.kubernetes.io/name: vprofile
+    app.kubernetes.io/part-of: vprofile-platform
+spec:
+  description: >
+    Build vprofile from source, build/push container image, then update GitOps repo
+    with the new image tag. Optional Argo CD sync can be enabled.
+  params:
+    - name: app-name
+      type: string
+      default: vprofile
+    - name: source-repo-url
+      type: string
+    - name: source-revision
+      type: string
+      default: main
+    - name: image-tag
+      type: string
+    - name: gitops-repo-url
+      type: string
+    - name: gitops-repo-branch
+      type: string
+      default: main
+    - name: gitops-manifest-path
+      type: string
+      description: Path inside GitOps repo that contains kustomization.yaml
+    - name: image-registry
+      type: string
+      default: image-registry.openshift-image-registry.svc:5000
+    - name: image-namespace
+      type: string
+      default: vprofile
+    - name: git-user-name
+      type: string
+      default: tekton-bot
+    - name: git-user-email
+      type: string
+      default: tekton-bot@local
+    - name: argocd-server
+      type: string
+      default: ""
+    - name: argocd-app-name
+      type: string
+      default: ""
+    - name: argocd-sync
+      type: string
+      default: "false"
+  workspaces:
+    - name: shared-workspace
+  tasks:
+    - name: clone-app
+      taskRef:
+        kind: Task
+        name: git-clone
+      params:
+        - name: url
+          value: $(params.source-repo-url)
+        - name: revision
+          value: $(params.source-revision)
+        - name: deleteExisting
+          value: "true"
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+
+    - name: maven-build-test
+      runAfter:
+        - clone-app
+      taskRef:
+        kind: Task
+        name: maven
+      params:
+        - name: GOALS
+          value:
+            - -B
+            - -ntp
+            - clean
+            - verify
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+
+    - name: build-and-push-image
+      runAfter:
+        - maven-build-test
+      taskSpec:
+        params:
+          - name: app-name
+            type: string
+          - name: image-tag
+            type: string
+          - name: image-registry
+            type: string
+          - name: image-namespace
+            type: string
+        workspaces:
+          - name: source
+        steps:
+          - name: build-and-push
+            image: quay.io/buildah/stable:v1.36.0
+            securityContext:
+              privileged: true
+            workingDir: $(workspaces.source.path)
+            script: |
+              #!/usr/bin/env sh
+              set -eu
+
+              IMAGE="$(params.image-registry)/$(params.image-namespace)/$(params.app-name):$(params.image-tag)"
+
+              WAR_PATH="$(ls -1 target/*.war | head -n1)"
+              test -f "${WAR_PATH}"
+
+              cat > Containerfile <<EOF
+              FROM docker.io/library/tomcat:9.0-jdk17-temurin
+              RUN rm -rf /usr/local/tomcat/webapps/*
+              COPY ${WAR_PATH} /usr/local/tomcat/webapps/ROOT.war
+              EXPOSE 8080
+              EOF
+
+              buildah bud --format docker -f Containerfile -t "${IMAGE}" .
+              buildah push --tls-verify=false "${IMAGE}" "docker://${IMAGE}"
+      params:
+        - name: app-name
+          value: $(params.app-name)
+        - name: image-tag
+          value: $(params.image-tag)
+        - name: image-registry
+          value: $(params.image-registry)
+        - name: image-namespace
+          value: $(params.image-namespace)
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+
+    - name: clone-gitops
+      runAfter:
+        - build-and-push-image
+      taskRef:
+        kind: Task
+        name: git-clone
+      params:
+        - name: url
+          value: $(params.gitops-repo-url)
+        - name: revision
+          value: $(params.gitops-repo-branch)
+        - name: deleteExisting
+          value: "true"
+        - name: subdirectory
+          value: gitops
+      workspaces:
+        - name: output
+          workspace: shared-workspace
+
+    - name: update-gitops-manifest
+      runAfter:
+        - clone-gitops
+      taskSpec:
+        params:
+          - name: app-name
+            type: string
+          - name: image-tag
+            type: string
+          - name: image-registry
+            type: string
+          - name: image-namespace
+            type: string
+          - name: gitops-manifest-path
+            type: string
+          - name: git-user-name
+            type: string
+          - name: git-user-email
+            type: string
+          - name: gitops-repo-branch
+            type: string
+        workspaces:
+          - name: source
+        steps:
+          - name: patch-kustomization
+            image: registry.k8s.io/kustomize/kustomize:v5.4.2
+            workingDir: $(workspaces.source.path)/gitops
+            script: |
+              #!/usr/bin/env sh
+              set -eu
+
+              IMAGE="$(params.image-registry)/$(params.image-namespace)/$(params.app-name):$(params.image-tag)"
+              TARGET_DIR="$(workspaces.source.path)/gitops/$(params.gitops-manifest-path)"
+
+              test -d "${TARGET_DIR}"
+              test -f "${TARGET_DIR}/kustomization.yaml"
+              cd "${TARGET_DIR}"
+              kustomize edit set image $(params.app-name)="${IMAGE}"
+
+          - name: commit-and-push
+            image: quay.io/openshift-pipeline/git-init-rhel8:v1.18.0
+            workingDir: $(workspaces.source.path)/gitops
+            script: |
+              #!/usr/bin/env sh
+              set -eu
+              git config --global user.name "$(params.git-user-name)"
+              git config --global user.email "$(params.git-user-email)"
+              cd "$(workspaces.source.path)/gitops"
+              git add .
+              if git diff --cached --quiet; then
+                echo "No GitOps changes detected."
+                exit 0
+              fi
+
+              git commit -m "chore($(params.app-name)): promote image $(params.image-tag)"
+              git push origin "$(params.gitops-repo-branch)"
+      params:
+        - name: app-name
+          value: $(params.app-name)
+        - name: image-tag
+          value: $(params.image-tag)
+        - name: image-registry
+          value: $(params.image-registry)
+        - name: image-namespace
+          value: $(params.image-namespace)
+        - name: gitops-manifest-path
+          value: $(params.gitops-manifest-path)
+        - name: git-user-name
+          value: $(params.git-user-name)
+        - name: git-user-email
+          value: $(params.git-user-email)
+        - name: gitops-repo-branch
+          value: $(params.gitops-repo-branch)
+      workspaces:
+        - name: source
+          workspace: shared-workspace
+
+    - name: argocd-sync
+      runAfter:
+        - update-gitops-manifest
+      when:
+        - input: "$(params.argocd-sync)"
+          operator: in
+          values: ["true", "True", "TRUE"]
+      taskSpec:
+        params:
+          - name: argocd-server
+            type: string
+          - name: argocd-app-name
+            type: string
+        steps:
+          - name: sync
+            image: quay.io/argoproj/argocd:v2.12.6
+            script: |
+              #!/usr/bin/env sh
+              set -eu
+              if [ -z "$(params.argocd-server)" ] || [ -z "$(params.argocd-app-name)" ]; then
+                echo "argocd-server or argocd-app-name not provided"
+                exit 1
+              fi
+              echo "Use token-based auth in your environment before running argocd sync."
+              argocd --server "$(params.argocd-server)" app sync "$(params.argocd-app-name)" --grpc-web
+      params:
+        - name: argocd-server
+          value: $(params.argocd-server)
+        - name: argocd-app-name
+          value: $(params.argocd-app-name)
