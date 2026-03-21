@@ -15,17 +15,14 @@ import java.util.concurrent.TimeoutException;
 @Controller
 public class RabbitMqController {
 
-    @Autowired
-    private RabbitMqUtil rabbitMqUtil;
-
     @GetMapping("/user/rabbit")
     public ModelAndView checkRabbitMqStatus() {
         ModelAndView modelAndView = new ModelAndView();
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost(rabbitMqUtil.getRabbitMqHost());
-        factory.setPort(Integer.parseInt(rabbitMqUtil.getRabbitMqPort()));
-        factory.setUsername(rabbitMqUtil.getRabbitMqUser());
-        factory.setPassword(rabbitMqUtil.getRabbitMqPassword());
+        factory.setHost(RabbitMqUtil.getRabbitMqHost());
+        factory.setPort(Integer.parseInt(RabbitMqUtil.getRabbitMqPort()));
+        factory.setUsername(RabbitMqUtil.getRabbitMqUser());
+        factory.setPassword(RabbitMqUtil.getRabbitMqPassword());
 
         Connection connection = null;
         try {

@@ -4,6 +4,7 @@ import com.visualpathit.account.model.User;
 import com.visualpathit.account.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
@@ -15,12 +16,12 @@ public class UserValidator implements Validator {
     private UserService userService;
 
     @Override
-    public boolean supports(Class<?> aClass) {
+    public boolean supports(@NonNull Class<?> aClass) {
         return User.class.equals(aClass);
     }
 
     @Override
-    public void validate(Object o, Errors errors) {
+    public void validate(@NonNull Object o, @NonNull Errors errors) {
         User user = (User) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
