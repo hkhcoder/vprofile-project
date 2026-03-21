@@ -22,10 +22,10 @@ public class RabbitMqController {
     public ModelAndView checkRabbitMqStatus() {
         ModelAndView modelAndView = new ModelAndView();
         ConnectionFactory factory = new ConnectionFactory();
-        factory.setHost(RabbitMqUtil.getRabbitMqHost());
-        factory.setPort(Integer.parseInt(RabbitMqUtil.getRabbitMqPort()));
-        factory.setUsername(RabbitMqUtil.getRabbitMqUser());
-        factory.setPassword(RabbitMqUtil.getRabbitMqPassword());
+        factory.setHost(rabbitMqUtil.getRabbitMqHost());
+        factory.setPort(Integer.parseInt(rabbitMqUtil.getRabbitMqPort()));
+        factory.setUsername(rabbitMqUtil.getRabbitMqUser());
+        factory.setPassword(rabbitMqUtil.getRabbitMqPassword());
 
         Connection connection = null;
         try {
