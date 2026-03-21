@@ -5,7 +5,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -27,18 +26,12 @@ public class UserControllerTest {
     private UserController controller;
 
     private MockMvc mockMvc;
-    private AutoCloseable closeable;
 
     @Before
     public void setup() {
-        closeable = MockitoAnnotations.openMocks(this);
+        MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
                 .setViewResolvers(new StandaloneMvcTestViewResolver()).build();
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        closeable.close();
     }
 
     @Test

@@ -12,10 +12,12 @@ public class StandaloneMvcTestViewResolver extends InternalResourceViewResolver 
 	}
 
 	@Override
-	protected @NonNull AbstractUrlBasedView buildView(final @NonNull String viewName) throws Exception {
+	protected AbstractUrlBasedView buildView(final String viewName) throws Exception {
 		final InternalResourceView view = (InternalResourceView) super.buildView(viewName);
 		// prevent checking for circular view paths
-		view.setPreventDispatchLoop(false);
+		if (view instanceof InternalResourceView) {
+			((InternalResourceView) view).setPreventDispatchLoop(false);
+		}
 		return view;
 	}
 }

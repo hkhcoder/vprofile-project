@@ -1,13 +1,11 @@
 package com.visualpathit.account.controller;
 
 import com.visualpathit.account.model.User;
-import com.visualpathit.account.service.ProducerService;
 import com.visualpathit.account.service.SecurityService;
 import com.visualpathit.account.service.UserService;
 import com.visualpathit.account.utils.MemcachedUtils;
 import com.visualpathit.account.validator.UserValidator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 public class UserController {
@@ -29,9 +26,6 @@ public class UserController {
     @Autowired
     private UserValidator userValidator;
 
-    @Autowired
-    private ProducerService producerService;
-
     @GetMapping("/registration")
     public String registration(Model model) {
         model.addAttribute("userForm", new User());
@@ -39,8 +33,8 @@ public class UserController {
     }
 
     @PostMapping("/registration")
-    public String registration(@ModelAttribute("userForm") @Valid @NonNull User userForm, @NonNull BindingResult bindingResult, @NonNull Model model) {
-        userValidator.validate(userForm, bindingResult);
+    public String registration(@ModelAttribute("userForm") @Valid User userForm, BindingResult bindingResult, Model model) {
+        validateUser(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "registration";
@@ -132,12 +126,17 @@ public class UserController {
         return "welcome";
     }
 
-    @GetMapping("/user/rabbit")
-    public String rabbitmqSetUp() {
-        for (int i = 0; i < 20; i++) {
-            producerService.produceMessage(generateString());
-        }
-        return "rabbitmq";
+//    @GetMapping("/user/rabbit")
+//    public String rabbitmqSetUp() {
+//        for (int i = 0; i < 20; i++) {
+//            producerService.produceMessage(generateString());
+//        }
+//        return "rabbitmq";
+//    }
+
+    @SuppressWarnings("null")
+    private void validateUser(User user, org.springframework.validation.Errors errors) {
+        userValidator.validate(user, errors);
     }
 
     private void updateUserDetails(User user, User userForm) {
@@ -158,9 +157,5 @@ public class UserController {
         user.setSecondaryOccupation(userForm.getSecondaryOccupation());
         user.setSkills(userForm.getSkills());
         user.setWorkingExperience(userForm.getWorkingExperience());
-    }
-
-    private static String generateString() {
-        return "uuid = " + UUID.randomUUID().toString();
     }
 }

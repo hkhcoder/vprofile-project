@@ -16,12 +16,12 @@ public class UserValidator implements Validator {
     private UserService userService;
 
     @Override
-    public boolean supports(@NonNull Class<?> aClass) {
+    public boolean supports(Class<?> aClass) {
         return User.class.equals(aClass);
     }
 
     @Override
-    public void validate(@NonNull Object o, @NonNull Errors errors) {
+    public void validate(Object o, Errors errors) {
         User user = (User) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");

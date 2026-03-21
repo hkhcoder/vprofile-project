@@ -37,8 +37,7 @@ public class ElasticSearchController {
 
         try (RestHighLevelClient client = ElasticsearchUtil.getRestHighLevelClient()) {
             for (User user : users) {
-                IndexRequest indexRequest = new IndexRequest("users")
-                        .id(String.valueOf(user.getId()))
+                IndexRequest indexRequest = new IndexRequest("users").id(String.valueOf(user.getId()))
                         .source(XContentFactory.jsonBuilder()
                                 .startObject()
                                 .field("name", user.getUsername())
