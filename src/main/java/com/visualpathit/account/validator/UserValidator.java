@@ -15,12 +15,12 @@ public class UserValidator implements Validator {
     private UserService userService;
 
     @Override
-    public boolean supports(Class<?> aClass) {
+    public boolean supports(@org.springframework.lang.NonNull Class<?> aClass) {
         return User.class.equals(aClass);
     }
 
     @Override
-    public void validate(Object o, Errors errors) {
+    public void validate(@org.springframework.lang.NonNull Object o, @org.springframework.lang.NonNull Errors errors) {
         User user = (User) o;
 
         ValidationUtils.rejectIfEmptyOrWhitespace(errors, "username", "NotEmpty");
