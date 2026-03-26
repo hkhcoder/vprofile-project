@@ -1,0 +1,37 @@
+version: "3.9"
+
+services:
+  db:
+    image: mysql:8.0
+    container_name: vprofile-db
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: accounts
+      MYSQL_USER: vprofile
+      MYSQL_PASSWORD: vprofile123
+      MYSQL_ROOT_PASSWORD: root123
+    volumes:
+      - dbdata:/var/lib/mysql
+      # optional: auto-init schema
+      # - ./src/main/resources/accountsdb.sql:/docker-entrypoint-initdb.d/init.sql
+    ports:
+      - "3306:3306"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vprofile-app
+    restart: unless-stopped
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_NAME: accounts
+      DB_USER: vprofile
+      DB_PASS: vprofile123
+    ports:
+      - "8082:8080"
+
+volumes:
+  dbdata:
