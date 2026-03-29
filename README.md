@@ -1,11 +1,11 @@
 # Prerequisites
-#
-- JDK 17 or 21
-- Maven 3.9
+#@dfddgghgffgfhhgfhjghhdf
+- JDK 25 or 27
+- Maven 3.9fgfgfg
 - MySQL 8
 
 # Technologies 
-- Spring MVC
+- Spring MVCdfgdfgfd
 - Spring Security
 - Spring Data JPA
 - Maven
