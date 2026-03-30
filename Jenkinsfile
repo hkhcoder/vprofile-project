@@ -1,11 +1,11 @@
 pipeline {
     
 	agent any
-/*	
+	
 	tools {
         maven "maven3.9"
     }
-*/	
+	
     environment {
         SNAP_REPO = 'vprofile-snapshot'
         RELEASE_REPO = 'vprofile-release'
