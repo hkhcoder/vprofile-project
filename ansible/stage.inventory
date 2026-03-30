@@ -1,2 +1,2 @@
-[appsrvgrp]
-app02stg.vprofile.project
+[app]
+app02stg.vprofile.project ansible_python_interpreter=/usr/bin/python3.8
