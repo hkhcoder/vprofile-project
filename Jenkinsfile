@@ -79,29 +79,7 @@ pipeline {
             }
           }
         }
-        stage("UploadArtifact"){
-            steps{
-                nexusArtifactUploader(
-                     nexusVersion: 'nexus3',
-                     protocol: 'http',
-                     nexusUrl: '172.31.27.140:8081',
-                     groupId: 'QA',
-                     version: "${env.BUILD_ID}-${env.BUILD_TIMESTAMP}",
-                     repository: 'vprofile-release',
-                     credentialsId: 'nexuslogin',
-                     artifacts: [
-                         [artifactId: pom.artifactId,
-                          classifier: '',
-                          file: artifactPath,
-                          type: pom.packaging],
-                         [artifactId: pom.artifactId,
-                          classifier: '',
-                          file: "pom.xml",
-                          type: "pom"]
-                    ]
-                )
-            }
-        }
+        
 
         stage("Publish to Nexus Repository Manager") {
     steps {
