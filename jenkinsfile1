@@ -1,0 +1,83 @@
+pipeline
+{
+    agent any
+    tools{
+        maven "MAVEN_HOME"
+        jdk "JAVA-17"
+    }
+    environment{
+        GIT_URL="https://github.com/DevopsTech12/vprofile-project.git"
+        ECR_REPO = "https://279684396313.dkr.ecr.ap-south-1.amazonaws.com/vprofileapp"
+        IMAGE_NAME = 'vprofileapp'
+         }
+    stages{
+        stage("scm chekout")
+        {
+            steps{ git branch: 'local', url: "$GIT_URL" }
+        }
+        stage("test")
+        {
+            steps{sh 'mvn test'}
+        }
+        stage("build artifact")
+        {
+            steps{sh 'mvn package -Dskiptest'}
+            post{
+                success{
+                    echo "archiving artifact"
+                    sleep 10
+                    archiveArtifacts artifacts: '**/*.war'
+                }
+            }
+        }
+        stage("checkstyle checks")
+        {
+            steps{sh 'mvn checkstyle:checkstyle'}
+        }
+
+  //      stage("sonar qube analysis")
+    //    {
+   //         steps{ withSonarQubeEnv(credentialsId: 'SonarToken', installationName: 'SonarServer') {
+   //         sh 'mvn sonar:sonar'
+//}}
+        stage('docker image build')
+        {
+            steps {
+                script {
+          dockerImage = docker.build("${IMAGE_NAME}:latest")
+            }
+        }
+        }
+        stage ('push image to ECR')
+        {
+            steps{
+                // This step should not normally be used in your script. Consult the inline help for details.
+       withDockerRegistry(credentialsId: 'ecr:ap-south-1:ecrcred', url: "${ECR_REPO}") {
+          sh "docker push ${IMAGE_NAME}:latest"
+          //sh "docker push ${ECR_REPO}:latest"
+        }
+  //     sh "docker push ${ECR_REPO}:latest"
+            }
+        }
+        }
+
+     post {
+        success {
+        slackSend channel: '#devops',
+        color: '#439FE0',
+        message: "✅ *Build SUCCESS* for Job: `${env.JOB_NAME}` Build: #${env.BUILD_NUMBER}\n<${env.BUILD_URL}|Open Build>",
+        teamDomain: 'vbtech-workspace',
+        tokenCredentialId: 'Slack-Jenkins'
+        
+     }
+     failure {
+        slackSend channel: '#devops',
+        color: '#FF0000',
+        message: "❌ *Build FAILED* for Job: `${env.JOB_NAME}` Build: #${env.BUILD_NUMBER}\n<${env.BUILD_URL}|Check Console>",
+        teamDomain: 'vbtech-workspace',
+        tokenCredentialId: 'Slack-Jenkins'
+        
+     }
+     }
+}
+    

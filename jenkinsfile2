@@ -1,0 +1,28 @@
+pipeline{
+    agent any
+    tools {
+        maven 'MAVEN_HOME'
+        java 'JAVA_HOME'
+    }
+    environment{
+        GIT_URL="https://github.com/DevopsTech12/vprofile-project.git"
+        
+    }
+    stages{
+        stage('scm checkout')
+          steps{git branch: 'local', url: "$GIT_URL"
+        }
+        stage('Testing')
+          steps{sh 'mvn test'
+            
+        }
+        stage('build artifact')
+          steps{sh 'mvn clean package -Dskiptest'}
+          post{
+            success{slackSend channel: '#artifact', message: '"✅ *Artifact build* for Job: `${env.JOB_NAME}` Build: #${env.BUILD_NUMBER}\\n<${env.BUILD_URL}|Open Build>"', teamDomain: 'vbtech-workspace', tokenCredentialId: 'artifact-slack-jenkins'
+
+            }
+          }
+
+    }
+}
