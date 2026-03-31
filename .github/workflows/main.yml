@@ -1,0 +1,21 @@
+name: vProfile CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    name: Test the Pipeline
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Print a message
+        run: echo "Pipeline is running!"
+
+      - name: List project files
+        run: ls -la
