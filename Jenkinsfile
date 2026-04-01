@@ -1,12 +1,12 @@
 pipeline {
-    
+
 	agent any
-	
+
 	tools {
-	jdk "JDK17"	
-        maven "MAVEN3.9"
+	jdk "JDK17"
+        maven "MAVEN4.2"
     }
-	
+
     environment {
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "http"
@@ -16,9 +16,9 @@ pipeline {
         NEXUS_CREDENTIAL_ID = "nexuslogin"
         ARTVERSION = "${env.BUILD_ID}"
     }
-	
+
     stages{
-        
+
         stage('BUILD'){
             steps {
                 sh 'mvn clean install -DskipTests'
@@ -42,7 +42,7 @@ pipeline {
                 sh 'mvn verify -DskipUnitTests'
             }
         }
-		
+
         stage ('CODE ANALYSIS WITH CHECKSTYLE'){
             steps {
                 sh 'mvn checkstyle:checkstyle'
@@ -55,7 +55,7 @@ pipeline {
         }
 
         stage('CODE ANALYSIS with SONARQUBE') {
-          
+
 		  environment {
              scannerHome = tool 'sonarscanner4'
           }
@@ -107,7 +107,7 @@ pipeline {
                                 type: "pom"]
                             ]
                         );
-                    } 
+                    }
 		    else {
                         error "*** File: ${artifactPath}, could not be found";
                     }
