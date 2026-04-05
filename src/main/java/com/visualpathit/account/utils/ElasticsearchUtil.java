@@ -1,10 +1,6 @@
 package com.visualpathit.account.utils;
 
-import java.io.IOException;
-import java.net.InetSocketAddress;
-
 import org.apache.http.HttpHost;
-import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestClient;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;

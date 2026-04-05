@@ -27,7 +27,7 @@ public class MemcachedUtils {
     			System.out.println("--------------------------------------------");
     			System.out.println("Client is ::"+ mactiveClient.getStats());
     			System.out.println("--------------------------------------------");
-	            Future future = mactiveClient.set(key,expireTime, user);	        	         
+	            Future<Boolean> future = (Future<Boolean>) mactiveClient.set(key,expireTime, user);	        	         
 	     	    System.out.println("set status:" + future.get());
 	     	    Result =" Data is From DB and Data Inserted In Cache !!";
 	     	    mactiveClient.shutdown();             

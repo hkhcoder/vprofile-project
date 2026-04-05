@@ -4,6 +4,7 @@ import com.visualpathit.account.model.User;
 import com.visualpathit.account.service.UserService;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;

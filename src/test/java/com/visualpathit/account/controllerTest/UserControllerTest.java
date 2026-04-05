@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.visualpathit.account.controller.UserController;
-import com.visualpathit.account.model.User;
 import com.visualpathit.account.service.UserService;
 import com.visualpathit.account.setup.StandaloneMvcTestViewResolver;
 
@@ -30,7 +29,7 @@ public class UserControllerTest {
 
     @Before
     public void setup() {
-        MockitoAnnotations.initMocks(this);
+        MockitoAnnotations.openMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(controller)
                 .setViewResolvers(new StandaloneMvcTestViewResolver()).build();
     }

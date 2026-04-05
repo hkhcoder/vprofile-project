@@ -1,7 +1,6 @@
 package com.visualpathit.account.controller;
 
 import com.visualpathit.account.model.User;
-import com.visualpathit.account.service.ProducerService;
 import com.visualpathit.account.service.SecurityService;
 import com.visualpathit.account.service.UserService;
 import com.visualpathit.account.utils.MemcachedUtils;
@@ -14,7 +13,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.UUID;
 
 @Controller
 public class UserController {
@@ -28,9 +26,6 @@ public class UserController {
     @Autowired
     private UserValidator userValidator;
 
-    @Autowired
-    private ProducerService producerService;
-
     @GetMapping("/registration")
     public String registration(Model model) {
         model.addAttribute("userForm", new User());
@@ -39,7 +34,7 @@ public class UserController {
 
     @PostMapping("/registration")
     public String registration(@ModelAttribute("userForm") @Valid User userForm, BindingResult bindingResult, Model model) {
-        userValidator.validate(userForm, bindingResult);
+        validateUser(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {
             return "registration";
@@ -139,6 +134,11 @@ public class UserController {
 //        return "rabbitmq";
 //    }
 
+    @SuppressWarnings("null")
+    private void validateUser(User user, org.springframework.validation.Errors errors) {
+        userValidator.validate(user, errors);
+    }
+
     private void updateUserDetails(User user, User userForm) {
         user.setUsername(userForm.getUsername());
         user.setUserEmail(userForm.getUserEmail());
@@ -157,9 +157,5 @@ public class UserController {
         user.setSecondaryOccupation(userForm.getSecondaryOccupation());
         user.setSkills(userForm.getSkills());
         user.setWorkingExperience(userForm.getWorkingExperience());
-    }
-
-    private static String generateString() {
-        return "uuid = " + UUID.randomUUID().toString();
     }
 }
