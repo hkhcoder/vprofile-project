@@ -15,6 +15,9 @@ pipeline {
 	NEXUS_REPO_ID    = "vprofile-release"
         NEXUS_CREDENTIAL_ID = "nexuslogin"
         ARTVERSION = "${env.BUILD_ID}"
+        registryCredential ='ecr:us-east-1:AWS Creds ECR'
+        appRegistry = '206416711888.dkr.ecr.us-east-1.amazonaws.com/vprofilerepository'
+        vprofileRegistry = 'https://206416711888.dkr.ecr.us-east-1.amazonaws.com'
     }
 	
     stages{
@@ -114,7 +117,25 @@ pipeline {
                 }
             }
         }
+        
+        stage("Build App Image") {
+            steps {
+                scripts{
+                    dockerImage = docker.build( appRegistry + ":BUILD_NUMBER", "./Docker-files/app/multistage/")
+                }
+            }
+        }
 
+        stage('Upload App Image') {
+            steps{
+                script {
+                    docker.withRegistry( vprofileRegistry, registryCredential ) {
+                        dockerImage.push("$BUILD_NUMBER")
+                        dockerImage.push("latest")
+                    }
+                }
+            }
+        }
 
     }
 
