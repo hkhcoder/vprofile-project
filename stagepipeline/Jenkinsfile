@@ -67,8 +67,8 @@ pipeline {
 
           steps {
             withSonarQubeEnv("${SONARSERVER}") {
-               sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
-                   -Dsonar.projectName=vprofile \
+               sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile-project \
+                   -Dsonar.projectName=vprofile-project \
                    -Dsonar.projectVersion=1.0 \
                    -Dsonar.sources=src/ \
                    -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
@@ -142,15 +142,4 @@ pipeline {
     }
 
 
-}
-node {
-  stage('SCM') {
-    checkout scm
-  }
-  stage('SonarQube Analysis') {
-    def mvn = tool 'Default Maven';
-    withSonarQubeEnv() {
-      sh "${mvn}/bin/mvn clean verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=vprofile-project -Dsonar.projectName='vprofile-project'"
-    }
-  }
 }
