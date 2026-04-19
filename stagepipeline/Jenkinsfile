@@ -14,6 +14,8 @@ pipeline {
         NEXUS_REPOSITORY = "vprofile-release"
 	NEXUS_REPO_ID    = "vprofile-release"
         NEXUS_CREDENTIAL_ID = "nexuslogin"
+        SONARSERVER = 'sonarserver'
+        SONARSCANNER = 'sonarscanner'
         ARTVERSION = "${env.BUILD_ID}"
         registryCredential ='ecr:us-east-1:AWS Creds ECR'
         appRegistry = '206416711888.dkr.ecr.us-east-1.amazonaws.com/vprofilerepository'
@@ -60,13 +62,13 @@ pipeline {
         stage('CODE ANALYSIS with SONARQUBE') {
           
 		  environment {
-             scannerHome = tool 'sonarscanner4'
+             scannerHome = tool "${SONARSCANNER}"
           }
 
           steps {
-            withSonarQubeEnv('sonar-pro') {
+            withSonarQubeEnv("${SONARSERVER}") {
                sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
-                   -Dsonar.projectName=vprofile-repo \
+                   -Dsonar.projectName=vprofile \
                    -Dsonar.projectVersion=1.0 \
                    -Dsonar.sources=src/ \
                    -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
