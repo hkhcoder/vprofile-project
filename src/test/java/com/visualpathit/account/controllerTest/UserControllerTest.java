@@ -34,11 +34,6 @@ public class UserControllerTest {
 	@Before
 	public void setup(){
 		MockitoAnnotations.initMocks(this);
-		
-		/*InternalResourceViewResolver viewResolver = new InternalResourceViewResolver();
-        viewResolver.setPrefix("/WEB-INF/views/");
-        viewResolver.setSuffix(".jsp");
-		*/
 		mockMvc = MockMvcBuilders.standaloneSetup(controller)
 				  .setViewResolvers(new StandaloneMvcTestViewResolver()).build();
 	}
