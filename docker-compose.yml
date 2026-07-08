@@ -1,0 +1,72 @@
+services:
+  db01:
+    image: mysql:5.7
+    platform: linux/amd64
+    container_name: db01
+    environment:
+      MYSQL_DATABASE: accounts
+      MYSQL_USER: admin
+      MYSQL_PASSWORD: admin123
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+      - ./src/main/resources/accountsdb.sql:/docker-entrypoint-initdb.d/accountsdb.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 20s
+
+  mc01:
+    image: memcached:1.6.24-alpine
+    platform: linux/amd64
+    container_name: mc01
+    ports:
+      - "11211:11211"
+
+  rmq01:
+    image: rabbitmq:3.13-management
+    platform: linux/amd64
+    container_name: rmq01
+    environment:
+      RABBITMQ_DEFAULT_USER: test
+      RABBITMQ_DEFAULT_PASS: test
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+
+  es01:
+    image: elasticsearch:7.17.21
+    platform: linux/amd64
+    container_name: es01
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    ports:
+      - "9200:9200"
+      - "9300:9300"
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: vprofile-app
+    depends_on:
+      db01:
+        condition: service_healthy
+      mc01:
+        condition: service_started
+      rmq01:
+        condition: service_started
+      es01:
+        condition: service_started
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+volumes:
+  mysql-data:

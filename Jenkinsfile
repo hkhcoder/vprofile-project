@@ -1,122 +1,128 @@
 pipeline {
-    
-	agent any
-	
-	tools {
-	jdk "JDK17"	
+    agent any
+
+    tools {
+        jdk "JDK17"
         maven "MAVEN3.9"
     }
-	
+
+    options {
+        timestamps()
+        disableConcurrentBuilds()
+        buildDiscarder(logRotator(numToKeepStr: "20"))
+    }
+
     environment {
-        NEXUS_VERSION = "nexus3"
-        NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "172.31.40.209:8081"
-        NEXUS_REPOSITORY = "vprofile-release"
-	NEXUS_REPO_ID    = "vprofile-release"
-        NEXUS_CREDENTIAL_ID = "nexuslogin"
-        ARTVERSION = "${env.BUILD_ID}"
+        APP_NAME = "vprofile"
+        OPENSHIFT_NAMESPACE = "vprofile"
+        OPENSHIFT_API_URL = "https://api.openshift.example.com:6443"
+        OPENSHIFT_TOKEN_CREDENTIAL_ID = "openshift-token"
+
+        // Existing Tekton Pipeline in OpenShift that implements build/push/deploy GitOps flow.
+        TEKTON_PIPELINE_NAME = "vprofile-gitops"
+        TEKTON_SERVICE_ACCOUNT = "pipeline"
+
+        // GitOps repo details passed to Tekton as params.
+        GITOPS_REPO_URL = "https://github.com/your-org/vprofile-gitops.git"
+        GITOPS_BRANCH = "main"
+        GITOPS_MANIFEST_PATH = "apps/vprofile/overlays/prod"
     }
-	
-    stages{
-        
-        stage('BUILD'){
+
+    stages {
+        stage("Checkout") {
             steps {
-                sh 'mvn clean install -DskipTests'
-            }
-            post {
-                success {
-                    echo 'Now Archiving...'
-                    archiveArtifacts artifacts: '**/target/*.war'
-                }
-            }
-        }
-
-	stage('UNIT TEST'){
-            steps {
-                sh 'mvn test'
-            }
-        }
-
-	stage('INTEGRATION TEST'){
-            steps {
-                sh 'mvn verify -DskipUnitTests'
-            }
-        }
-		
-        stage ('CODE ANALYSIS WITH CHECKSTYLE'){
-            steps {
-                sh 'mvn checkstyle:checkstyle'
-            }
-            post {
-                success {
-                    echo 'Generated Analysis Result'
-                }
-            }
-        }
-
-        stage('CODE ANALYSIS with SONARQUBE') {
-          
-		  environment {
-             scannerHome = tool 'sonarscanner4'
-          }
-
-          steps {
-            withSonarQubeEnv('sonar-pro') {
-               sh '''${scannerHome}/bin/sonar-scanner -Dsonar.projectKey=vprofile \
-                   -Dsonar.projectName=vprofile-repo \
-                   -Dsonar.projectVersion=1.0 \
-                   -Dsonar.sources=src/ \
-                   -Dsonar.java.binaries=target/test-classes/com/visualpathit/account/controllerTest/ \
-                   -Dsonar.junit.reportsPath=target/surefire-reports/ \
-                   -Dsonar.jacoco.reportsPath=target/jacoco.exec \
-                   -Dsonar.java.checkstyle.reportPaths=target/checkstyle-result.xml'''
-            }
-
-            timeout(time: 10, unit: 'MINUTES') {
-               waitForQualityGate abortPipeline: true
-            }
-          }
-        }
-
-        stage("Publish to Nexus Repository Manager") {
-            steps {
+                checkout scm
                 script {
-                    pom = readMavenPom file: "pom.xml";
-                    filesByGlob = findFiles(glob: "target/*.${pom.packaging}");
-                    echo "${filesByGlob[0].name} ${filesByGlob[0].path} ${filesByGlob[0].directory} ${filesByGlob[0].length} ${filesByGlob[0].lastModified}"
-                    artifactPath = filesByGlob[0].path;
-                    artifactExists = fileExists artifactPath;
-                    if(artifactExists) {
-                        echo "*** File: ${artifactPath}, group: ${pom.groupId}, packaging: ${pom.packaging}, version ${pom.version} ARTVERSION";
-                        nexusArtifactUploader(
-                            nexusVersion: NEXUS_VERSION,
-                            protocol: NEXUS_PROTOCOL,
-                            nexusUrl: NEXUS_URL,
-                            groupId: pom.groupId,
-                            version: ARTVERSION,
-                            repository: NEXUS_REPOSITORY,
-                            credentialsId: NEXUS_CREDENTIAL_ID,
-                            artifacts: [
-                                [artifactId: pom.artifactId,
-                                classifier: '',
-                                file: artifactPath,
-                                type: pom.packaging],
-                                [artifactId: pom.artifactId,
-                                classifier: '',
-                                file: "pom.xml",
-                                type: "pom"]
-                            ]
-                        );
-                    } 
-		    else {
-                        error "*** File: ${artifactPath}, could not be found";
-                    }
+                    env.GIT_COMMIT_SHORT = sh(script: "git rev-parse --short=8 HEAD", returnStdout: true).trim()
+                    env.IMAGE_TAG = "${env.BUILD_NUMBER}-${env.GIT_COMMIT_SHORT}"
+                    env.PIPELINE_RUN_NAME = "${env.APP_NAME}-${env.BUILD_NUMBER}"
+                }
+                echo "Commit: ${env.GIT_COMMIT_SHORT}"
+                echo "Image tag: ${env.IMAGE_TAG}"
+            }
+        }
+
+        stage("Build and Test") {
+            steps {
+                sh "mvn -B -ntp clean verify"
+            }
+            post {
+                always {
+                    junit testResults: "target/surefire-reports/*.xml", allowEmptyResults: true
+                    archiveArtifacts artifacts: "target/*.war", allowEmptyArchive: true
                 }
             }
         }
 
+        stage("Trigger OpenShift PipelineRun (GitOps)") {
+            steps {
+                withCredentials([string(credentialsId: "${OPENSHIFT_TOKEN_CREDENTIAL_ID}", variable: "OCP_TOKEN")]) {
+                    sh '''
+                        set -euo pipefail
 
+                        oc login "${OPENSHIFT_API_URL}" --token="${OCP_TOKEN}" --insecure-skip-tls-verify=true
+                        oc project "${OPENSHIFT_NAMESPACE}"
+
+                        cat > pipelinerun.yaml <<EOF
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  name: ${PIPELINE_RUN_NAME}
+  namespace: ${OPENSHIFT_NAMESPACE}
+  labels:
+    app.kubernetes.io/name: ${APP_NAME}
+    app.kubernetes.io/managed-by: jenkins
+spec:
+  pipelineRef:
+    name: ${TEKTON_PIPELINE_NAME}
+  serviceAccountName: ${TEKTON_SERVICE_ACCOUNT}
+  params:
+    - name: app-name
+      value: ${APP_NAME}
+    - name: source-repo-url
+      value: ${GIT_URL}
+    - name: source-revision
+      value: ${GIT_COMMIT}
+    - name: image-tag
+      value: ${IMAGE_TAG}
+    - name: gitops-repo-url
+      value: ${GITOPS_REPO_URL}
+    - name: gitops-repo-branch
+      value: ${GITOPS_BRANCH}
+    - name: gitops-manifest-path
+      value: ${GITOPS_MANIFEST_PATH}
+EOF
+
+                        oc apply -f pipelinerun.yaml
+                        oc wait --for=condition=Succeeded --timeout=60m "pipelinerun/${PIPELINE_RUN_NAME}" || true
+
+                        STATUS="$(oc get pipelinerun "${PIPELINE_RUN_NAME}" -o jsonpath='{.status.conditions[0].status}')"
+                        REASON="$(oc get pipelinerun "${PIPELINE_RUN_NAME}" -o jsonpath='{.status.conditions[0].reason}')"
+                        MESSAGE="$(oc get pipelinerun "${PIPELINE_RUN_NAME}" -o jsonpath='{.status.conditions[0].message}')"
+
+                        echo "PipelineRun status=${STATUS} reason=${REASON}"
+                        [ -n "${MESSAGE}" ] && echo "${MESSAGE}" || true
+
+                        if [ "${STATUS}" != "True" ]; then
+                          echo "Tekton task statuses:"
+                          oc get taskrun -l tekton.dev/pipelineRun="${PIPELINE_RUN_NAME}" -o wide || true
+                          exit 1
+                        fi
+                    '''
+                }
+            }
+        }
     }
 
-
+    post {
+        success {
+            echo "GitOps delivery completed. OpenShift PipelineRun: ${env.PIPELINE_RUN_NAME}"
+        }
+        failure {
+            echo "Pipeline failed. Inspect Jenkins logs and Tekton TaskRuns in namespace ${env.OPENSHIFT_NAMESPACE}."
+        }
+        always {
+            cleanWs deleteDirs: true, disableDeferredWipeout: true
+        }
+    }
 }

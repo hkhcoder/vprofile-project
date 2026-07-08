@@ -1,0 +1,47 @@
+apiVersion: tekton.dev/v1
+kind: PipelineRun
+metadata:
+  generateName: vprofile-gitops-
+  namespace: vprofile
+spec:
+  pipelineRef:
+    name: vprofile-gitops
+  serviceAccountName: pipeline
+  params:
+    - name: app-name
+      value: vprofile
+    - name: source-repo-url
+      value: https://github.com/your-org/vprofile-app.git
+    - name: source-revision
+      value: main
+    - name: image-tag
+      value: manual-001
+    - name: gitops-repo-url
+      value: https://github.com/your-org/vprofile-gitops.git
+    - name: gitops-repo-branch
+      value: main
+    - name: gitops-manifest-path
+      value: apps/vprofile/overlays/prod
+    - name: image-registry
+      value: image-registry.openshift-image-registry.svc:5000
+    - name: image-namespace
+      value: vprofile
+    - name: git-user-name
+      value: tekton-bot
+    - name: git-user-email
+      value: tekton-bot@local
+    - name: argocd-sync
+      value: "false"
+    - name: argocd-server
+      value: ""
+    - name: argocd-app-name
+      value: ""
+  workspaces:
+    - name: shared-workspace
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce
+          resources:
+            requests:
+              storage: 5Gi
