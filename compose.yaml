@@ -19,7 +19,7 @@ services:
     image: rabbitmq
     container_name: vprocache01
     ports:
-      - "11211:11211"
+      - "5672:5672"
     environment:
       - RABBITMQ_DEFAULT_USER=guest
       - RABBITMQ_DEFAULT_PASS=guest
