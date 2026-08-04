@@ -17,7 +17,7 @@ services:
       - "11211:11211"
    vpromq01:
     image: rabbitmq
-    container_name: vprocache01
+    container_name: vpromq01
     ports:
       - "5672:5672"
     environment:
