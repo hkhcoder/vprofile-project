@@ -1,16 +1,23 @@
 pipeline {
     
 	agent any
+<<<<<<< HEAD
 	
 	tools {
 	jdk "JDK17"	
         maven "MAVEN3.9"
     }
 	
+=======
+tools {
+	    maven "MAVEN3"
+	    jdk "JDK17"
+	}
+>>>>>>> 036431a6552ab20e7d21d7638f5e5412f7735104
     environment {
         NEXUS_VERSION = "nexus3"
         NEXUS_PROTOCOL = "http"
-        NEXUS_URL = "172.31.40.209:8081"
+        NEXUS_URL = "IP:8081"
         NEXUS_REPOSITORY = "vprofile-release"
 	NEXUS_REPO_ID    = "vprofile-release"
         NEXUS_CREDENTIAL_ID = "nexuslogin"
